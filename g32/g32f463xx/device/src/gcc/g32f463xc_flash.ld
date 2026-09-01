@@ -1,7 +1,7 @@
 /**
- * @file        g32f463x8_flash.ld
+ * @file        g32f463xc_flash.ld
  *
- * @brief       Linker script for G32F463x8 series
+ * @brief       Linker script for G32F463xc series
  *
  * @version     V1.0.0
  *

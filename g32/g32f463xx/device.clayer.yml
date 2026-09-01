@@ -1,0 +1,75 @@
+layer:
+# A layer is a collection of pre-configured source files or components
+  type: Device
+  description: G32F463xx device layer
+  
+  packs:
+    - pack: Keil::G32F463_DFP
+
+  processor:
+    fpu: sp
+
+  define:
+    - USE_DAL_DRIVER
+    - USE_FULL_DDL_DRIVER
+
+  add-path:
+    # device
+    - ../g32f463xx/device/src
+    - ../common/include
+    - ../g32f463xx
+    - ../g32f463xx/drivers/include
+    - ../g32f463xx/drivers/include/Legacy
+    - ../g32f463xx/device/include
+
+  linker:
+    - script: ./$ProjectDir()$/boards/$TargetType$/startup/g32f463xc_flash.sct
+      for-compiler: AC6
+      for-context: +g32f463rc
+    - script: ./$ProjectDir()$/boards/$TargetType$/startup/g32f463xc_ram.sct
+      for-compiler: AC6
+      for-context: +g32f463rc_ram
+    - script: ./$ProjectDir()$/boards/$TargetType$/startup/g32f463xc_flash.ld
+      for-compiler: 
+        - GCC
+        - CLANG
+      for-context: +g32f463rc
+
+  # It is recommended to list the packs that contain the components in the cproject.yml file.
+  groups:
+    - group: device/startup
+      files:
+        - file: ./$ProjectDir()$/boards/$TargetType$/startup/system_g32f463.c
+        - file: ./$ProjectDir()$/boards/$TargetType$/startup/startup_g32f463xx.s
+          for-compiler: AC6
+          for-context: 
+            - +g32f463r
+            - +g32f463rc_ram
+    - group: device/driver
+      files:
+        - file: ../g32f463xx/drivers/src/g32f463_dal.c
+        - file: ../g32f463xx/drivers/src/g32f463_dal_cortex.c
+        - file: ../g32f463xx/drivers/src/g32f463_dal_hcd.c
+        - file: ../g32f463xx/drivers/src/g32f463_dal_pcd.c
+        - file: ../g32f463xx/drivers/src/g32f463_dal_pcd_ex.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_adc.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_bztmr.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_crc.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_dac.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_dma.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_eint.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_fdcan.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_flash.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_gpio.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_i2c.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_i2c3.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_lcdc.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_pmu.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_qspi.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_rcm.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_rtc.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_spi.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_tmr.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_usart.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_usb.c
+        - file: ../g32f463xx/drivers/src/g32f463_ll_utils.c

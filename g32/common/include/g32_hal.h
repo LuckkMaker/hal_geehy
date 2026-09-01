@@ -26,8 +26,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#if defined(CONFIG_SOC_SERIES_G32F463)
-#include "g32f463_hal.h"
+#if defined(CONFIG_SOC_SERIES_G32F463XX)
+#include "g32f463_dal.h"
 #endif
 
 #endif /* G32_HAL_H */
