@@ -27,7 +27,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #if defined(CONFIG_SOC_SERIES_G32F463XX)
-#include "g32f463_ll_gpio.h"
+#include "g32f463_ddl_gpio.h"
 #endif
 
 #endif /* G32_LL_GPIO_H */
