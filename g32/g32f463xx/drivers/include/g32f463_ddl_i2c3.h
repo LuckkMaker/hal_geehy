@@ -4,7 +4,7 @@
   * @brief   Header file of I2C3 DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -126,9 +126,6 @@ typedef struct
 
 typedef struct
 {
-  uint32_t Mode;                /*!< Specifies the I2C3 work mode.
-                                     This parameter can be a value of @ref I2C3_DDL_EC_MODE. */
-
   uint32_t SCLFilter;           /*!< Specifies the SCL filter.
                                      This parameter can be a value between Min_Data = 0x00 and Max_Data = 0x0F.
 
@@ -174,8 +171,9 @@ typedef struct
   * @{
   */
 #define DDL_I2C3_MODE_STANDARD                  (100000U)           /*!< Standard mode                       */
-#define DDL_I2C3_MODE_FAST                      (200000U)           /*!< Fast mode                           */
-#define DDL_I2C3_MODE_HIGHSPEED                 (400000U)           /*!< High-speed mode                     */
+#define DDL_I2C3_MODE_FAST                      (400000U)           /*!< Fast mode                           */
+#define DDL_I2C3_MODE_FAST_PLUS                 (1000000U)          /*!< Fast Plus mode                      */
+#define DDL_I2C3_MODE_HIGHSPEED                 (3400000U)          /*!< High-speed mode                     */
 /**
   * @}
   */
@@ -214,18 +212,18 @@ typedef struct
   */
 #define DDL_I2C3_SLAVE_TDF                      I2C3_SSR_TDF        /*!< Transmit data                       */
 #define DDL_I2C3_SLAVE_RDF                      I2C3_SSR_RDF        /*!< Receive data                        */
-#define DDL_I2C3_SLAVE_AVF                      I2C3_SSR_AVF        /*!< Receive data register not empty     */
-#define DDL_I2C3_SLAVE_TAF                      I2C3_SSR_TAF        /*!< Address matched (slave mode)        */
-#define DDL_I2C3_SLAVE_RSF                      I2C3_SSR_RSF        /*!< Not Acknowledge received flag       */
+#define DDL_I2C3_SLAVE_AVF                      I2C3_SSR_AVF        /*!< Address valid flag                  */
+#define DDL_I2C3_SLAVE_TAF                      I2C3_SSR_TAF        /*!< Transmit ACK flag                   */
+#define DDL_I2C3_SLAVE_RSF                      I2C3_SSR_RSF        /*!< Repeated start flag                 */
 #define DDL_I2C3_SLAVE_SDF                      I2C3_SSR_SDF        /*!< Stop detection flag                 */
-#define DDL_I2C3_SLAVE_BEF                      I2C3_SSR_BEF        /*!< Transfer Complete (master mode)     */
+#define DDL_I2C3_SLAVE_BEF                      I2C3_SSR_BEF        /*!< Bit error flag                      */
 #define DDL_I2C3_SLAVE_FEF                      I2C3_SSR_FEF        /*!< FIFO error flag                     */
-#define DDL_I2C3_SLAVE_AM0F                     I2C3_SSR_AM0F       /*!< Bus error                           */
-#define DDL_I2C3_SLAVE_AM1F                     I2C3_SSR_AM1F       /*!< Arbitration lost                    */
-#define DDL_I2C3_SLAVE_GCF                      I2C3_SSR_GCF        /*!< Overrun/Underrun (slave mode)       */
-#define DDL_I2C3_SLAVE_SARF                     I2C3_SSR_SARF       /*!< PEC Error in reception (SMBus mode) */
-#define DDL_I2C3_SLAVE_SBF                      I2C3_SSR_SBF        /*!< Timeout detection flag (SMBus mode) */
-#define DDL_I2C3_SLAVE_BBF                      I2C3_SSR_BBF        /*!< SMBus alert (SMBus mode)            */
+#define DDL_I2C3_SLAVE_AM0F                     I2C3_SSR_AM0F       /*!< Address match 0 flag                */
+#define DDL_I2C3_SLAVE_AM1F                     I2C3_SSR_AM1F       /*!< Address match 1 flag                */
+#define DDL_I2C3_SLAVE_GCF                      I2C3_SSR_GCF        /*!< General Call Flag                   */
+#define DDL_I2C3_SLAVE_SARF                     I2C3_SSR_SARF       /*!< SMBus alert response flag           */
+#define DDL_I2C3_SLAVE_SBF                      I2C3_SSR_SBF        /*!< Slave busy flag                     */
+#define DDL_I2C3_SLAVE_BBF                      I2C3_SSR_BBF        /*!< Bus busy flag                       */
 /**
   * @}
   */
@@ -297,18 +295,18 @@ typedef struct
 /** @defgroup I2C3_DDL_EC_MATCH_MODE I2C3 Match Mode
   * @{
   */
-#define DDL_I2C3_MATCHMODE_DISABLE              (0x00)
-#define DDL_I2C3_MATCHMODE_FIRST_OR             (0x02)
-#define DDL_I2C3_MATCHMODE_ANY_OR               (0x03)
-#define DDL_I2C3_MATCHMODE_FIRST_AND_SECOND     (0x04)
-#define DDL_I2C3_MATCHMODE_ANY_AND_SECOND       (0x05)
-#define DDL_I2C3_MATCHMODE_FIRST_MASK           (0x06)
-#define DDL_I2C3_MATCHMODE_ANY_MASK             (0x07)
+#define DDL_I2C3_MATCHMODE_DISABLE              (0x00000000U)
+#define DDL_I2C3_MATCHMODE_FIRST_OR             (I2C3_MCFGR1_MATCFG_1)
+#define DDL_I2C3_MATCHMODE_ANY_OR               (I2C3_MCFGR1_MATCFG_1 | I2C3_MCFGR1_MATCFG_0)
+#define DDL_I2C3_MATCHMODE_FIRST_AND_SECOND     (I2C3_MCFGR1_MATCFG_2)
+#define DDL_I2C3_MATCHMODE_ANY_AND_SECOND       (I2C3_MCFGR1_MATCFG_2 | I2C3_MCFGR1_MATCFG_0)
+#define DDL_I2C3_MATCHMODE_FIRST_MASK           (I2C3_MCFGR1_MATCFG_2 | I2C3_MCFGR1_MATCFG_1)
+#define DDL_I2C3_MATCHMODE_ANY_MASK             (I2C3_MCFGR1_MATCFG_2 | I2C3_MCFGR1_MATCFG_1 | I2C3_MCFGR1_MATCFG_0)
 /**
   * @}
   */
 
-/** @defgroup I2C3_DDL_EC_ADDR_MATCH_CONFIG I2C3 Addr Match CONFIG
+/** @defgroup I2C3_DDL_EC_ADDR_MATCH_CONFIG I2C3 address match configration
   * @{
   */
 #define DDL_I2C3_MATCH_ADDR0_7BIT                  (0x00000000U)
@@ -361,8 +359,8 @@ typedef struct
 #define DDL_I2C3_CMD_READ                       (0x00000001U)
 #define DDL_I2C3_CMD_STOP                       (0x00000002U)
 #define DDL_I2C3_CMD_DISCARD                    (0x00000003U)
-#define DDL_I2C3_CMD_ADDR_WITH_NACK             (0x00000004U)
-#define DDL_I2C3_CMD_ADDR_WITH_ACK              (0x00000005U)
+#define DDL_I2C3_CMD_ADDR_WITH_ACK              (0x00000004U)
+#define DDL_I2C3_CMD_ADDR_WITH_NACK             (0x00000005U)
 #define DDL_I2C3_CMD_ADDR_WITH_ACK_HS           (0x00000006U)
 #define DDL_I2C3_CMD_ADDR_WITH_NACK_HS          (0x00000007U)
 /**
@@ -626,7 +624,7 @@ __STATIC_INLINE void DDL_I2C3_Master_DisableReceiveMatchDataOnly(I2C3_TypeDef *I
   */
 __STATIC_INLINE void DDL_I2C3_Master_SetPrescale(I2C3_TypeDef *I2C3x, uint32_t Prescale)
 {
-  MODIFY_REG(I2C3x->MCFGR1, I2C3_MCFGR1_PRESCALE, Prescale);
+  MODIFY_REG(I2C3x->MCFGR1, I2C3_MCFGR1_PRESCALE, (Prescale << I2C3_MCFGR1_PRESCALE_Pos));
 }
 
 /**
@@ -726,7 +724,7 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_GetTimeoutConfig(I2C3_TypeDef *I2C3x)
   */
 __STATIC_INLINE void DDL_I2C3_Master_SetMatchMode(I2C3_TypeDef *I2C3x, uint32_t Mode)
 {
-  SET_BIT(I2C3x->MCFGR1, I2C3_MCFGR1_MATCFG);
+  MODIFY_REG(I2C3x->MCFGR1, I2C3_MCFGR1_MATCFG, Mode);
 }
 
 /**
@@ -1076,12 +1074,12 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_GetDataValidDelay_HS(I2C3_TypeDef *I2C3
 /**
   * @brief  Configure I2C3 master Tx FIFO water.
   * @param  I2C3x I2C3 Instance.
-  * @param  Delay This value can between Max_num=0x3 and Min_num=0
+  * @param  Water This value can between Max_num=0x3 and Min_num=0
   * @retval None
   */
-__STATIC_INLINE void DDL_I2C3_Master_SetTxFIFOWater(I2C3_TypeDef *I2C3x, uint32_t Delay)
+__STATIC_INLINE void DDL_I2C3_Master_SetTxFIFOWater(I2C3_TypeDef *I2C3x, uint32_t Water)
 {
-  MODIFY_REG(I2C3x->MFCR, I2C3_MFCR_TXWATER, (Delay << I2C3_MFCR_TXWATER_Pos));
+  MODIFY_REG(I2C3x->MFCR, I2C3_MFCR_TXWATER, (Water << I2C3_MFCR_TXWATER_Pos));
 }
 
 /**
@@ -1097,12 +1095,12 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_GetTxFIFOWater(I2C3_TypeDef *I2C3x)
 /**
   * @brief  Configure I2C3 master Rx FIFO water.
   * @param  I2C3x I2C3 Instance.
-  * @param  Delay This value can between Max_num=0x3 and Min_num=0
+  * @param  Water This value can between Max_num=0x3 and Min_num=0
   * @retval None
   */
-__STATIC_INLINE void DDL_I2C3_Master_SetRxFIFOWater(I2C3_TypeDef *I2C3x, uint32_t Delay)
+__STATIC_INLINE void DDL_I2C3_Master_SetRxFIFOWater(I2C3_TypeDef *I2C3x, uint32_t Water)
 {
-  MODIFY_REG(I2C3x->MFCR, I2C3_MFCR_RXWATER, (Delay << I2C3_MFCR_RXWATER_Pos));
+  MODIFY_REG(I2C3x->MFCR, I2C3_MFCR_RXWATER, (Water << I2C3_MFCR_RXWATER_Pos));
 }
 
 /**
@@ -1146,32 +1144,45 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_GetRxFIFOCount(I2C3_TypeDef *I2C3x)
 /**
   * @brief  I2C3 master transmit data.
   * @param  I2C3x I2C3 Instance.
-  * @param  data This value can between Max_num=0xFF and Min_num=0
-  * @retval None
-  */
-__STATIC_INLINE void DDL_I2C3_Master_TxData(I2C3_TypeDef *I2C3x, uint8_t Data)
-{
-  SET_BIT(I2C3x->MTDR, (Data << I2C3_MTDR_DATA_Pos));
-}
-
-/**
-  * @brief  Set I2C3 master transmit command.
-  * @note   Set command will affect the operation of the next data.
-  * @param  I2C3x I2C3 Instance.
-  * @param  data This value can be one of following values:
+  * @param  Data This value can between Max_num=0xFF and Min_num=0
+  * @param  Cmd This value can be one of following values:
   *         @arg @def DDL_I2C3_CMD_WRITE
   *         @arg @def DDL_I2C3_CMD_READ
-  *         @arg @def DDL_I2C3_CMD_STOP
   *         @arg @def DDL_I2C3_CMD_DISCARD
   *         @arg @def DDL_I2C3_CMD_ADDR_WITH_NACK
   *         @arg @def DDL_I2C3_CMD_ADDR_WITH_ACK
   *         @arg @def DDL_I2C3_CMD_ADDR_WITH_ACK_HS
   *         @arg @def DDL_I2C3_CMD_ADDR_WITH_NACK_HS
   * @retval None
+  * @note When the parameter "Data" be used to read from slave,
+          then it must be a non-zero number.
   */
-__STATIC_INLINE void DDL_I2C3_Master_SetTxCmd(I2C3_TypeDef *I2C3x, uint8_t Cmd)
+__STATIC_INLINE void DDL_I2C3_Master_TxData(I2C3_TypeDef *I2C3x, uint8_t Data, uint8_t Cmd)
 {
-  SET_BIT(I2C3x->MTDR, (Cmd << I2C3_MTDR_CMD_Pos));
+  WRITE_REG(I2C3x->MTDR, ((Data << I2C3_MTDR_DATA_Pos) | (Cmd << I2C3_MTDR_CMD_Pos)));
+}
+
+/**
+  * @brief  I2C3 master transmit stop command.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_TxStop(I2C3_TypeDef *I2C3x)
+{
+  WRITE_REG(I2C3x->MTDR, (DDL_I2C3_CMD_STOP << I2C3_MTDR_CMD_Pos));
+}
+
+/**
+  * @brief  I2C3 master transmit receive data command.
+  * @param  I2C3x I2C3 Instance.
+  * @param  Cmd This value can be one of following values:
+  *         @arg @def DDL_I2C3_CMD_READ
+  *         @arg @def DDL_I2C3_CMD_DISCARD
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_TxCmd(I2C3_TypeDef *I2C3x, uint8_t Cmd)
+{
+  WRITE_REG(I2C3x->MTDR, (Cmd << I2C3_MTDR_CMD_Pos));
 }
 
 /**
@@ -1253,6 +1264,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_EP(I2C3_TypeDef *I2C3x)
 }
 
 /**
+  * @brief  Clear the end package flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_ClearFlag_EP(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->MSR, I2C3_MSR_EPF);
+}
+
+/**
   * @brief  Check if the stop detect flag is activated.
   * @param  I2C3x I2C3 Instance.
   * @retval The state bit (1 or 0)
@@ -1260,6 +1281,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_EP(I2C3_TypeDef *I2C3x)
 __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_SD(I2C3_TypeDef *I2C3x)
 {
   return (uint32_t)(READ_BIT(I2C3x->MSR, I2C3_MSR_SDF) == I2C3_MSR_SDF ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Clear the stop detect flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_ClearFlag_SD(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->MSR, I2C3_MSR_SDF);
 }
 
 /**
@@ -1273,6 +1304,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_ND(I2C3_TypeDef *I2C3x)
 }
 
 /**
+  * @brief  Clear the NACK detect flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_ClearFlag_ND(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->MSR, I2C3_MSR_NDF);
+}
+
+/**
   * @brief  Check if the arbitration loss flag is activated.
   * @param  I2C3x I2C3 Instance.
   * @retval The state bit (1 or 0)
@@ -1280,6 +1321,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_ND(I2C3_TypeDef *I2C3x)
 __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_AL(I2C3_TypeDef *I2C3x)
 {
   return (uint32_t)(READ_BIT(I2C3x->MSR, I2C3_MSR_ALF) == I2C3_MSR_ALF ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Clear the arbitration loss flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_ClearFlag_AL(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->MSR, I2C3_MSR_ALF);
 }
 
 /**
@@ -1293,6 +1344,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_FE(I2C3_TypeDef *I2C3x)
 }
 
 /**
+  * @brief  Clear the FIFO error flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_ClearFlag_FE(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->MSR, I2C3_MSR_FEF);
+}
+
+/**
   * @brief  Check if the Bus timeout flag is activated.
   * @param  I2C3x I2C3 Instance.
   * @retval The state bit (1 or 0)
@@ -1303,6 +1364,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_PLT(I2C3_TypeDef *I2C3x)
 }
 
 /**
+  * @brief  Clear the Bus timeout flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_ClearFlag_PLT(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->MSR, I2C3_MSR_PLTF);
+}
+
+/**
   * @brief  Check if the data match flag is activated.
   * @param  I2C3x I2C3 Instance.
   * @retval The state bit (1 or 0)
@@ -1310,6 +1381,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_PLT(I2C3_TypeDef *I2C3x)
 __STATIC_INLINE uint32_t DDL_I2C3_Master_IsActiveFlag_DM(I2C3_TypeDef *I2C3x)
 {
   return (uint32_t)(READ_BIT(I2C3x->MSR, I2C3_MSR_DMF) == I2C3_MSR_DMF ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Clear the data match flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Master_ClearFlag_DM(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->MSR, I2C3_MSR_DMF);
 }
 
 /**
@@ -1810,7 +1891,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_DisableAddressStall(I2C3_TypeDef *I2C3x)
   */
 __STATIC_INLINE void DDL_I2C3_Slave_EnableRxStall(I2C3_TypeDef *I2C3x)
 {
-  SET_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_RXSTAL);
+  SET_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_RXSTALL);
 }
 
 /**
@@ -1820,7 +1901,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_EnableRxStall(I2C3_TypeDef *I2C3x)
   */
 __STATIC_INLINE void DDL_I2C3_Slave_DisableRxStall(I2C3_TypeDef *I2C3x)
 {
-  CLEAR_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_RXSTAL);
+  CLEAR_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_RXSTALL);
 }
 
 /**
@@ -1850,7 +1931,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_DisableTxStall(I2C3_TypeDef *I2C3x)
   */
 __STATIC_INLINE void DDL_I2C3_Slave_EnableACKStall(I2C3_TypeDef *I2C3x)
 {
-  SET_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_ACKDSTALL);
+  SET_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_ACKSTALL);
 }
 
 /**
@@ -1860,7 +1941,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_EnableACKStall(I2C3_TypeDef *I2C3x)
   */
 __STATIC_INLINE void DDL_I2C3_Slave_DisableACKStall(I2C3_TypeDef *I2C3x)
 {
-  CLEAR_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_ACKDSTALL);
+  CLEAR_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_ACKSTALL);
 }
 
 /**
@@ -1902,7 +1983,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_DisableSMBusAlarm(I2C3_TypeDef *I2C3x)
 {
   CLEAR_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_SAEN);
 }
-// TODO change name
+
 /**
   * @brief  Configure I2C3 slave Tx flag setting condition.
   * @param  I2C3x I2C3 Instance.
@@ -1911,7 +1992,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_DisableSMBusAlarm(I2C3_TypeDef *I2C3x)
   *         @arg @def DDL_I2C3_TXFLAG_DR_EMPTY
   * @retval None
   */
-__STATIC_INLINE void DDL_I2C3_Slave_ConfigTxFlagSettingCondition(I2C3_TypeDef *I2C3x, uint32_t Condition)
+__STATIC_INLINE void DDL_I2C3_Slave_ConfigTxFlag(I2C3_TypeDef *I2C3x, uint32_t Condition)
 {
   MODIFY_REG(I2C3x->SCFGR1, I2C3_SCFGR1_TXCFG, Condition);
 }
@@ -1923,7 +2004,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_ConfigTxFlagSettingCondition(I2C3_TypeDef *I
   *         @arg @def DDL_I2C3_TXFLAG_DR_EMPTY_AND_TRANSMITTING
   *         @arg @def DDL_I2C3_TXFLAG_DR_EMPTY
   */
-__STATIC_INLINE uint32_t DDL_I2C3_Slave_GetTxFlagSettingCondition(I2C3_TypeDef *I2C3x)
+__STATIC_INLINE uint32_t DDL_I2C3_Slave_GetTxFlag(I2C3_TypeDef *I2C3x)
 {
   return (uint32_t)(READ_BIT(I2C3x->SCFGR1, I2C3_SCFGR1_TXCFG));
 }
@@ -2122,7 +2203,7 @@ __STATIC_INLINE uint32_t DDL_I2C3_Slave_GetSDAFilter(I2C3_TypeDef *I2C3x)
   */
 __STATIC_INLINE void DDL_I2C3_Slave_SetAddr0(I2C3_TypeDef *I2C3x, uint32_t Addr)
 {
-  MODIFY_REG(I2C3x->SAMR, I2C3_SAMR_ADDR0, (Addr << I2C3_SAMR_ADDR0_Pos));
+  MODIFY_REG(I2C3x->SAMR, I2C3_SAMR_ADDR0, ((Addr << I2C3_SAMR_ADDR0_Pos) >> 1));
 }
 
 /**
@@ -2132,7 +2213,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_SetAddr0(I2C3_TypeDef *I2C3x, uint32_t Addr)
   */
 __STATIC_INLINE uint32_t DDL_I2C3_Slave_GetAddr0(I2C3_TypeDef *I2C3x)
 {
-  return (uint32_t)(READ_BIT(I2C3x->SAMR, I2C3_SAMR_ADDR0) >> I2C3_SAMR_ADDR0_Pos);
+  return (uint32_t)((READ_BIT(I2C3x->SAMR, I2C3_SAMR_ADDR0) << 1) >> I2C3_SAMR_ADDR0_Pos);
 }
 
 /**
@@ -2143,7 +2224,7 @@ __STATIC_INLINE uint32_t DDL_I2C3_Slave_GetAddr0(I2C3_TypeDef *I2C3x)
   */
 __STATIC_INLINE void DDL_I2C3_Slave_SetAddr1(I2C3_TypeDef *I2C3x, uint32_t Addr)
 {
-  MODIFY_REG(I2C3x->SAMR, I2C3_SAMR_ADDR1, (Addr << I2C3_SAMR_ADDR1_Pos));
+  MODIFY_REG(I2C3x->SAMR, I2C3_SAMR_ADDR1, ((Addr << I2C3_SAMR_ADDR1_Pos) >> 1));
 }
 
 /**
@@ -2153,7 +2234,7 @@ __STATIC_INLINE void DDL_I2C3_Slave_SetAddr1(I2C3_TypeDef *I2C3x, uint32_t Addr)
   */
 __STATIC_INLINE uint32_t DDL_I2C3_Slave_GetAddr1(I2C3_TypeDef *I2C3x)
 {
-  return (uint32_t)(READ_BIT(I2C3x->SAMR, I2C3_SAMR_ADDR1) >> I2C3_SAMR_ADDR1_Pos);
+  return (uint32_t)((READ_BIT(I2C3x->SAMR, I2C3_SAMR_ADDR1) << 1) >> I2C3_SAMR_ADDR1_Pos);
 }
 
 /**
@@ -2318,6 +2399,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Slave_IsActiveFlag_RS(I2C3_TypeDef *I2C3x)
 }
 
 /**
+  * @brief  Clear the repeat start flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Slave_ClearFlag_RS(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->SSR, I2C3_SSR_RSF);
+}
+
+/**
   * @brief  Check if the stop detect flag is activated.
   * @param  I2C3x I2C3 Instance.
   * @retval The state bit (1 or 0)
@@ -2325,6 +2416,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Slave_IsActiveFlag_RS(I2C3_TypeDef *I2C3x)
 __STATIC_INLINE uint32_t DDL_I2C3_Slave_IsActiveFlag_SD(I2C3_TypeDef *I2C3x)
 {
   return (uint32_t)(READ_BIT(I2C3x->SSR, I2C3_SSR_SDF) == I2C3_SSR_SDF ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Clear the stop detect flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Slave_ClearFlag_SD(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->SSR, I2C3_SSR_SDF);
 }
 
 /**
@@ -2338,6 +2439,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Slave_IsActiveFlag_BE(I2C3_TypeDef *I2C3x)
 }
 
 /**
+  * @brief  Clear the bit error flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Slave_ClearFlag_BE(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->SSR, I2C3_SSR_BEF);
+}
+
+/**
   * @brief  Check if the FIFO error flag is activated.
   * @param  I2C3x I2C3 Instance.
   * @retval The state bit (1 or 0)
@@ -2345,6 +2456,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Slave_IsActiveFlag_BE(I2C3_TypeDef *I2C3x)
 __STATIC_INLINE uint32_t DDL_I2C3_Slave_IsActiveFlag_FE(I2C3_TypeDef *I2C3x)
 {
   return (uint32_t)(READ_BIT(I2C3x->SSR, I2C3_SSR_FEF) == I2C3_SSR_FEF ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Clear the FIFO error flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Slave_ClearFlag_FE(I2C3_TypeDef *I2C3x)
+{
+  SET_BIT(I2C3x->SSR, I2C3_SSR_FEF);
 }
 
 /**
@@ -2365,6 +2486,16 @@ __STATIC_INLINE uint32_t DDL_I2C3_Slave_IsActiveFlag_AM0(I2C3_TypeDef *I2C3x)
 __STATIC_INLINE uint32_t DDL_I2C3_Slave_IsActiveFlag_AM1(I2C3_TypeDef *I2C3x)
 {
   return (uint32_t)(READ_BIT(I2C3x->SSR, I2C3_SSR_AM1F) == I2C3_SSR_AM1F ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Clear the address match 0 and 1 flag.
+  * @param  I2C3x I2C3 Instance.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_I2C3_Slave_ClearFlag_AM(I2C3_TypeDef *I2C3x)
+{
+  (void)READ_REG(I2C3x->SASR);
 }
 
 /**

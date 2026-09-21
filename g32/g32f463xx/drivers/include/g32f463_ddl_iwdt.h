@@ -184,7 +184,7 @@ __STATIC_INLINE void DDL_IWDT_EnableWriteAccess(IWDT_TypeDef *IWDTx)
 }
 
 /**
-  * @brief  Disable write access to IWDT_PR, IWDT_RLR and IWDT_WINR registers
+  * @brief  Disable write access to IWDT_PSC, IWDT_CNTRLD registers
   * @param  IWDTx IWDT Instance
   * @retval None
   */

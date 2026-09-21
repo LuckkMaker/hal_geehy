@@ -4,7 +4,7 @@
   * @brief   Header file of CRC DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -66,14 +66,6 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/** @defgroup CRC_DDL_Exported_Constants CRC Exported Constants
-  * @{
-  */
-
-/**
-  * @}
-  */
-
 /* Exported macro ------------------------------------------------------------*/
 /** @defgroup CRC_DDL_Exported_Macros CRC Exported Macros
   * @{
@@ -119,9 +111,6 @@ extern "C" {
 
 /**
   * @brief  Reset the CRC calculation unit.
-  * @note   If Programmable Initial CRC value feature
-  *         is available, also set the Data Register to the value stored in the
-  *         CRC_INIT register, otherwise, reset Data Register to its default value.
   * @param  CRCx CRC Instance
   * @retval None
   */
@@ -141,7 +130,7 @@ __STATIC_INLINE void DDL_CRC_ResetCRCCalculationUnit(CRC_TypeDef *CRCx)
 /**
   * @brief  Write given 32-bit data to the CRC calculator
   * @param  CRCx CRC Instance
-  * @param  InData value to be provided to CRC calculator between between Min_Data=0 and Max_Data=0xFFFFFFFF
+  * @param  InData value to be provided to CRC calculator between Min_Data=0 and Max_Data=0xFFFFFFFF
   * @retval None
   */
 __STATIC_INLINE void DDL_CRC_FeedData32(CRC_TypeDef *CRCx, uint32_t InData)
@@ -160,18 +149,18 @@ __STATIC_INLINE uint32_t DDL_CRC_ReadData32(CRC_TypeDef *CRCx)
 }
 
 /**
-  * @brief  Return data stored in the Independent Data(IDR) register.
+  * @brief  Return data stored in the Independent Data register.
   * @note   This register can be used as a temporary storage location for one byte.
   * @param  CRCx CRC Instance
   * @retval Value stored in CRC_INDATA register (General-purpose 8-bit data register).
   */
 __STATIC_INLINE uint32_t DDL_CRC_Read_IDR(CRC_TypeDef *CRCx)
 {
-  return (uint32_t)(READ_REG(CRCx->INDATA));
+  return (uint32_t)(READ_REG(CRCx->INDATA) & 0xFFU);
 }
 
 /**
-  * @brief  Store data in the Independent Data(IDR) register.
+  * @brief  Store data in the Independent Data register.
   * @note   This register can be used as a temporary storage location for one byte.
   * @param  CRCx CRC Instance
   * @param  InData value to be stored in CRC_INDATA register (8-bit) between Min_Data=0 and Max_Data=0xFF

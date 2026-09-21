@@ -790,13 +790,14 @@ ErrorStatus DDL_RTC_ExitInitMode(RTC_TypeDef *RTCx)
 {
   /* Check the parameter */
   ASSERT_PARAM(IS_RTC_ALL_INSTANCE(RTCx));
-
+  
   /* Disable initialization mode */
   DDL_RTC_DisableInitMode(RTCx);
 
   return SUCCESS;
 }
-
+// FIXME
+#include <stdio.h>
 /**
   * @brief  Waits until the RTC Time and Day registers (RTC_TIME and RTC_DATE) are
   *         synchronized with RTC APB clock.

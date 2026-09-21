@@ -4,7 +4,7 @@
   * @brief   QSPI DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -241,8 +241,6 @@ ErrorStatus DDL_QSPI_DeInit(QSPI_TypeDef *QSPIx)
   * @}
   */
 
-
-
 /** @addtogroup QSPI_DDL_EF_Input_Output
   * @{
   */
@@ -269,10 +267,8 @@ ErrorStatus DDL_QSPI_Command(QSPI_TypeDef *QSPIx, DDL_QSPI_CommandTypeDef *cmd)
     ASSERT_PARAM(IS_DDL_QSPI_DATA_FRAME_SIZE(cmd->DataFrameSize));
 
     while(DDL_QSPI_IsActiveFlag_Busy(QSPIx));
-
     /* Disable the QSPI peripheral */
     DDL_QSPI_Disable(QSPIx);
-
     /* Call the configuration function */
     DDL_QSPI_Config(QSPIx, cmd);
 
@@ -283,6 +279,7 @@ ErrorStatus DDL_QSPI_Command(QSPI_TypeDef *QSPIx, DDL_QSPI_CommandTypeDef *cmd)
     DDL_QSPI_Enable(QSPIx);
 
     while(!DDL_QSPI_IsActiveFlag_TFNF(QSPIx));
+
     /* Send the command */
     if (cmd->InstructionSize != DDL_QSPI_INST_LEN_0)
     {
@@ -295,7 +292,7 @@ ErrorStatus DDL_QSPI_Command(QSPI_TypeDef *QSPIx, DDL_QSPI_CommandTypeDef *cmd)
     {
         DDL_QSPI_WriteData(QSPIx, cmd->Address);
     }
-    
+
     if (cmd->NbData == 0U)
     {
         while(DDL_QSPI_IsActiveFlag_Busy(QSPIx));
@@ -353,7 +350,7 @@ ErrorStatus DDL_QSPI_TransmitReceive(QSPI_TypeDef *QSPIx,
             txCount--;
 
             while(DDL_QSPI_IsActiveFlag_RFNE(QSPIx) == RESET || DDL_QSPI_IsActiveFlag_Busy(QSPIx));
-            *(pRxdata++) = DDL_QSPI_ReadData(QSPIx);
+            *(pRxdata) = DDL_QSPI_ReadData(QSPIx);
             pRxdata++;
             rxCount--;
         }
@@ -454,56 +451,59 @@ ErrorStatus DDL_QSPI_MemoryMapped(QSPI_TypeDef *QSPIx, DDL_QSPI_XIPTypeDef *xipC
     /* Disable the QSPI peripheral */
     DDL_QSPI_Disable(QSPIx);
 
-    /* Call the configuration function */
-    DDL_QSPI_XIP_SetExtMemAccessFormat(QSPIx, xipConfig->Endianness);
+    if (QSPIx == QSPI2)
+    {
+      /* Call the configuration function */
+      DDL_QSPI_XIP_SetExtMemAccessFormat(QSPIx, xipConfig->Endianness);
 
-    /* Flash support instruction state */
-    if (xipConfig->InstructionSize != DDL_QSPI_XIP_INST_LEN_0)
-    {
-        DDL_QSPI_XIP_SetOpcodeForINCR(QSPIx, xipConfig->Instruction);
-        DDL_QSPI_XIP_SetOpcodeForWRAP(QSPIx, xipConfig->WrapCode);
+      /* Flash support instruction state */
+      if (xipConfig->InstructionSize != DDL_QSPI_XIP_INST_LEN_0)
+      {
+          DDL_QSPI_XIP_SetOpcodeForINCR(QSPIx, xipConfig->Instruction);
+          DDL_QSPI_XIP_SetOpcodeForWRAP(QSPIx, xipConfig->WrapCode);
 
-        /* Enable XIP instruction state */
-        DDL_QSPI_XIP_EnableInstruction(QSPIx);
-    }
-    else
-    {
-        /* Disable XIP instruction state */
-        DDL_QSPI_XIP_DisableInstruction(QSPIx);
-    }
-    /* Configure XIP parameters */
-    DDL_QSPI_XIP_SetInstAddrType(QSPIx, xipConfig->InstructionMode);
-    DDL_QSPI_XIP_SetInstLen(QSPIx, xipConfig->InstructionSize);
-    DDL_QSPI_XIP_SetAddrLen(QSPIx, xipConfig->AddressSize);
-    DDL_QSPI_XIP_SetWaitCycle(QSPIx, xipConfig->DummyCycles);
-    DDL_QSPI_XIP_SetFrameFormat(QSPIx, xipConfig->FrameFormat);
-    
-    if (xipConfig->ContinuousMode == ENABLE)
-    {
-        DDL_QSPI_XIP_EnableContinuous(QSPIx);
-    }
-    else
-    {
-        DDL_QSPI_XIP_DisableContinuous(QSPIx);
-    }
-    if (xipConfig->PrefetchMode == ENABLE)
-    {
-        DDL_QSPI_XIP_EnablePrefetch(QSPIx);
-    }
-    else
-    {
-        DDL_QSPI_XIP_DisablePrefetch(QSPIx);
-    }
+          /* Enable XIP instruction state */
+          DDL_QSPI_XIP_EnableInstruction(QSPIx);
+      }
+      else
+      {
+          /* Disable XIP instruction state */
+          DDL_QSPI_XIP_DisableInstruction(QSPIx);
+      }
+      /* Configure XIP parameters */
+      DDL_QSPI_XIP_SetInstAddrType(QSPIx, xipConfig->InstructionMode);
+      DDL_QSPI_XIP_SetInstLen(QSPIx, xipConfig->InstructionSize);
+      DDL_QSPI_XIP_SetAddrLen(QSPIx, xipConfig->AddressSize);
+      DDL_QSPI_XIP_SetWaitCycle(QSPIx, xipConfig->DummyCycles);
+      DDL_QSPI_XIP_SetFrameFormat(QSPIx, xipConfig->FrameFormat);
 
-    /* Enable the Slave Select signal */
-    DDL_QSPI_XIP_EnableSlave(QSPIx);
+      if (xipConfig->ContinuousMode == ENABLE)
+      {
+          DDL_QSPI_XIP_EnableContinuous(QSPIx);
+      }
+      else
+      {
+          DDL_QSPI_XIP_DisableContinuous(QSPIx);
+      }
+      if (xipConfig->PrefetchMode == ENABLE)
+      {
+          DDL_QSPI_XIP_EnablePrefetch(QSPIx);
+      }
+      else
+      {
+          DDL_QSPI_XIP_DisablePrefetch(QSPIx);
+      }
+
+      /* Enable the Slave Select signal */
+      DDL_QSPI_XIP_EnableSlave(QSPIx);
+    }
 
     /* Enable the QSPI peripheral */
     DDL_QSPI_Enable(QSPIx);
-    
+
     /* Enable XIP */
     DDL_QSPI_XIP_Enable(QSPIx);
-    
+
     /* Return function status */
     return status;
 }
@@ -511,6 +511,9 @@ ErrorStatus DDL_QSPI_MemoryMapped(QSPI_TypeDef *QSPIx, DDL_QSPI_XIPTypeDef *xipC
   * @}
   */
 
+/**
+  * @}
+  */
 
 /** @defgroup QSPI_Private_Functions QSPI Private Functions
   * @{
@@ -531,19 +534,12 @@ static void DDL_QSPI_Config(QSPI_TypeDef *QSPIx, DDL_QSPI_CommandTypeDef *cmd)
         /* Configure CTRL1 */
         DDL_QSPI_SetFrameFormat(QSPIx, cmd->FrameFormat);
         DDL_QSPI_SetTansMode(QSPIx, cmd->TransferMode);
+        DDL_QSPI_SetDataFrameSize(QSPIx, cmd->DataFrameSize);
 
-        if (cmd->TransferMode == DDL_QSPI_TXMODE_EEPROM_READ)
+        if(cmd->NbData != 0)
         {
             /* Configure CTRL2 */
-            DDL_QSPI_SetFrameNum(QSPIx, cmd->NbData);
-        }
-        else
-        {
-            if(cmd->NbData != 0)
-            {
-                /* Configure CTRL2 */
-                DDL_QSPI_SetFrameNum(QSPIx, (cmd->NbData - 1));
-            }
+            DDL_QSPI_SetFrameNum(QSPIx, (cmd->NbData - 1));
         }
     }
     else if (cmd->FrameFormat == DDL_QSPI_FRAME_FORMAT_DUAL)
@@ -553,6 +549,7 @@ static void DDL_QSPI_Config(QSPI_TypeDef *QSPIx, DDL_QSPI_CommandTypeDef *cmd)
             /* Configure CTRL1 */
             DDL_QSPI_SetFrameFormat(QSPIx, cmd->FrameFormat);
             DDL_QSPI_SetTansMode(QSPIx, cmd->TransferMode);
+            DDL_QSPI_SetDataFrameSize(QSPIx, cmd->DataFrameSize);
 
             /* Configure CTRL2 */
             if (cmd->NbData != 0)
@@ -588,6 +585,7 @@ static void DDL_QSPI_Config(QSPI_TypeDef *QSPIx, DDL_QSPI_CommandTypeDef *cmd)
             /* Configure CTRL1 */
             DDL_QSPI_SetFrameFormat(QSPIx, cmd->FrameFormat);
             DDL_QSPI_SetTansMode(QSPIx, cmd->TransferMode);
+            DDL_QSPI_SetDataFrameSize(QSPIx, cmd->DataFrameSize);
 
             /* Configure CTRL2 */
             if (cmd->NbData != 0)
@@ -622,13 +620,6 @@ static void DDL_QSPI_Config(QSPI_TypeDef *QSPIx, DDL_QSPI_CommandTypeDef *cmd)
     }
 }
 
-
-
-/**
-  * @}
-  */
-
-
 /**
   * @}
   */
@@ -644,4 +635,3 @@ static void DDL_QSPI_Config(QSPI_TypeDef *QSPIx, DDL_QSPI_CommandTypeDef *cmd)
   */
 
 #endif /* USE_FULL_DDL_DRIVER */
-

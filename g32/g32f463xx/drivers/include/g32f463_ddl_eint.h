@@ -4,7 +4,7 @@
   * @brief   Header file of EINT DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -255,7 +255,7 @@ typedef struct
 /**
   * @brief  Enable EintLine Interrupt request for Lines in range 0 to 31
   * @note The reset value for the direct or internal lines (see RM)
-  *       is set to 1 in order to enable the interrupt by default.
+  *       is set to 0 in order to enable the interrupt by default.
   *       Bits are set automatically at Power on.
   * @param  EintLine This parameter can be one of the following values:
   *         @arg @ref DDL_EINT_LINE_0
@@ -527,6 +527,7 @@ __STATIC_INLINE uint32_t DDL_EINT_IsEnabledEvent_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -570,6 +571,7 @@ __STATIC_INLINE void DDL_EINT_EnableRisingTrig_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -606,6 +608,7 @@ __STATIC_INLINE void DDL_EINT_DisableRisingTrig_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -656,6 +659,7 @@ __STATIC_INLINE uint32_t DDL_EINT_IsEnabledRisingTrig_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -697,6 +701,7 @@ __STATIC_INLINE void DDL_EINT_EnableFallingTrig_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -732,6 +737,7 @@ __STATIC_INLINE void DDL_EINT_DisableFallingTrig_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -780,6 +786,7 @@ __STATIC_INLINE uint32_t DDL_EINT_IsEnabledFallingTrig_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -825,6 +832,7 @@ __STATIC_INLINE void DDL_EINT_GenerateSWI_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -862,6 +870,7 @@ __STATIC_INLINE uint32_t DDL_EINT_IsActiveFlag_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20
@@ -869,7 +878,7 @@ __STATIC_INLINE uint32_t DDL_EINT_IsActiveFlag_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_22
   * @note   (*): Available in some devices
   * @note   Please check each device line mapping for EINT Line availability
-  * @retval @note This bit is set when the selected edge event arrives on the interrupt
+  * @retval IPEND bits for the selected lines.
   */
 __STATIC_INLINE uint32_t DDL_EINT_ReadFlag_0_31(uint32_t EintLine)
 {
@@ -899,6 +908,7 @@ __STATIC_INLINE uint32_t DDL_EINT_ReadFlag_0_31(uint32_t EintLine)
   *         @arg @ref DDL_EINT_LINE_14
   *         @arg @ref DDL_EINT_LINE_15
   *         @arg @ref DDL_EINT_LINE_16
+  *         @arg @ref DDL_EINT_LINE_17
   *         @arg @ref DDL_EINT_LINE_18
   *         @arg @ref DDL_EINT_LINE_19
   *         @arg @ref DDL_EINT_LINE_20

@@ -4,7 +4,7 @@
   * @brief   DMA DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -66,7 +66,7 @@
 /* Private variables ---------------------------------------------------------*/
 /* Private constants ---------------------------------------------------------*/
 /* Private macros ------------------------------------------------------------*/
-/** @addtogroup DMA_DDL_Private_Macros
+/** @addtogroup DMA_DDL_Private_Macros DMA Private Macros
   * @{
   */
 #define IS_DDL_DMA_DIRECTION(__VALUE__)          (((__VALUE__) == DDL_DMA_DIRECTION_PERIPH_TO_MEMORY) || \
@@ -177,7 +177,7 @@
   *          - SUCCESS: DMA registers are de-initialized
   *          - ERROR: DMA registers are not de-initialized
   */
-uint32_t DDL_DMA_DeInit(DMA_TypeDef *DMAx, uint32_t Stream)
+ErrorStatus DDL_DMA_DeInit(DMA_TypeDef *DMAx, uint32_t Stream)
 {
   DMA_Stream_TypeDef *tmp = (DMA_Stream_TypeDef *)DMA1_Stream0;
   ErrorStatus status = SUCCESS;
@@ -306,7 +306,7 @@ uint32_t DDL_DMA_DeInit(DMA_TypeDef *DMAx, uint32_t Stream)
   *          - SUCCESS: DMA registers are initialized
   *          - ERROR: Not applicable
   */
-uint32_t DDL_DMA_Init(DMA_TypeDef *DMAx, uint32_t Stream, DDL_DMA_InitTypeDef *DMA_InitStruct)
+ErrorStatus DDL_DMA_Init(DMA_TypeDef *DMAx, uint32_t Stream, DDL_DMA_InitTypeDef *DMA_InitStruct)
 {
   /* Check the DMA Instance DMAx and Stream parameters*/
   ASSERT_PARAM(IS_DDL_DMA_ALL_STREAM_INSTANCE(DMAx, Stream));
@@ -388,7 +388,7 @@ uint32_t DDL_DMA_Init(DMA_TypeDef *DMAx, uint32_t Stream, DDL_DMA_InitTypeDef *D
 
   /*--------------------------- DMAx SxNDTR Configuration -------------------------
    * Configure the peripheral base address with parameter :
-   * - NbData:                    DMA_NDATAx[15:0] bits
+   * - NbData:                    DMA_NDATAx_NDATA[15:0] bits
    */
   DDL_DMA_SetDataLength(DMAx, Stream, DMA_InitStruct->NbData);
 

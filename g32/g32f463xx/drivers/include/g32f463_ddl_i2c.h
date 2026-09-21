@@ -99,12 +99,6 @@ typedef struct
                                      This feature can be modified afterwards using unitary function
                                      @ref DDL_I2C_SetTiming(). */
 
-  uint32_t AnalogFilter;        /*!< Enables or disables analog noise filter.
-                                     This parameter can be a value of @ref I2C_DDL_EC_ANALOGFILTER_SELECTION.
-
-                                     This feature can be modified afterwards using unitary functions
-                                     @ref DDL_I2C_EnableAnalogFilter() or DDL_I2C_DisableAnalogFilter(). */
-
   uint32_t DigitalFilter;       /*!< Configures the digital noise filter.
                                      This parameter can be a number between Min_Data = 0x00 and Max_Data = 0x0F.
 
@@ -165,7 +159,7 @@ typedef struct
 #define DDL_I2C_STS_TXINTFLG                    I2C_STS_TXINTFLG            /*!< Transmit interrupt status           */
 #define DDL_I2C_STS_RXBNEFLG                    I2C_STS_RXBNEFLG            /*!< Receive data register not empty     */
 #define DDL_I2C_STS_ADDRMFLG                    I2C_STS_ADDRMFLG            /*!< Address matched (slave mode)        */
-#define DDL_I2C_STS_NACKFLG                     I2C_STS_NACKFLGLG           /*!< Not Acknowledge received flag       */
+#define DDL_I2C_STS_NACKFLG                     I2C_STS_NACKFLG             /*!< Not Acknowledge received flag       */
 #define DDL_I2C_STS_STOPFLG                     I2C_STS_STOPFLG             /*!< Stop detection flag                 */
 #define DDL_I2C_STS_TXCFLG                      I2C_STS_TXCFLG              /*!< Transfer Complete (master mode)     */
 #define DDL_I2C_STS_TXCRFLG                     I2C_STS_TXCRFLG             /*!< Transfer Complete Reload            */
@@ -203,15 +197,6 @@ typedef struct
 #define DDL_I2C_MODE_SMBUS_DEVICE           0x00000000U               /*!< SMBus Device default mode
                                                                          (Default address not acknowledge)        */
 #define DDL_I2C_MODE_SMBUS_DEVICE_ARP       I2C_CTRL1_DEADDREN        /*!< SMBus Device Default address acknowledge */
-/**
-  * @}
-  */
-
-/** @defgroup I2C_DDL_EC_ANALOGFILTER_SELECTION Analog Filter Selection
-  * @{
-  */
-#define DDL_I2C_ANALOGFILTER_ENABLE          0x00000000U             /*!< Analog filter is enabled.  */
-#define DDL_I2C_ANALOGFILTER_DISABLE         I2C_CTRL1_ANFD          /*!< Analog filter is disabled. */
 /**
   * @}
   */
@@ -476,18 +461,15 @@ __STATIC_INLINE uint32_t DDL_I2C_IsEnabled(I2C_TypeDef *I2Cx)
   * @note   If the analog filter is also enabled, the digital filter is added to analog filter.
   *         The filters can only be programmed when the I2C is disabled.
   * @param  I2Cx I2C Instance.
-  * @param  AnalogFilter This parameter can be one of the following values:
-  *         @arg @ref DDL_I2C_ANALOGFILTER_ENABLE
-  *         @arg @ref DDL_I2C_ANALOGFILTER_DISABLE
   * @param  DigitalFilter This parameter must be a value between Min_Data=0x00 (Digital filter disabled)
                           and Max_Data=0x0F (Digital filter enabled and filtering capability up to 15*ti2cclk).
   *         This parameter is used to configure the digital noise filter on SDA and SCL input.
   *         The digital filter will filter spikes with a length of up to DNF[3:0]*ti2cclk.
   * @retval None
   */
-__STATIC_INLINE void DDL_I2C_ConfigFilters(I2C_TypeDef *I2Cx, uint32_t AnalogFilter, uint32_t DigitalFilter)
+__STATIC_INLINE void DDL_I2C_ConfigFilters(I2C_TypeDef *I2Cx, uint32_t DigitalFilter)
 {
-  MODIFY_REG(I2Cx->CTRL1, I2C_CTRL1_ANFD | I2C_CTRL1_DNFCFG, AnalogFilter | (DigitalFilter << I2C_CTRL1_DNFCFG_Pos));
+  MODIFY_REG(I2Cx->CTRL1, I2C_CTRL1_DNFCFG, DigitalFilter << I2C_CTRL1_DNFCFG_Pos);
 }
 
 /**
@@ -514,38 +496,6 @@ __STATIC_INLINE void DDL_I2C_SetDigitalFilter(I2C_TypeDef *I2Cx, uint32_t Digita
 __STATIC_INLINE uint32_t DDL_I2C_GetDigitalFilter(const I2C_TypeDef *I2Cx)
 {
   return (uint32_t)(READ_BIT(I2Cx->CTRL1, I2C_CTRL1_DNFCFG) >> I2C_CTRL1_DNFCFG_Pos);
-}
-
-/**
-  * @brief  Enable Analog Noise Filter.
-  * @note   This filter can only be programmed when the I2C is disabled.
-  * @param  I2Cx I2C Instance.
-  * @retval None
-  */
-__STATIC_INLINE void DDL_I2C_EnableAnalogFilter(I2C_TypeDef *I2Cx)
-{
-  CLEAR_BIT(I2Cx->CTRL1, I2C_CTRL1_ANFD);
-}
-
-/**
-  * @brief  Disable Analog Noise Filter.
-  * @note   This filter can only be programmed when the I2C is disabled.
-  * @param  I2Cx I2C Instance.
-  * @retval None
-  */
-__STATIC_INLINE void DDL_I2C_DisableAnalogFilter(I2C_TypeDef *I2Cx)
-{
-  SET_BIT(I2Cx->CTRL1, I2C_CTRL1_ANFD);
-}
-
-/**
-  * @brief  Check if Analog Noise Filter is enabled or disabled.
-  * @param  I2Cx I2C Instance.
-  * @retval State of bit (1 or 0).
-  */
-__STATIC_INLINE uint32_t DDL_I2C_IsEnabledAnalogFilter(const I2C_TypeDef *I2Cx)
-{
-  return ((READ_BIT(I2Cx->CTRL1, I2C_CTRL1_ANFD) != (I2C_CTRL1_ANFD)) ? 1UL : 0UL);
 }
 
 /**
@@ -707,43 +657,6 @@ __STATIC_INLINE uint32_t DDL_I2C_IsEnabledSlaveByteControl(const I2C_TypeDef *I2
 }
 
 /**
-  * @brief  Enable Wakeup from STOP.
-  * @note   The macro IS_I2C_WAKEUP_FROMSTOP_INSTANCE(I2Cx) can be used to check whether or not
-  *         WakeUpFromStop feature is supported by the I2Cx Instance.
-  * @note   This bit can only be programmed when Digital Filter is disabled.
-  * @param  I2Cx I2C Instance.
-  * @retval None
-  */
-__STATIC_INLINE void DDL_I2C_EnableWakeUpFromStop(I2C_TypeDef *I2Cx)
-{
-  SET_BIT(I2Cx->CTRL1, I2C_CTRL1_WUPEN);
-}
-
-/**
-  * @brief  Disable Wakeup from STOP.
-  * @note   The macro IS_I2C_WAKEUP_FROMSTOP_INSTANCE(I2Cx) can be used to check whether or not
-  *         WakeUpFromStop feature is supported by the I2Cx Instance.
-  * @param  I2Cx I2C Instance.
-  * @retval None
-  */
-__STATIC_INLINE void DDL_I2C_DisableWakeUpFromStop(I2C_TypeDef *I2Cx)
-{
-  CLEAR_BIT(I2Cx->CTRL1, I2C_CTRL1_WUPEN);
-}
-
-/**
-  * @brief  Check if Wakeup from STOP is enabled or disabled.
-  * @note   The macro IS_I2C_WAKEUP_FROMSTOP_INSTANCE(I2Cx) can be used to check whether or not
-  *         WakeUpFromStop feature is supported by the I2Cx Instance.
-  * @param  I2Cx I2C Instance.
-  * @retval State of bit (1 or 0).
-  */
-__STATIC_INLINE uint32_t DDL_I2C_IsEnabledWakeUpFromStop(const I2C_TypeDef *I2Cx)
-{
-  return ((READ_BIT(I2Cx->CTRL1, I2C_CTRL1_WUPEN) == (I2C_CTRL1_WUPEN)) ? 1UL : 0UL);
-}
-
-/**
   * @brief  Enable General Call.
   * @note   When enabled the Address 0x00 is ACKed.
   * @param  I2Cx I2C Instance.
@@ -812,7 +725,7 @@ __STATIC_INLINE uint32_t DDL_I2C_GetMasterAddressingMode(const I2C_TypeDef *I2Cx
   */
 __STATIC_INLINE void DDL_I2C_SetOwnAddress1(I2C_TypeDef *I2Cx, uint32_t OwnAddress1, uint32_t OwnAddrSize)
 {
-  MODIFY_REG(I2Cx->ADDR1, I2C_ADDR1_ADDR1 | I2C_ADDR1_ADDR1LEN, OwnAddress1 | OwnAddrSize);
+  MODIFY_REG(I2Cx->ADDR1, I2C_ADDR1_ADDR1 | I2C_ADDR1_ADDR1LEN, (OwnAddress1 << I2C_ADDR1_ADDR1_Pos) | OwnAddrSize);
 }
 
 /**
@@ -863,7 +776,7 @@ __STATIC_INLINE uint32_t DDL_I2C_IsEnabledOwnAddress1(const I2C_TypeDef *I2Cx)
   */
 __STATIC_INLINE void DDL_I2C_SetOwnAddress2(I2C_TypeDef *I2Cx, uint32_t OwnAddress2, uint32_t OwnAddrMask)
 {
-  MODIFY_REG(I2Cx->ADDR2, I2C_ADDR2_ADDR2 | I2C_ADDR2_ADDR2MSK, OwnAddress2 | OwnAddrMask);
+  MODIFY_REG(I2Cx->ADDR2, I2C_ADDR2_ADDR2 | I2C_ADDR2_ADDR2MSK, (OwnAddress2 << I2C_ADDR2_ADDR2_Pos) | OwnAddrMask);
 }
 
 /**
@@ -911,12 +824,12 @@ __STATIC_INLINE void DDL_I2C_SetTiming(I2C_TypeDef *I2Cx, uint32_t Timing)
 /**
   * @brief  Configure the Timing Prescaler setting.
   * @param  I2Cx I2C Instance.
-  * @param  Presclar This value between Min_Data=0x0 and Max_Data=0xF.
+  * @param  Prescaler This value between Min_Data=0x0 and Max_Data=0xF.
   * @retval None
   */
-__STATIC_INLINE void DDL_I2C_SetTimingPrescaler(I2C_TypeDef *I2Cx, uint32_t Presclar)
+__STATIC_INLINE void DDL_I2C_SetTimingPrescaler(I2C_TypeDef *I2Cx, uint32_t Prescaler)
 {
-  MODIFY_REG(I2Cx->TIMING, I2C_TIMING_TIMINGPSC, Presclar << I2C_TIMING_TIMINGPSC_Pos);
+  MODIFY_REG(I2Cx->TIMING, I2C_TIMING_TIMINGPSC, Prescaler << I2C_TIMING_TIMINGPSC_Pos);
 }
 
 /**
@@ -1145,7 +1058,7 @@ __STATIC_INLINE void DDL_I2C_ConfigSMBusTimeout(I2C_TypeDef *I2Cx, uint32_t Time
                                                uint32_t TimeoutB)
 {
   MODIFY_REG(I2Cx->TIMEOUT, I2C_TIMEOUT_TIMEOUTA | I2C_TIMEOUT_IDLECLKTO | I2C_TIMEOUT_TIMEOUTB,
-             TimeoutA | TimeoutAMode | (TimeoutB << I2C_TIMEOUT_TIMEOUTB_Pos));
+             (TimeoutA << I2C_TIMEOUT_TIMEOUTA_Pos) | TimeoutAMode | (TimeoutB << I2C_TIMEOUT_TIMEOUTB_Pos));
 }
 
 /**
@@ -1604,7 +1517,7 @@ __STATIC_INLINE uint32_t DDL_I2C_IsActiveFlag_STOP(const I2C_TypeDef *I2Cx)
 /**
   * @brief  Indicate the status of Transfer complete flag (master mode).
   * @note   RESET: Clear default value.
-  *         SET: When RELOAD=0, AUTOEND=0 and NBYTES date have been transferred.
+  *         SET: When RELOAD=0, AUTOEND=0 and NBYTES data have been transferred.
   * @param  I2Cx I2C Instance.
   * @retval State of bit (1 or 0).
   */
@@ -1616,7 +1529,7 @@ __STATIC_INLINE uint32_t DDL_I2C_IsActiveFlag_TC(const I2C_TypeDef *I2Cx)
 /**
   * @brief  Indicate the status of Transfer complete flag (master mode).
   * @note   RESET: Clear default value.
-  *         SET: When RELOAD=1 and NBYTES date have been transferred.
+  *         SET: When RELOAD=1 and NBYTES data have been transferred.
   * @param  I2Cx I2C Instance.
   * @retval State of bit (1 or 0).
   */
@@ -2160,7 +2073,6 @@ __STATIC_INLINE void DDL_I2C_TransmitData8(I2C_TypeDef *I2Cx, uint8_t Data)
 /**
   * @brief  Clear I2C transmit data register.
   * @param  I2Cx I2C Instance.
-  * @param  Data Value between Min_Data=0x00 and Max_Data=0xFF
   * @retval None
   */
 __STATIC_INLINE void DDL_I2C_ClearTxData(I2C_TypeDef *I2Cx)

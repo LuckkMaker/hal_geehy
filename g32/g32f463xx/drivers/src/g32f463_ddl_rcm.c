@@ -4,7 +4,7 @@
   * @brief   RCM DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -164,7 +164,7 @@ ErrorStatus DDL_RCM_DeInit(void)
   SET_BIT(RCM->INT, RCM_INT_LSIRDYCLR | RCM_INT_LSERDYCLR | RCM_INT_HSIRDYCLR | RCM_INT_HSERDYCLR | RCM_INT_PLL1RDYCLR | RCM_INT_CSSCLR);
 
   /* Clear LSIEN bit */
-  CLEAR_BIT(RCM->CSTS, RCM_CSTS_LSIEN);
+  // CLEAR_BIT(RCM->CSTS, RCM_CSTS_LSIEN);
 
   /* Reset all RSTFLGCLR flags */
   SET_BIT(RCM->CSTS, RCM_CSTS_RSTFLGCLR);

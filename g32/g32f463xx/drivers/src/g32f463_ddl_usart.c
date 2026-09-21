@@ -255,7 +255,10 @@ ErrorStatus DDL_USART_Init(USART_TypeDef *USARTx, DDL_USART_InitTypeDef *USART_I
      * Configure USARTx CTRL3 (Hardware Flow Control) with parameters:
      * - HardwareFlowControl: USART_CTRL3_RTSEN, USART_CTRL3_CTSEN bits according to USART_InitStruct->HardwareFlowControl value.
      */
-    DDL_USART_SetHWFlowCtrl(USARTx, USART_InitStruct->HardwareFlowControl);
+    if (USARTx != UART4)
+    {
+      DDL_USART_SetHWFlowCtrl(USARTx, USART_InitStruct->HardwareFlowControl);
+    }
 
     /*---------------------------- USART BRR Configuration -----------------------
      * Retrieve Clock frequency used for USART Peripheral

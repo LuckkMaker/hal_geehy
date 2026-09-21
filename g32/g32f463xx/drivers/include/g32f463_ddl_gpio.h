@@ -80,7 +80,7 @@ extern "C" {
   */
 
 /**
-  * @brief LL GPIO Init Structure definition
+  * @brief DDL GPIO Init Structure definition
   */
 typedef struct
 {
@@ -177,8 +177,8 @@ typedef struct
   */
 #define DDL_GPIO_SPEED_FREQ_LOW             (0x00000000U)            /*!< Select I/O low output speed    */
 #define DDL_GPIO_SPEED_FREQ_MEDIUM          GPIO_OSPEEDER_OSPEEDR0_0 /*!< Select I/O medium output speed */
-#define DDL_GPIO_SPEED_FREQ_HIGH            GPIO_OSPEEDER_OSPEEDR0_1 /*!< Select I/O fast output speed   */
-#define DDL_GPIO_SPEED_FREQ_VERY_HIGH       GPIO_OSPEEDER_OSPEEDR0   /*!< Select I/O high output speed   */
+#define DDL_GPIO_SPEED_FREQ_HIGH            GPIO_OSPEEDER_OSPEEDR0_1 /*!< Select I/O high output speed   */
+#define DDL_GPIO_SPEED_FREQ_VERY_HIGH       GPIO_OSPEEDER_OSPEEDR0   /*!< Select I/O very high output speed   */
 /**
   * @}
   */
@@ -386,7 +386,6 @@ __STATIC_INLINE void DDL_GPIO_SetPinOutputType(GPIO_TypeDef *GPIOx, uint32_t Pin
   *         @arg @ref DDL_GPIO_PIN_13
   *         @arg @ref DDL_GPIO_PIN_14
   *         @arg @ref DDL_GPIO_PIN_15
-  *         @arg @ref DDL_GPIO_PIN_ALL
   * @retval Returned value can be one of the following values:
   *         @arg @ref DDL_GPIO_OUTPUT_PUSHPULL
   *         @arg @ref DDL_GPIO_OUTPUT_OPENDRAIN
@@ -828,7 +827,8 @@ __STATIC_INLINE uint32_t DDL_GPIO_ReadOutputPort(GPIO_TypeDef *GPIOx)
 }
 
 /**
-  * @brief  Return if input data level for several pins of dedicated port is high or low.
+  * @brief  Return if output data level for several pins of dedicated port is high or low.
+  * @note   Reflects ODATA (last written). For open-drain pin level, read IDATA instead.
   * @param  GPIOx GPIO Port
   * @param  PinMask This parameter can be a combination of the following values:
   *         @arg @ref DDL_GPIO_PIN_0
@@ -857,6 +857,7 @@ __STATIC_INLINE uint32_t DDL_GPIO_IsOutputPinSet(GPIO_TypeDef *GPIOx, uint32_t P
 
 /**
   * @brief  Set several pins to high level on dedicated gpio port.
+  * @note   Reflects ODATA (last written). For open-drain pin level, read IDATA instead.
   * @param  GPIOx GPIO Port
   * @param  PinMask This parameter can be a combination of the following values:
   *         @arg @ref DDL_GPIO_PIN_0

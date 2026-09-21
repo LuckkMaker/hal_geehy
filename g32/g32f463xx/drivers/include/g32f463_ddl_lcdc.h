@@ -4,7 +4,7 @@
   * @brief   Header file of LCDC DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -53,7 +53,9 @@ extern "C" {
   * @{
   */
 
-/** @addtogroup LCDC_DDL
+#if defined (LCDC)
+
+/** @defgroup LCDC_DDL LCDC
   * @{
   */
 
@@ -291,7 +293,7 @@ __STATIC_INLINE void DDL_LCDC_DisableExtendedMode(LCDC_TypeDef *LCDCx)
   */
 __STATIC_INLINE void DDL_LCDC_SetControlSetupTime(LCDC_TypeDef *LCDCx, uint32_t Time)
 {
-  MODIFY_REG(LCDCx->TIM, LCDC_TIM_DCXSETCFG, Time);
+  MODIFY_REG(LCDCx->TIM, LCDC_TIM_DCXSETCFG, (Time << LCDC_TIM_DCXSETCFG_Pos));
 }
 
 /**
@@ -312,7 +314,7 @@ __STATIC_INLINE uint32_t DDL_LCDC_GetControlSetupTime(LCDC_TypeDef *LCDCx)
   */
 __STATIC_INLINE void DDL_LCDC_SetDataSetupTime(LCDC_TypeDef *LCDCx, uint32_t Time)
 {
-  MODIFY_REG(LCDCx->TIM, LCDC_TIM_DATASETCFG, Time);
+  MODIFY_REG(LCDCx->TIM, LCDC_TIM_DATASETCFG, (Time << LCDC_TIM_DATASETCFG_Pos));
 }
 
 /**
@@ -333,7 +335,7 @@ __STATIC_INLINE uint32_t DDL_LCDC_GetDataSetupTime(LCDC_TypeDef *LCDCx)
   */
 __STATIC_INLINE void DDL_LCDC_SetBusTurnAroundDuration(LCDC_TypeDef *LCDCx, uint32_t Time)
 {
-  MODIFY_REG(LCDCx->TIM, LCDC_TIM_BUSTURNCFG, Time);
+  MODIFY_REG(LCDCx->TIM, LCDC_TIM_BUSTURNCFG, Time << LCDC_TIM_BUSTURNCFG_Pos);
 }
 
 /**
@@ -354,7 +356,7 @@ __STATIC_INLINE uint32_t DDL_LCDC_GetBusTurnAroundDuration(LCDC_TypeDef *LCDCx)
   */
 __STATIC_INLINE void DDL_LCDC_Ex_SetControlSetupTime(LCDC_TypeDef *LCDCx, uint32_t Time)
 {
-  MODIFY_REG(LCDCx->WRTTIM, LCDC_WRTTIM_DCXSETCFG, Time);
+  MODIFY_REG(LCDCx->WRTTIM, LCDC_WRTTIM_DCXSETCFG, (Time << LCDC_WRTTIM_DCXSETCFG_Pos));
 }
 
 /**
@@ -375,7 +377,7 @@ __STATIC_INLINE uint32_t DDL_LCDC_Ex_GetControlSetupTime(LCDC_TypeDef *LCDCx)
   */
 __STATIC_INLINE void DDL_LCDC_Ex_SetDataSetupTime(LCDC_TypeDef *LCDCx, uint32_t Time)
 {
-  MODIFY_REG(LCDCx->WRTTIM, LCDC_WRTTIM_DATASETCFG, Time);
+  MODIFY_REG(LCDCx->WRTTIM, LCDC_WRTTIM_DATASETCFG, Time << LCDC_WRTTIM_DATASETCFG_Pos);
 }
 
 /**
@@ -396,7 +398,7 @@ __STATIC_INLINE uint32_t DDL_LCDC_Ex_GetDataSetupTime(LCDC_TypeDef *LCDCx)
   */
 __STATIC_INLINE void DDL_LCDC_Ex_SetBusTurnAroundDuration(LCDC_TypeDef *LCDCx, uint32_t Time)
 {
-  MODIFY_REG(LCDCx->WRTTIM, LCDC_WRTTIM_BUSTURNCFG, Time);
+  MODIFY_REG(LCDCx->WRTTIM, LCDC_WRTTIM_BUSTURNCFG, Time << LCDC_WRTTIM_BUSTURNCFG_Pos);
 }
 
 /**
@@ -435,6 +437,8 @@ void         DDL_LCDC_TimingStructInit(DDL_LCDC_TimingTypeDef *LCDC_TimingStruct
 /**
   * @}
   */
+
+#endif /* LCDC */
 
 #ifdef __cplusplus
 }

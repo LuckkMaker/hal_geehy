@@ -4,7 +4,7 @@
   * @brief   Header file of SPI DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -238,8 +238,8 @@ typedef struct
   * @{
   */
 #define DDL_SPI_NSS_SOFT                    (SPI_CTRL1_SSEN)                     /*!< NSS managed internally. NSS pin not used and free              */
-#define DDL_SPI_NSS_HARD_INPUT              0x00000000U                          /*!< NSS pin used in Input. Only used in Master mode                */
-#define DDL_SPI_NSS_HARD_OUTPUT             (((uint32_t)SPI_CTRL2_SSOEN << 16U)) /*!< NSS pin used in Output. Only used in Slave mode as chip select */
+#define DDL_SPI_NSS_HARD_INPUT              0x00000000U                          /*!< NSS pin used in Input. Only used in Slave mode as chip select  */
+#define DDL_SPI_NSS_HARD_OUTPUT             (((uint32_t)SPI_CTRL2_SSOEN << 16U)) /*!< NSS pin used in Output. Only used in Master mode               */
 /**
   * @}
   */
@@ -1031,7 +1031,7 @@ __STATIC_INLINE uint32_t DDL_SPI_DMA_GetRegAddr(SPI_TypeDef *SPIx)
   */
 __STATIC_INLINE uint8_t DDL_SPI_ReceiveData8(SPI_TypeDef *SPIx)
 {
-  return (*((__IO uint8_t *)&SPIx->DATA));
+  return READ_REG(*((__IO uint8_t *)&SPIx->DATA));
 }
 
 /**
@@ -1054,9 +1054,9 @@ __STATIC_INLINE void DDL_SPI_TransmitData8(SPI_TypeDef *SPIx, uint8_t TxData)
 {
 #if defined (__GNUC__)
   __IO uint8_t *spidr = ((__IO uint8_t *)&SPIx->DATA);
-  *spidr = TxData;
+  WRITE_REG(*spidr, TxData);
 #else
-  *((__IO uint8_t *)&SPIx->DATA) = TxData;
+  WRITE_REG(*((__IO uint8_t *)&SPIx->DATA), TxData);
 #endif /* __GNUC__ */
 }
 
@@ -1070,9 +1070,9 @@ __STATIC_INLINE void DDL_SPI_TransmitData16(SPI_TypeDef *SPIx, uint16_t TxData)
 {
 #if defined (__GNUC__)
   __IO uint16_t *spidr = ((__IO uint16_t *)&SPIx->DATA);
-  *spidr = TxData;
+  WRITE_REG(*spidr, TxData);
 #else
-  SPIx->DATA = TxData;
+  WRITE_REG(SPIx->DATA, TxData);
 #endif /* __GNUC__ */
 }
 
@@ -1175,7 +1175,6 @@ typedef struct
 #define DDL_I2S_SR_RXNE                     DDL_SPI_STS_RXBNEFLG           /*!< Rx buffer not empty flag         */
 #define DDL_I2S_SR_TXE                      DDL_SPI_STS_TXBEFLG            /*!< Tx buffer empty flag             */
 #define DDL_I2S_SR_BSY                      DDL_SPI_STS_BSYFLG             /*!< Busy flag                        */
-#define DDL_I2S_SR_UDR                      SPI_STS_UDRFLG                 /*!< Underrun flag                    */
 #define DDL_I2S_SR_OVR                      DDL_SPI_STS_OVRFLG             /*!< Overrun flag                     */
 #define DDL_I2S_SR_FRE                      DDL_SPI_STS_FREFLG             /*!< TI mode frame format error flag  */
 /**
@@ -1199,7 +1198,7 @@ typedef struct
 #define DDL_I2S_DATAFORMAT_16B              0x00000000U                                  /*!< Data length 16 bits, Channel length 16bit */
 #define DDL_I2S_DATAFORMAT_16B_EXTENDED     (SPI_I2SCFG_CHLEN)                           /*!< Data length 16 bits, Channel length 32bit */
 #define DDL_I2S_DATAFORMAT_24B              (SPI_I2SCFG_CHLEN | SPI_I2SCFG_DATALEN_0)    /*!< Data length 24 bits, Channel length 32bit */
-#define DDL_I2S_DATAFORMAT_32B              (SPI_I2SCFG_CHLEN | SPI_I2SCFG_DATALEN_1)    /*!< Data length 16 bits, Channel length 32bit */
+#define DDL_I2S_DATAFORMAT_32B              (SPI_I2SCFG_CHLEN | SPI_I2SCFG_DATALEN_1)    /*!< Data length 32 bits, Channel length 32bit */
 /**
   * @}
   */
@@ -1239,7 +1238,7 @@ typedef struct
 /** @defgroup I2S_DDL_EC_PRESCALER_FACTOR Prescaler Factor
   * @{
   */
-#define DDL_I2S_PRESCALER_PARITY_EVEN       0x00000000U                 /*!< Odd factor: Real divider value is =  I2SDIV * 2    */
+#define DDL_I2S_PRESCALER_PARITY_EVEN       0x00000000U                 /*!< Even factor: Real divider value is =  I2SDIV * 2    */
 #define DDL_I2S_PRESCALER_PARITY_ODD        (SPI_I2SPSC_ODDPSC >> 8U)   /*!< Odd factor: Real divider value is = (I2SDIV * 2)+1 */
 /**
   * @}
@@ -1475,7 +1474,7 @@ __STATIC_INLINE uint32_t DDL_I2S_GetTransferMode(SPI_TypeDef *SPIx)
   */
 __STATIC_INLINE void DDL_I2S_SetPrescalerLinear(SPI_TypeDef *SPIx, uint8_t PrescalerLinear)
 {
-  MODIFY_REG(SPIx->I2SPSC, SPI_I2SPSC_I2SPSC, PrescalerLinear);
+  MODIFY_REG(SPIx->I2SPSC, SPI_I2SPSC_I2SPSC, (PrescalerLinear << SPI_I2SPSC_I2SPSC_Pos));
 }
 
 /**

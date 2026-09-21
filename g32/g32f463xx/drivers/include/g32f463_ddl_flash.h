@@ -4,7 +4,7 @@
   * @brief   Header file of FLASH DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -204,11 +204,6 @@ typedef struct
 #define DDL_FLASH_TYPEERASE_MASSERASE       0x00000001U  /*!< Flash Mass erase activation   */
 #define DDL_FLASH_TYPEERASE_BLOCKSERASE     0x00000002U  /*!< Flash Blocks erase activation */
 #define DDL_FLASH_TYPEERASE_DATASECTORS     0x00000003U  /*!< Flash Data Sectors erase      */
-
-/**
-  * @}
-  */
-
 /**
   * @}
   */
@@ -249,7 +244,6 @@ typedef struct
 #define DDL_FLASH_BLOCK_29    29U /*!< BLOCK 29  */
 #define DDL_FLASH_BLOCK_30    30U /*!< BLOCK 30  */
 #define DDL_FLASH_BLOCK_31    31U /*!< BLOCK 31  */
-
 /**
   * @}
   */
@@ -258,19 +252,6 @@ typedef struct
   * @{
   */
 #define DDL_FLASH_SECTOR_TOTAL 255U
-/**
-  * @}
-  */
-
-/** @defgroup FLASH_DDL_EC_DataSectors FLASH Data Sectors
-  * @{
-  */
-#define DDL_FLASH_DATASECTOR_TOTAL  4U
-#define DDL_FLASH_DATASECTOR_0      0U
-#define DDL_FLASH_DATASECTOR_1      1U
-#define DDL_FLASH_DATASECTOR_2      2U
-#define DDL_FLASH_DATASECTOR_3      3U
-#define DDL_FLASH_DATASECTOR_4      4U
 /**
   * @}
   */
@@ -442,15 +423,6 @@ typedef struct
   * @}
   */
 
-/** @defgroup FLASH_DDL_EC_READ_INT_MODE FLASH Read Interrupt Mode
-  * @{
-  */
-#define DDL_FLASH_READ_INT_MODE_FAST    0x00000000U                            /* Read Interrupt Fast Mode */
-#define DDL_FLASH_READ_INT_MODE_SLOW    ((uint32_t)FLASH_ACCTRL_RD_INT_TIMING) /* Read Interrupt Slow Mode */
-/**
-  * @}
-  */
-
 /** @defgroup FLASH_DDL_EC_FLAG FLASH Flag definition
   * @{
   */
@@ -512,9 +484,9 @@ typedef struct
   * @{
   */
 #define DDL_FLASH_OB_BOR_LEVEL3          ((uint8_t)0x00)  /*!< Supply voltage ranges from 2.70 to 3.60 V */
-#define DDL_FLASH_OB_BOR_LEVEL2          ((uint8_t)0x04)  /*!< Supply voltage ranges from 2.40 to 2.70 V */
-#define DDL_FLASH_OB_BOR_LEVEL1          ((uint8_t)0x08)  /*!< Supply voltage ranges from 2.10 to 2.40 V */
-#define DDL_FLASH_OB_BOR_OFF             ((uint8_t)0x0C)  /*!< Supply voltage ranges from 1.8 to 2.10 V */
+#define DDL_FLASH_OB_BOR_LEVEL2          ((uint8_t)FLASH_OPTCTRL1_BORLVL_0)  /*!< Supply voltage ranges from 2.40 to 2.70 V */
+#define DDL_FLASH_OB_BOR_LEVEL1          ((uint8_t)FLASH_OPTCTRL1_BORLVL_1)  /*!< Supply voltage ranges from 2.10 to 2.40 V */
+#define DDL_FLASH_OB_BOR_OFF             ((uint8_t)(FLASH_OPTCTRL1_BORLVL_1 | FLASH_OPTCTRL1_BORLVL_0))  /*!< Supply voltage ranges from 1.8 to 2.10 V */
 /**
   * @}
   */
@@ -524,7 +496,6 @@ typedef struct
   */
 #define DDL_FLASH_OB_IWDT_HW                     ((uint8_t)0x00)                    /*!< Hardware IWDT selected */
 #define DDL_FLASH_OB_IWDT_SW                     ((uint8_t)FLASH_OPTCTRL1_WDTSEL)   /*!< Software IWDT selected */
-
 /**
   * @}
   */
@@ -543,8 +514,8 @@ typedef struct
 /** @defgroup FLASH_DDL_EC_OB_SYSINFO_BOOT FLASH Option Bytes System Info Boot
   * @{
   */
-#define DDL_FLASH_OB_BOOTREMAP_SYSINFO_1   (0x00000000U)                  /*!< System Info mapped at 0x1FFF0000 */
-#define DDL_FLASH_OB_BOOTREMAP_SYSINFO_2   (FLASH_OPTCTRL1_SYS_BOOT_SEL)  /*!< System Info mapped at 0x1FFF8400 */
+#define DDL_FLASH_OB_BOOTREMAP_SYSINFO_2   (0x00000000U)            /*!< System Info mapped at 0x1FFF8400 */
+#define DDL_FLASH_OB_BOOTREMAP_SYSINFO_1   (FLASH_OPTCTRL1_NBOOT2)  /*!< System Info mapped at 0x1FFF0000 */
 
 /**
   * @}
@@ -594,7 +565,6 @@ typedef struct
   */
 
 
-
 /** @defgroup FLASH_DDL_EM_WRITE_READ Common Write and read registers Macros
   * @{
   */
@@ -628,7 +598,6 @@ typedef struct
 /** @defgroup FLASH_DDL_Exported_Functions FLASH Exported Functions
   * @{
   */
-
 
 /**
  * @brief   Set FLASH Latency
@@ -936,7 +905,6 @@ __STATIC_INLINE void DDL_FLASH_Start(void)
 
 /**
   * @brief  Enable error interrupt
-  * @param  FLASHx FLASH Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_FLASH_EnableIT_ERR(void)
@@ -946,7 +914,6 @@ __STATIC_INLINE void DDL_FLASH_EnableIT_ERR(void)
 
 /**
   * @brief  Disable error interrupt
-  * @param  FLASHx FLASH Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_FLASH_DisableIT_ERR(void)
@@ -956,7 +923,6 @@ __STATIC_INLINE void DDL_FLASH_DisableIT_ERR(void)
 
 /**
   * @brief  Check whether the error interrupt is enabled
-  * @param  FLASHx FLASH Instance
   * @retval State of bit (1 or 0).
   */
 __STATIC_INLINE uint32_t DDL_FLASH_IsEnabledIT_ERR(void)
@@ -966,7 +932,6 @@ __STATIC_INLINE uint32_t DDL_FLASH_IsEnabledIT_ERR(void)
 
 /**
   * @brief  Enable Operation End Interrupt
-  * @param  FLASHx FLASH Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_FLASH_EnableIT_OPE(void)
@@ -976,7 +941,6 @@ __STATIC_INLINE void DDL_FLASH_EnableIT_OPE(void)
 
 /**
   * @brief  Disable Operation End Interrupt
-  * @param  FLASHx FLASH Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_FLASH_DisableIT_OPE(void)
@@ -986,7 +950,6 @@ __STATIC_INLINE void DDL_FLASH_DisableIT_OPE(void)
 
 /**
   * @brief  Check whether the operation complete interrupt is enabled
-  * @param  FLASHx FLASH Instance
   * @retval State of bit (1 or 0).
   */
 __STATIC_INLINE uint32_t DDL_FLASH_IsEnabledIT_OPE(void)
@@ -1018,7 +981,7 @@ __STATIC_INLINE void DDL_FLASH_Unlock(void)
  */
 __STATIC_INLINE void DDL_FLASH_OB_Lock(void)
 {
-    SET_BIT(FLASH->OPTCTRL1, FLASH_OPTCTRL_OPTLOCK);
+    SET_BIT(FLASH->OPTCTRL1, FLASH_OPTCTRL1_OPTLOCK);
 }
 
 /**
@@ -1037,7 +1000,7 @@ __STATIC_INLINE void DDL_FLASH_OB_Unlock(void)
  */
 __STATIC_INLINE void DDL_FLASH_OB_Launch(void)
 {
-    SET_BIT(FLASH->OPTCTRL1, FLASH_OPTCTRL_OPTSTART);
+    SET_BIT(FLASH->OPTCTRL1, FLASH_OPTCTRL1_OPTSTART);
 }
 
 /**
@@ -1199,7 +1162,7 @@ __STATIC_INLINE void DDL_FLASH_OB_DisableWRP_DS(void)
  */
 __STATIC_INLINE void DDL_FLASH_OB_SetSysInfoBoot(uint32_t sysinfo)
 {
-    MODIFY_REG(FLASH->OPTCTRL1, FLASH_OPTCTRL1_SYS_BOOT_SEL, sysinfo);
+    MODIFY_REG(FLASH->OPTCTRL1, FLASH_OPTCTRL1_NBOOT2, sysinfo);
 }
 
 /**
@@ -1210,7 +1173,7 @@ __STATIC_INLINE void DDL_FLASH_OB_SetSysInfoBoot(uint32_t sysinfo)
  */
 __STATIC_INLINE uint32_t DDL_FLASH_OB_GetSysInfoBoot(void)
 {
-    return (READ_BIT(FLASH->OPTCTRL1, FLASH_OPTCTRL1_SYS_BOOT_SEL));
+    return (READ_BIT(FLASH->OPTCTRL1, FLASH_OPTCTRL1_NBOOT2));
 }
 
 /**
@@ -1251,9 +1214,6 @@ __STATIC_INLINE void DDL_FLASH_OB_DisableWRP(uint32_t WRPSector)
     SET_BIT(FLASH->OPTCTRL2, WRPSector);
 }
 
-/**
-  * @}
-  */
 #if defined(USE_FULL_DDL_DRIVER)
 /** @defgroup FLASH_DDL_EF_Init Initialization and de-initialization functions
   * @{
@@ -1265,10 +1225,14 @@ void DDL_FLASH_FlushCaches(void);
 uint32_t DDL_FLASH_SetErrorCode(void);
 ErrorStatus DDL_FLASH_OBProgram(DDL_FLASH_OBProgramInitTypeDef *pOBInit);
 ErrorStatus DDL_FLASH_OB_UserConfig(DDL_FLASH_OB_USERConfig *pUSERConfig);
-  /**
+/**
   * @}
   */
 #endif /* USE_FULL_DDL_DRIVER */
+/**
+  * @}
+  */
+
 /**
   * @}
   */

@@ -4,7 +4,7 @@
   * @brief   FLASH DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -59,7 +59,7 @@
 
 #if defined (FLASH)
 
-/** @defgroup FLASH_DDL
+/** @defgroup FLASH_DDL FLASH
   * @{
   */
 
@@ -88,16 +88,15 @@
 
 #define DDL_IS_FLASH_NBBLOCKS(NBBLOCK) (((NBBLOCK) != 0) && ((NBBLOCK) <= DDL_FLASH_BLOCK_TOTAL))
 
-#define DDL_IS_FLASH_NBSECTORS(NBSECTORS) ((NBSECTORS) <= DDL_FLASH_SECTOR_TOTAL)
-
-#define DDL_IS_FLASH_NBDATASECTORS(NBDATASECTORS) (((NBDATASECTORS) != 0) && ((NBDATASECTORS) <= DDL_FLASH_DATASECTOR_TOTAL))
+#define DDL_IS_FLASH_NBSECTORS(NBSECTORS) (((NBSECTORS) != 0) && ((NBSECTORS) <= DDL_FLASH_SECTOR_TOTAL))
 
 #define DDL_IS_OPTIONBYTE(VALUE) (((VALUE) == DDL_OPTIONBYTE_WRP) || \
                                     ((VALUE) == DDL_OPTIONBYTE_RDP) || \
                                     ((VALUE) == DDL_OPTIONBYTE_USER) || \
                                     ((VALUE) == DDL_OPTIONBYTE_BOR) || \
                                     ((VALUE) == DDL_OPTIONBYTE_DATA_WRP) || \
-                                    ((VALUE) == DDL_OPTIONBYTE_DATA_RDP))
+                                    ((VALUE) == DDL_OPTIONBYTE_DATA_RDP) || \
+                                    ((VALUE) == DDL_OPTIONBYTE_SYSINFO_BOOT))
 
 #define DDL_IS_WRPSTATE(VALUE) (((VALUE) == DDL_OB_WRPSTATE_DISABLE) || \
                                 ((VALUE) == DDL_OB_WRPSTATE_ENABLE))
@@ -406,12 +405,12 @@ uint32_t DDL_FLASH_WaitForLastOperation(void)
         DDL_FLASH_ClearFlag(DDL_FLASH_FLAG_EOP);
     }
 
-    if((DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_OPERR) != RESET) | \
-        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_PGVERR) != RESET) |\
-        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_OPTERR) != RESET) |\
-        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_WRPERR) != RESET) |\
-        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_PGAERR) != RESET) |\
-        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_PGPERR) != RESET) |\
+    if((DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_OPERR) != RESET) || \
+        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_PGVERR) != RESET) || \
+        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_OPTERR) != RESET) || \
+        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_WRPERR) != RESET) || \
+        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_PGAERR) != RESET) || \
+        (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_PGPERR) != RESET) || \
         (DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_PGSERR) != RESET)
         )
     {
@@ -534,7 +533,6 @@ uint32_t DDL_FLASH_SetErrorCode(void)
     if(DDL_FLASH_IsActiveFlag(DDL_FLASH_FLAG_OPTERR))
     {
         errCode |= DDL_FLASH_ERROR_OPT;
-        DDL_FLASH_ClearFlag(DDL_FLASH_FLAG_OPTERR);
     }
 #endif /* DDL_FLASH_FLAG_OPTERR */
     return errCode;
@@ -563,6 +561,8 @@ ErrorStatus DDL_FLASH_OBProgram(DDL_FLASH_OBProgramInitTypeDef *pOBInit)
 
     /* Check the parameters */
     ASSERT_PARAM(DDL_IS_OPTIONBYTE(pOBInit->OptionType));
+
+    DDL_FLASH_OB_Unlock();
 
     /* Write protection configuration */
     if ((pOBInit->OptionType & DDL_OPTIONBYTE_WRP) == DDL_OPTIONBYTE_WRP)

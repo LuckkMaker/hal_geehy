@@ -4,7 +4,7 @@
   * @brief   Header file of TMR DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -238,8 +238,8 @@ typedef struct
                                       - the number of half PWM period in center-aligned mode
                                    GP timers: this parameter must be a number between Min_Data = 0x00 and
                                    Max_Data = 0xFF.
-                                   Advanced timers: this parameter must be a number between Min_Data = 0x0000 and
-                                   Max_Data = 0xFFFF.
+                                   Advanced timers: this parameter must be a number between Min_Data = 0x00 and
+                                   Max_Data = 0xFF.
 
                                    This feature can be modified afterwards using unitary function
                                    @ref DDL_TMR_SetRepetitionCounter().*/
@@ -1010,17 +1010,17 @@ typedef struct
   */
 
 /**
-  * @brief  HELPER macro calculating DTG[0:7] in the TMRx_BDTR register to achieve the requested dead time duration.
-  * @note ex: @ref __DDL_TMR_CALC_DEADTMRE (80000000, @ref DDL_TMR_GetClockDivision (), 120);
+  * @brief  HELPER macro calculating DTG[0:7] in the TMRx_BDT register to achieve the requested dead time duration.
+  * @note ex: @ref __DDL_TMR_CALC_DEADTIME (80000000, @ref DDL_TMR_GetClockDivision (), 120);
   * @param  __TMRCLK__ timer input clock frequency (in Hz)
   * @param  __CKD__ This parameter can be one of the following values:
   *         @arg @ref DDL_TMR_CLOCKDIVISION_DIV1
   *         @arg @ref DDL_TMR_CLOCKDIVISION_DIV2
   *         @arg @ref DDL_TMR_CLOCKDIVISION_DIV4
   * @param  __DT__ deadtime duration (in ns)
-  * @retval DTG[0:7]
+  * @retval DTS[0:7]
   */
-#define __DDL_TMR_CALC_DEADTMRE(__TMRCLK__, __CKD__, __DT__)  \
+#define __DDL_TMR_CALC_DEADTIME(__TMRCLK__, __CKD__, __DT__)  \
   ( (((uint64_t)((__DT__)*1000U)) < ((DT_DELAY_1+1U) * TMR_CALC_DTS((__TMRCLK__), (__CKD__))))    ?  \
     (uint8_t)(((uint64_t)((__DT__)*1000U) / TMR_CALC_DTS((__TMRCLK__), (__CKD__)))  & DT_DELAY_1) :      \
     (((uint64_t)((__DT__)*1000U)) < ((64U + (DT_DELAY_2+1U)) * 2U * TMR_CALC_DTS((__TMRCLK__), (__CKD__))))  ?  \
@@ -1942,7 +1942,7 @@ __STATIC_INLINE uint32_t DDL_TMR_OC_IsEnabledClear(TMR_TypeDef *TMRx, uint32_t C
   *         the Ocx and OCxN signals).
   * @note Macro IS_TMR_BREAK_INSTANCE(TMRx) can be used to check whether or not
   *       dead-time insertion feature is supported by a timer instance.
-  * @note Helper macro @ref __DDL_TMR_CALC_DEADTMRE can be used to calculate the DeadTime parameter
+  * @note Helper macro @ref __DDL_TMR_CALC_DEADTIME can be used to calculate the DeadTime parameter
   * @param  TMRx Timer instance
   * @param  DeadTime between Min_Data=0 and Max_Data=255
   * @retval None
@@ -2316,8 +2316,6 @@ __STATIC_INLINE uint32_t DDL_TMR_IC_IsEnabledXORCombination(TMR_TypeDef *TMRx)
 /**
   * @brief  Get captured value for input channel 1.
   * @note In 32-bit timer implementations returned captured value can be between 0x00000000 and 0xFFFFFFFF.
-  * @note Macro IS_TMR_32B_COUNTER_INSTANCE(TMRx) can be used to check
-  *       whether or not a timer instance supports a 32 bits counter.
   * @note Macro IS_TMR_CC1_INSTANCE(TMRx) can be used to check whether or not
   *       input channel 1 is supported by a timer instance.
   * @param  TMRx Timer instance
@@ -2331,8 +2329,6 @@ __STATIC_INLINE uint32_t DDL_TMR_IC_GetCaptureCH1(TMR_TypeDef *TMRx)
 /**
   * @brief  Get captured value for input channel 2.
   * @note In 32-bit timer implementations returned captured value can be between 0x00000000 and 0xFFFFFFFF.
-  * @note Macro IS_TMR_32B_COUNTER_INSTANCE(TMRx) can be used to check
-  *       whether or not a timer instance supports a 32 bits counter.
   * @note Macro IS_TMR_CC2_INSTANCE(TMRx) can be used to check whether or not
   *       input channel 2 is supported by a timer instance.
   * @param  TMRx Timer instance
@@ -2346,8 +2342,6 @@ __STATIC_INLINE uint32_t DDL_TMR_IC_GetCaptureCH2(TMR_TypeDef *TMRx)
 /**
   * @brief  Get captured value for input channel 3.
   * @note In 32-bit timer implementations returned captured value can be between 0x00000000 and 0xFFFFFFFF.
-  * @note Macro IS_TMR_32B_COUNTER_INSTANCE(TMRx) can be used to check
-  *       whether or not a timer instance supports a 32 bits counter.
   * @note Macro IS_TMR_CC3_INSTANCE(TMRx) can be used to check whether or not
   *       input channel 3 is supported by a timer instance.
   * @param  TMRx Timer instance
@@ -2361,8 +2355,6 @@ __STATIC_INLINE uint32_t DDL_TMR_IC_GetCaptureCH3(TMR_TypeDef *TMRx)
 /**
   * @brief  Get captured value for input channel 4.
   * @note In 32-bit timer implementations returned captured value can be between 0x00000000 and 0xFFFFFFFF.
-  * @note Macro IS_TMR_32B_COUNTER_INSTANCE(TMRx) can be used to check
-  *       whether or not a timer instance supports a 32 bits counter.
   * @note Macro IS_TMR_CC4_INSTANCE(TMRx) can be used to check whether or not
   *       input channel 4 is supported by a timer instance.
   * @param  TMRx Timer instance
@@ -2802,6 +2794,27 @@ __STATIC_INLINE uint32_t DDL_TMR_IsEnabledAllOutputs(TMR_TypeDef *TMRx)
 __STATIC_INLINE void DDL_TMR_ConfigDMABurst(TMR_TypeDef *TMRx, uint32_t DMABurstBaseAddress, uint32_t DMABurstLength)
 {
   MODIFY_REG(TMRx->DCTRL, (TMR_DCTRL_DBLEN | TMR_DCTRL_DBADDR), (DMABurstBaseAddress | DMABurstLength));
+}
+
+/**
+  * @brief  Write data to the DMA burst register.
+  * @param  TMRx Timer instance
+  * @param  Data This parameter can be value between Min_Data=0 and Max_Data=0xFFFF.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_TMR_SetDMABurstData(TMR_TypeDef *TMRx, uint32_t Data)
+{
+  WRITE_REG(TMRx->DMADDR, Data);
+}
+
+/**
+  * @brief  Read data from the DMA burst register.
+  * @param  TMRx Timer instance
+  * @retval The return value can between Min_Data=0 and Max_Data=0xFFFF.
+  */
+__STATIC_INLINE uint32_t DDL_TMR_GetDMABurstData(TMR_TypeDef *TMRx)
+{
+  return READ_REG(TMRx->DMADDR);
 }
 
 /**
@@ -3661,7 +3674,7 @@ ErrorStatus DDL_TMR_DeInit(TMR_TypeDef *TMRx);
 void DDL_TMR_StructInit(DDL_TMR_InitTypeDef *TMR_InitStruct);
 ErrorStatus DDL_TMR_Init(TMR_TypeDef *TMRx, DDL_TMR_InitTypeDef *TMR_InitStruct);
 void DDL_TMR_OC_StructInit(DDL_TMR_OC_InitTypeDef *TMR_OC_InitStruct);
-ErrorStatus DDL_TMR_OC_Init(TMR_TypeDef *TMRx, uint32_t Channel, DDL_TMR_OC_InitTypeDef *TMR_OC_InitStruct);
+ErrorStatus DDL_TMR_OC_Init(TMR_TypeDef *TMRx, uint32_t Channel, DDL_TMR_OC_InitTypeDef *TMR_OC_IynitStruct);
 void DDL_TMR_IC_StructInit(DDL_TMR_IC_InitTypeDef *TMR_ICInitStruct);
 ErrorStatus DDL_TMR_IC_Init(TMR_TypeDef *TMRx, uint32_t Channel, DDL_TMR_IC_InitTypeDef *TMR_IC_InitStruct);
 void DDL_TMR_ENCODER_StructInit(DDL_TMR_ENCODER_InitTypeDef *TMR_EncoderInitStruct);

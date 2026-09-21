@@ -4,7 +4,7 @@
   * @brief   Header file of RTC DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -922,7 +922,7 @@ __STATIC_INLINE uint32_t DDL_RTC_GetAsynchPrescaler(RTC_TypeDef *RTCx)
   */
 __STATIC_INLINE void DDL_RTC_SetSynchPrescaler(RTC_TypeDef *RTCx, uint32_t SynchPrescaler)
 {
-  MODIFY_REG(RTCx->PSC, RTC_PSC_SPSC, SynchPrescaler);
+  MODIFY_REG(RTCx->PSC, RTC_PSC_SPSC, SynchPrescaler << RTC_PSC_SPSC_Pos);
 }
 
 /**
@@ -2233,8 +2233,6 @@ __STATIC_INLINE uint32_t DDL_RTC_TS_GetDay(RTC_TypeDef *RTCx)
 
 /**
   * @brief  Get Timestamp date (WeekDay, Day and Month) in BCD format
-  * @note helper macros __DDL_RTC_GET_WEEKDAY, __DDL_RTC_GET_MONTH,
-  * and __DDL_RTC_GET_DAY are available to get independently each parameter.
   * @param  RTCx RTC Instance
   * @retval Combination of Weekday, Day and Month
   */
@@ -2643,13 +2641,7 @@ __STATIC_INLINE uint32_t DDL_RTC_WAKEUP_GetAutoReload(RTC_TypeDef *RTCx)
   */
 __STATIC_INLINE void DDL_RTC_BAK_SetRegister(RTC_TypeDef *RTCx, uint32_t BackupRegister, uint32_t Data)
 {
-  uint32_t temp;
-
-  temp = (uint32_t)(&(RTCx->BAKP0));
-  temp += (BackupRegister * 4U);
-
-  /* Write the specified register */
-  *(__IO uint32_t *)temp = (uint32_t)Data;
+  WRITE_REG((&RTCx->BAKP0)[BackupRegister], Data);
 }
 
 /**
@@ -2680,13 +2672,7 @@ __STATIC_INLINE void DDL_RTC_BAK_SetRegister(RTC_TypeDef *RTCx, uint32_t BackupR
   */
 __STATIC_INLINE uint32_t DDL_RTC_BAK_GetRegister(RTC_TypeDef *RTCx, uint32_t BackupRegister)
 {
-  uint32_t temp;
-
-  temp = (uint32_t)(&(RTCx->BAKP0));
-  temp += (BackupRegister * 4U);
-
-  /* Read the specified register */
-  return (*(__IO uint32_t *)temp);
+  return READ_REG((&RTCx->BAKP0)[BackupRegister]);
 }
 
 /**
@@ -3063,6 +3049,26 @@ __STATIC_INLINE uint32_t DDL_RTC_IsActiveFlag_SHP(RTC_TypeDef *RTCx)
 __STATIC_INLINE uint32_t DDL_RTC_IsActiveFlag_WUTW(RTC_TypeDef *RTCx)
 {
   return ((READ_BIT(RTCx->STS, RTC_STS_WUTWFLG) == (RTC_STS_WUTWFLG)) ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Get Alarm B write occur flag
+  * @param  RTCx RTC Instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_RTC_IsActiveFlag_ALRBW(RTC_TypeDef *RTCx)
+{
+  return ((READ_BIT(RTCx->STS, RTC_STS_ALRBWFLG) == (RTC_STS_ALRBWFLG)) ? 1UL : 0UL);
+}
+
+/**
+  * @brief  Get Alarm A write occur flag
+  * @param  RTCx RTC Instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_RTC_IsActiveFlag_ALRAW(RTC_TypeDef *RTCx)
+{
+  return ((READ_BIT(RTCx->STS, RTC_STS_ALRAWFLG) == (RTC_STS_ALRAWFLG)) ? 1UL : 0UL);
 }
 
 /**

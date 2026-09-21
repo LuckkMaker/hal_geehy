@@ -118,9 +118,9 @@ extern "C" {
 #define DDL_AHB1_GRP1_PERIPH_GPIOI           RCM_AHB1CLKEN_PIEN
 #endif /* RCM_AHB1CLKEN_PIEN */
 #define DDL_AHB1_GRP1_PERIPH_CRC             RCM_AHB1CLKEN_CRCEN
-#if defined(RCM_AHB1CLKEN_BKPSRAMEN)
-#define DDL_AHB1_GRP1_PERIPH_BKPSRAM         RCM_AHB1CLKEN_BKPSRAMEN
-#endif /* RCM_AHB1CLKEN_BKPSRAMEN */
+#if defined(RCM_AHB1CLKEN_BAKPSRAMEN)
+#define DDL_AHB1_GRP1_PERIPH_BKPSRAM         RCM_AHB1CLKEN_BAKPSRAMEN
+#endif /* RCM_AHB1CLKEN_BAKPSRAMEN */
 #if defined(RCM_AHB1CLKEN_DRAMEN)
 #define DDL_AHB1_GRP1_PERIPH_CCMDATARAM      RCM_AHB1CLKEN_DRAMEN
 #endif /* RCM_AHB1CLKEN_DRAMEN */
@@ -199,9 +199,9 @@ extern "C" {
 #if defined(I2C2)
 #define DDL_APB1_GRP1_PERIPH_I2C2           RCM_APB1CLKEN_I2C2EN
 #endif /* I2C2 */
-#if defined(FDCAN1)
-#define DDL_APB1_GRP1_PERIPH_FDCAN1         RCM_APB1CLKEN_CAN1EN
-#endif /* FDCAN1 */
+#if defined(FDCAN)
+#define DDL_APB1_GRP1_PERIPH_FDCAN          RCM_APB1CLKEN_FDCANEN
+#endif /* FDCAN */
 #define DDL_APB1_GRP1_PERIPH_PMU            RCM_APB1CLKEN_PMUEN
 #if defined(DAC1)
 #define DDL_APB1_GRP1_PERIPH_DAC1           RCM_APB1CLKEN_DACEN
@@ -220,7 +220,7 @@ extern "C" {
 #endif /* TMR8 */
 #define DDL_APB2_GRP1_PERIPH_USART1       RCM_APB2CLKEN_USART1EN
 #if defined(BZTMR)
-#define DDL_APB2_GRP1_PERIPH_BZTMR        RCM_APB2CLKEN_BZ_TMREN
+#define DDL_APB2_GRP1_PERIPH_BZTMR        RCM_APB2CLKEN_BZTMREN
 #endif /* BZTMR */
 #define DDL_APB2_GRP1_PERIPH_SPI1         RCM_APB2CLKEN_SPI1EN
 #if defined(SYSCFG)
@@ -242,6 +242,7 @@ extern "C" {
 #define DDL_APB3_GRP1_PERIPH_ADC3         RCM_APB3CLKEN_ADC3EN
 #endif /* ADC3 */
 #if defined(RCM_APB3RST_ADCRST)
+/* Use only with ForceReset / ReleaseReset */
 #define DDL_APB3_GRP1_PERIPH_ADC          RCM_APB3RST_ADCRST
 #endif /* RCM_APB3RST_ADCRST */
 #if defined(I2C3)
@@ -593,7 +594,7 @@ __STATIC_INLINE void DDL_AHB2_GRP1_DisableClockLowPower(uint32_t Periphs)
   *         @arg @ref DDL_APB1_GRP1_PERIPH_UART4
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C1
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C2
-  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN1
+  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN
   *         @arg @ref DDL_APB1_GRP1_PERIPH_PMU
   *         @arg @ref DDL_APB1_GRP1_PERIPH_DAC1
   *
@@ -626,7 +627,7 @@ __STATIC_INLINE void DDL_APB1_GRP1_EnableClock(uint32_t Periphs)
   *         @arg @ref DDL_APB1_GRP1_PERIPH_UART4
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C1
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C2
-  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN1
+  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN
   *         @arg @ref DDL_APB1_GRP1_PERIPH_PMU
   *         @arg @ref DDL_APB1_GRP1_PERIPH_DAC1
   *
@@ -655,7 +656,7 @@ __STATIC_INLINE uint32_t DDL_APB1_GRP1_IsEnabledClock(uint32_t Periphs)
   *         @arg @ref DDL_APB1_GRP1_PERIPH_UART4
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C1
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C2
-  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN1
+  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN
   *         @arg @ref DDL_APB1_GRP1_PERIPH_PMU
   *         @arg @ref DDL_APB1_GRP1_PERIPH_DAC1
   *
@@ -684,7 +685,7 @@ __STATIC_INLINE void DDL_APB1_GRP1_DisableClock(uint32_t Periphs)
   *         @arg @ref DDL_APB1_GRP1_PERIPH_UART4
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C1
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C2
-  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN1
+  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN
   *         @arg @ref DDL_APB1_GRP1_PERIPH_PMU
   *         @arg @ref DDL_APB1_GRP1_PERIPH_DAC1
   *
@@ -713,7 +714,7 @@ __STATIC_INLINE void DDL_APB1_GRP1_ForceReset(uint32_t Periphs)
   *         @arg @ref DDL_APB1_GRP1_PERIPH_UART4
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C1
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C2
-  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN1
+  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN
   *         @arg @ref DDL_APB1_GRP1_PERIPH_PMU
   *         @arg @ref DDL_APB1_GRP1_PERIPH_DAC1
   *
@@ -744,7 +745,7 @@ __STATIC_INLINE void DDL_APB1_GRP1_ReleaseReset(uint32_t Periphs)
   *         @arg @ref DDL_APB1_GRP1_PERIPH_UART4
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C1
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C2
-  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN1
+  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN
   *         @arg @ref DDL_APB1_GRP1_PERIPH_PMU
   *         @arg @ref DDL_APB1_GRP1_PERIPH_DAC1
   *
@@ -777,7 +778,7 @@ __STATIC_INLINE void DDL_APB1_GRP1_EnableClockLowPower(uint32_t Periphs)
   *         @arg @ref DDL_APB1_GRP1_PERIPH_UART4
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C1
   *         @arg @ref DDL_APB1_GRP1_PERIPH_I2C2
-  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN1
+  *         @arg @ref DDL_APB1_GRP1_PERIPH_FDCAN
   *         @arg @ref DDL_APB1_GRP1_PERIPH_PMU
   *         @arg @ref DDL_APB1_GRP1_PERIPH_DAC1
   *
@@ -870,7 +871,6 @@ __STATIC_INLINE void DDL_APB2_GRP1_DisableClock(uint32_t Periphs)
   *
   *         (*) value not defined in all devices.
   * @retval None
-  * @note   ADC1 and ADC2 are not available on all devices.
 */
 __STATIC_INLINE void DDL_APB2_GRP1_ForceReset(uint32_t Periphs)
 {
@@ -890,7 +890,6 @@ __STATIC_INLINE void DDL_APB2_GRP1_ForceReset(uint32_t Periphs)
   *
   *         (*) value not defined in all devices.
   * @retval None
-  * @note   ADC1 and ADC2 are not available on all devices.
 */
 __STATIC_INLINE void DDL_APB2_GRP1_ReleaseReset(uint32_t Periphs)
 {

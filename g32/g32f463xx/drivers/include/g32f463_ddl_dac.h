@@ -4,7 +4,7 @@
   * @brief   Header file of DAC DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -69,12 +69,12 @@ extern "C" {
 
 /* Internal masks for DAC channels definition */
 /* To select into literal DDL_DAC_CHANNEL_x the relevant bits for:             */
-/* - channel bits position into registers CR, MCR, CCR, SHHR, SHRR            */
+/* - channel bits position into registers CTRL, MCR, CCR, SHHR, SHRR            */
 /* - channel bits position into register SWTRIG                               */
 /* - channel register offset of data holding register DHRx                    */
 /* - channel register offset of data output register DORx                     */
 #define DAC_CTRL_CH1_BITOFFSET           0UL   /* Position of channel bits into registers
-                                                CR, MCR, CCR, SHHR, SHRR of channel 1 */
+                                                CTRL, MCR, CCR, SHHR, SHRR of channel 1 */
 #define DAC_CTRL_CHX_BITOFFSET_MASK    (DAC_CTRL_CH1_BITOFFSET)
 
 #define DAC_SWTR_CH1                   (DAC_SWTRG_SWTRG1) /* Channel bit into register SWTRIGR of channel 1. */
@@ -281,7 +281,7 @@ typedef struct
 #define DDL_DAC_TRIANGLE_AMPLITUDE_63       (                 DAC_CTRL_MAMPSELCH1_2                  | DAC_CTRL_MAMPSELCH1_0) /*!< Triangle wave generation, amplitude of 63 LSB of DAC output range, for the selected DAC channel */
 #define DDL_DAC_TRIANGLE_AMPLITUDE_127      (                 DAC_CTRL_MAMPSELCH1_2 | DAC_CTRL_MAMPSELCH1_1                 ) /*!< Triangle wave generation, amplitude of 127 LSB of DAC output range, for the selected DAC channel */
 #define DDL_DAC_TRIANGLE_AMPLITUDE_255      (                 DAC_CTRL_MAMPSELCH1_2 | DAC_CTRL_MAMPSELCH1_1 | DAC_CTRL_MAMPSELCH1_0) /*!< Triangle wave generation, amplitude of 255 LSB of DAC output range, for the selected DAC channel */
-#define DDL_DAC_TRIANGLE_AMPLITUDE_511      (DAC_CTRL_MAMPSELCH1_3                                                   ) /*!< Triangle wave generation, amplitude of 512 LSB of DAC output range, for the selected DAC channel */
+#define DDL_DAC_TRIANGLE_AMPLITUDE_511      (DAC_CTRL_MAMPSELCH1_3                                                   ) /*!< Triangle wave generation, amplitude of 511 LSB of DAC output range, for the selected DAC channel */
 #define DDL_DAC_TRIANGLE_AMPLITUDE_1023     (DAC_CTRL_MAMPSELCH1_3                                   | DAC_CTRL_MAMPSELCH1_0) /*!< Triangle wave generation, amplitude of 1023 LSB of DAC output range, for the selected DAC channel */
 #define DDL_DAC_TRIANGLE_AMPLITUDE_2047     (DAC_CTRL_MAMPSELCH1_3                  | DAC_CTRL_MAMPSELCH1_1                 ) /*!< Triangle wave generation, amplitude of 2047 LSB of DAC output range, for the selected DAC channel */
 #define DDL_DAC_TRIANGLE_AMPLITUDE_4095     (DAC_CTRL_MAMPSELCH1_3                  | DAC_CTRL_MAMPSELCH1_1 | DAC_CTRL_MAMPSELCH1_0) /*!< Triangle wave generation, amplitude of 4095 LSB of DAC output range, for the selected DAC channel */
@@ -410,7 +410,7 @@ typedef struct
   *
   *         (1) On this G32 serie, parameter not available on all devices.
   *             Refer to device datasheet for channels availability.
-  * @retval 1...2 (value "2" depending on DAC channel 2 availability)
+  * @retval 1
   */
 #define __DDL_DAC_CHANNEL_TO_DECIMAL_NB(__CHANNEL__)                            \
   ((__CHANNEL__) & DAC_SWTR_CHX_MASK)
@@ -491,6 +491,10 @@ typedef struct
 
 /* Exported functions --------------------------------------------------------*/
 /** @defgroup DAC_DDL_Exported_Functions DAC Exported Functions
+  * @{
+  */
+
+/** @defgroup DAC_DDL_EF_CONFIGURATION configuration
   * @{
   */
 /**
@@ -991,13 +995,9 @@ __STATIC_INLINE uint32_t DDL_DAC_IsTriggerEnabled(DAC_TypeDef *DACx, uint32_t DA
   *         using function
   *           @ref DDL_DAC_Init()
   *           @ref DDL_DAC_SetTriggerSource()
-  *         with parameter "DDL_DAC_TRIGGER_SOFTWARE".
+  *         with parameter "DDL_DAC_TRIG_SOFTWARE".
   *         and DAC trigger must be enabled using
   *         function @ref DDL_DAC_EnableTrigger().
-  * @note   For devices featuring DAC with 2 channels: this function
-  *         can perform a SW start of both DAC channels simultaneously.
-  *         Two channels can be selected as parameter.
-  *         Example: (DDL_DAC_CHANNEL_1 | DDL_DAC_CHANNEL_2)
   * @param  DACx DAC instance
   * @param  DAC_Channel  This parameter can a combination of the following values:
   *         @arg @ref DDL_DAC_CHANNEL_1
@@ -1014,7 +1014,7 @@ __STATIC_INLINE void DDL_DAC_TrigSWConversion(DAC_TypeDef *DACx, uint32_t DAC_Ch
 
 /**
   * @brief  Set the data to be loaded in the data holding register
-  *         in format 12 bits left alignment (LSB aligned on bit 0),
+  *         in format 12 bits right alignment (LSB aligned on bit 0),
   *         for the selected DAC channel.
   * @param  DACx DAC instance
   * @param  DAC_Channel This parameter can be one of the following values:
@@ -1051,12 +1051,12 @@ __STATIC_INLINE void DDL_DAC_ConvertData12LeftAligned(DAC_TypeDef *DACx, uint32_
   __IO uint32_t *preg = __DAC_PTR_REG_OFFSET(DACx->DH12R1, (DAC_Channel >> DAC_REG_DHR12LX_REGOFFSET_BITOFFSET_POS)
                                              & DAC_REG_DHR_REGOFFSET_MASK_POSBIT0);
 
-  MODIFY_REG(*preg, DAC_DH12L1_DATA, Data);
+  MODIFY_REG(*preg, DAC_DH12L1_DATA, (Data << DAC_DH12L1_DATA_Pos));
 }
 
 /**
   * @brief  Set the data to be loaded in the data holding register
-  *         in format 8 bits left alignment (LSB aligned on bit 0),
+  *         in format 8 bits right alignment (LSB aligned on bit 0),
   *         for the selected DAC channel.
   * @param  DACx DAC instance
   * @param  DAC_Channel This parameter can be one of the following values:

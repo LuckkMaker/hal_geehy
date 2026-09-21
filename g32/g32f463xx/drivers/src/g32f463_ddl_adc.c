@@ -4,7 +4,7 @@
   * @brief   ADC DDL module driver
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -75,13 +75,10 @@
 /* common to several ADC instances.                                           */
 #define IS_DDL_ADC_COMMON_CLOCK(__CLOCK__)                                      \
   (   ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV2)                             \
+   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV3)                             \
    || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV4)                             \
-   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV8)                             \
-   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV16)                            \
-   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV32)                            \
-   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV64)                            \
-   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV96)                            \
-   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV256)                           \
+   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV6)                            \
+   || ((__CLOCK__) == DDL_ADC_CLOCK_SYNC_PCLK_DIV8)                           \
   )
 
 /* Check of parameters for configuration of ADC hierarchical scope:           */
@@ -104,8 +101,8 @@
   )
 
 #define IS_DDL_ADC_SEQ_SCAN_MODE(__SEQ_SCAN_MODE__)                             \
-  (   ((__SCAN_MODE__) == DDL_ADC_SEQ_SCAN_DISABLE)                             \
-   || ((__SCAN_MODE__) == DDL_ADC_SEQ_SCAN_ENABLE)                              \
+  (   ((__SEQ_SCAN_MODE__) == DDL_ADC_SEQ_SCAN_DISABLE)                         \
+   || ((__SEQ_SCAN_MODE__) == DDL_ADC_SEQ_SCAN_ENABLE)                          \
   )
 
 /* Check of parameters for configuration of ADC hierarchical scope:           */
@@ -233,7 +230,6 @@
    || ((__MULTI_MODE__) == DDL_ADC_MULTI_DUAL_INJ_ALTERN)                       \
    || ((__MULTI_MODE__) == DDL_ADC_MULTI_DUAL_REG_SIM_INJ_SIM)                  \
    || ((__MULTI_MODE__) == DDL_ADC_MULTI_DUAL_REG_SIM_INJ_ALT)                  \
-   || ((__MULTI_MODE__) == DDL_ADC_MULTI_DUAL_REG_INT_INJ_SIM)                  \
    || ((__MULTI_MODE__) == DDL_ADC_MULTI_TRIPLE_REG_SIM_INJ_SIM)                \
    || ((__MULTI_MODE__) == DDL_ADC_MULTI_TRIPLE_REG_SIM_INJ_ALT)                \
    || ((__MULTI_MODE__) == DDL_ADC_MULTI_TRIPLE_INJ_SIMULT)                     \
@@ -384,7 +380,7 @@ ErrorStatus DDL_ADC_CommonInit(ADC_Common_TypeDef *ADCxy_COMMON, DDL_ADC_CommonI
                    ADC_CCTRL_ADCPRE
                  | ADC_CCTRL_ADCMSEL
                  | ADC_CCTRL_DMAMODE
-                 | ADC_CCTRL_DMAMODEDISSEL
+                 | ADC_CCTRL_DMADISSEL
                  | ADC_CCTRL_SMPDEL2
                 ,
                    ADC_CommonInitStruct->CommonClock
@@ -399,7 +395,7 @@ ErrorStatus DDL_ADC_CommonInit(ADC_Common_TypeDef *ADCxy_COMMON, DDL_ADC_CommonI
                    ADC_CCTRL_ADCPRE
                  | ADC_CCTRL_ADCMSEL
                  | ADC_CCTRL_DMAMODE
-                 | ADC_CCTRL_DMAMODEDISSEL
+                 | ADC_CCTRL_DMADISSEL
                  | ADC_CCTRL_SMPDEL2
                 ,
                    ADC_CommonInitStruct->CommonClock
@@ -492,7 +488,7 @@ ErrorStatus DDL_ADC_DeInit(ADC_TypeDef *ADCx)
 
     /* Reset register CTRL1 */
     CLEAR_BIT(ADCx->CTRL1,
-              (  ADC_CTRL1_OVRIEN   | ADC_CTRL1_RESSEL     | ADC_CTRL1_REGAWDEN
+              (  ADC_CTRL1_OVRIEN   | ADC_CTRL1_RESSEL | ADC_CTRL1_REGAWDEN
                | ADC_CTRL1_INJAWDEN
                | ADC_CTRL1_DISCNUMCFG | ADC_CTRL1_INJDISCEN | ADC_CTRL1_REGDISCEN
                | ADC_CTRL1_INJGACEN   | ADC_CTRL1_AWDSGLEN  | ADC_CTRL1_SCANEN
@@ -502,15 +498,15 @@ ErrorStatus DDL_ADC_DeInit(ADC_TypeDef *ADCx)
 
     /* Reset register CTRL2 */
     CLEAR_BIT(ADCx->CTRL2,
-              (  ADC_CTRL2_REGSWSC  | ADC_CTRL2_REGEXTTRGEN  | ADC_CTRL2_REGEXTTRGSEL
+              (  ADC_CTRL2_REGDPTRGEN | ADC_CTRL2_REGSWSC
+               | ADC_CTRL2_REGEXTTRGEN  | ADC_CTRL2_REGEXTTRGSEL| ADC_CTRL2_INJDPTRGEN
                | ADC_CTRL2_INJSWSC | ADC_CTRL2_INJEXTTRGEN | ADC_CTRL2_INJGEXTTRGSEL
-               | ADC_CTRL2_DALIGNCFG    | ADC_CTRL2_EOCSEL
-               | ADC_CTRL2_DMADISSEL      | ADC_CTRL2_DMAEN
-               | ADC_CTRL2_CONTCEN     | ADC_CTRL2_ADCEN                    )
+               | ADC_CTRL2_DALIGNCFG | ADC_CTRL2_EOCSEL | ADC_CTRL2_DMADISSEL
+               | ADC_CTRL2_DMAEN | ADC_CTRL2_CONTCEN | ADC_CTRL2_ADCEN  )
              );
 
     /* Reset register OSAMPCTRL */
-    ADCx->OSAMPCTRL = 0x00000000UL;
+    CLEAR_REG(ADCx->OSAMPCTRL);
 
     /* Reset register SMPTIM1 */
     CLEAR_BIT(ADCx->SMPTIM1,
@@ -574,12 +570,14 @@ ErrorStatus DDL_ADC_DeInit(ADC_TypeDef *ADCx)
     /* bits in access mode read only, no direct reset applicable */
 
     /* Reset register CCTRL */
-#if defined(ADC1) && defined(ADC2) && defined(ADC3)
-    CLEAR_BIT(ADC->CCTRL, ADC_CCTRL_TSVREFEN | ADC_CCTRL_ADCPRE);
-#else
-    CLEAR_BIT(ADC1_C->CCTRL, ADC_CCTRL_TSVREFEN | ADC_CCTRL_ADCPRE);
-    CLEAR_BIT(ADC2_C->CCTRL, ADC_CCTRL_TSVREFEN | ADC_CCTRL_ADCPRE);
-#endif /* ADC2 || ADC3 */
+#if defined(ADC123_COMMON)
+    CLEAR_BIT(ADC123_COMMON->CCTRL, ADC_CCTRL_TSVREFEN | ADC_CCTRL_ADCPRE | ADC_CCTRL_VBATEN);
+    CLEAR_REG(ADC123_COMMON->DUAL_TRG);
+#endif /* ADC123_COMMON */
+  }
+  else
+  {
+    status = ERROR;
   }
 
   return status;
@@ -605,7 +603,7 @@ ErrorStatus DDL_ADC_DeInit(ADC_TypeDef *ADCx)
   *         refer to description of each function for setting
   *         conditioned to ADC state.
   * @note   After using this function, some other features must be configured
-  *         using LL unitary functions.
+  *         using DDL unitary functions.
   *         The minimum configuration remaining to be done is:
   *          - Set ADC group regular or group injected sequencer:
   *            map channel on the selected sequencer rank.
@@ -701,7 +699,7 @@ void DDL_ADC_StructInit(DDL_ADC_InitTypeDef *ADC_InitStruct)
   *         refer to description of each function for setting
   *         conditioned to ADC state.
   * @note   After using this function, other features must be configured
-  *         using LL unitary functions.
+  *         using DDL unitary functions.
   *         The minimum configuration remaining to be done is:
   *          - Set ADC group regular or group injected sequencer:
   *            map channel on the selected sequencer rank.
@@ -836,7 +834,7 @@ void DDL_ADC_REG_StructInit(DDL_ADC_REG_InitTypeDef *ADC_REG_InitStruct)
   *         refer to description of each function for setting
   *         conditioned to ADC state.
   * @note   After using this function, other features must be configured
-  *         using LL unitary functions.
+  *         using DDL unitary functions.
   *         The minimum configuration remaining to be done is:
   *          - Set ADC group injected sequencer:
   *            map channel on the selected sequencer rank.
@@ -877,7 +875,7 @@ ErrorStatus DDL_ADC_INJ_Init(ADC_TypeDef *ADCx, DDL_ADC_INJ_InitTypeDef *ADC_INJ
     /* Note: On this G32 series, ADC trigger edge is set when starting      */
     /*       ADC conversion.                                                  */
     /*       Refer to function @ref DDL_ADC_INJ_StartConversionExtTrig().      */
-    if(ADC_INJ_InitStruct->SequencerLength != DDL_ADC_REG_SEQ_SCAN_DISABLE)
+    if(ADC_INJ_InitStruct->SequencerLength != DDL_ADC_INJ_SEQ_SCAN_DISABLE)
     {
       MODIFY_REG(ADCx->CTRL1,
                    ADC_CTRL1_INJDISCEN

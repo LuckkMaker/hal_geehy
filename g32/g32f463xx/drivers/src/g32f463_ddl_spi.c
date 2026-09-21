@@ -4,7 +4,7 @@
   * @brief   SPI DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -304,8 +304,9 @@ void DDL_SPI_StructInit(DDL_SPI_InitTypeDef *SPI_InitStruct)
 /* I2S registers Masks */
 #define I2S_I2SCFG_CLEAR_MASK              (SPI_I2SCFG_CHLEN  | SPI_I2SCFG_DATALEN | \
                                             SPI_I2SCFG_CPOL   | SPI_I2SCFG_I2SSSEL | \
-                                            SPI_I2SCFG_I2SMOD | SPI_I2SCFG_MODESEL )
-
+                                            SPI_I2SCFG_PFSSEL | SPI_I2SCFG_I2SMOD | \
+                                            SPI_I2SCFG_MODESEL )
+  
 #define I2S_I2SPSC_CLEAR_MASK               0x0002U
 /**
   * @}
@@ -352,7 +353,7 @@ void DDL_SPI_StructInit(DDL_SPI_InitTypeDef *SPI_InitStruct)
 /* Private function prototypes -----------------------------------------------*/
 
 /* Exported functions --------------------------------------------------------*/
-/** @addtogroup I2S_DDL_Exported_Functions
+/** @addtogroup I2S_DDL_Exported_Functions I2S Exported Functions
   * @{
   */
 
@@ -400,7 +401,7 @@ ErrorStatus DDL_I2S_Init(SPI_TypeDef *SPIx, DDL_I2S_InitTypeDef *I2S_InitStruct)
   ASSERT_PARAM(IS_DDL_I2S_AUDIO_FREQ(I2S_InitStruct->AudioFreq));
   ASSERT_PARAM(IS_DDL_I2S_CPOL(I2S_InitStruct->ClockPolarity));
 
-  if (DDL_I2S_IsEnabled(SPIx) == 0x00000000U)
+  if (DDL_I2S_IsEnabled(SPIx) == 0x00000000U && DDL_SPI_IsEnabled(SPIx) == 0x00000000U)
   {
     /*---------------------------- SPIx I2SCFG Configuration --------------------
      * Configure SPIx I2SCFG with parameters:

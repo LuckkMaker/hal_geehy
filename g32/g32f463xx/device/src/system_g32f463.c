@@ -151,7 +151,7 @@ void SystemCoreClockUpdate(void)
 
         case 0x08:  /* PLL used as system clock source */
             pllClock = (RCM->PLL1CFG & RCM_PLL1CFG_PLL1CLKS) >> RCM_PLL1CFG_PLL1CLKS_Pos;
-            pllb = RCM->PLL1CFG & RCM_PLL1CFG_PLLB;
+            pllb = RCM->PLL1CFG & RCM_PLL1CFG_PLL1B;
 
             if (pllClock != 0)
             {

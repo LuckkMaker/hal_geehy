@@ -4,7 +4,7 @@
   * @brief   USB Low Layer DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   *          This file provides firmware functions to manage the following
   *          functionalities of the USB Peripheral Controller:
   *           + Initialization/de-initialization functions
@@ -173,7 +173,6 @@ ErrorStatus DDL_USB_Init(USB_OTG_TypeDef *USBx, DDL_USB_OTG_InitTypeDef *USB_Ini
   /* Configure before PHY reset */
   DDL_USB_PHY_EnableOTGFunction(USBx);
 
-  // TODO: Confirm VBUS sensing, and connected and disconnected interrupt handling
   /* Configure before PHY reset */
   if (USB_InitStruct->vbus_sensing_enable != DISABLE)
   {
@@ -229,7 +228,7 @@ ErrorStatus DDL_USB_DevInit(USB_OTG_TypeDef *USBx, DDL_USB_OTG_InitTypeDef *USB_
   ErrorStatus status = SUCCESS;
 
   /* Disable all interrupts */
-  USBx->INTR_USBE = 0U;
+  USBx->INTRUSBE = 0U;
 
   /* Read and clear all pending interrupts */
   (void)DDL_USB_ReadInterrupts(USBx);
@@ -241,7 +240,7 @@ ErrorStatus DDL_USB_DevInit(USB_OTG_TypeDef *USBx, DDL_USB_OTG_InitTypeDef *USB_
   (void)DDL_USB_ReadAllEpRxInterrupt(USBx);
 
   /* Enable interrupts matching to the Device mode ONLY */
-  USBx->INTR_USBE |= (DDL_USB_IT_SUSPEND | DDL_USB_IT_RESUME |
+  USBx->INTRUSBE |= (DDL_USB_IT_SUSPEND | DDL_USB_IT_RESUME |
                           DDL_USB_IT_RESET | DDL_USB_IT_DISCONNECT);
 
   DDL_USB_DisableEpTxInterrupt(USBx, DDL_USB_IT_EP_ALL);
@@ -249,7 +248,7 @@ ErrorStatus DDL_USB_DevInit(USB_OTG_TypeDef *USBx, DDL_USB_OTG_InitTypeDef *USB_
 
   if (USB_InitStruct->sof_enable != DISABLE)
   {
-    USBx->INTR_USBE |= DDL_USB_IT_SOF;
+    USBx->INTRUSBE |= DDL_USB_IT_SOF;
   }
 
   /* Enable EP0 interrupt */
@@ -272,7 +271,7 @@ ErrorStatus DDL_USB_HostInit(USB_OTG_TypeDef *USBx, DDL_USB_OTG_InitTypeDef *USB
   ErrorStatus status = SUCCESS;
 
   /* Disable all interrupts */
-  USBx->INTR_USBE = 0U;
+  USBx->INTRUSBE = 0U;
 
   /* Clear all pending interrupts */
   (void)DDL_USB_ReadInterrupts(USBx);
@@ -284,7 +283,7 @@ ErrorStatus DDL_USB_HostInit(USB_OTG_TypeDef *USBx, DDL_USB_OTG_InitTypeDef *USB
   (void)DDL_USB_ReadAllEpRxInterrupt(USBx);
 
   /* Enable interrupts matching to the Device mode ONLY */
-  USBx->INTR_USBE |= (DDL_USB_IT_SUSPEND | DDL_USB_IT_RESUME |
+  USBx->INTRUSBE |= (DDL_USB_IT_SUSPEND | DDL_USB_IT_RESUME |
                           DDL_USB_IT_BABBLE | DDL_USB_IT_CONNECT |
                           DDL_USB_IT_DISCONNECT | DDL_USB_IT_SESSION |
                           DDL_USB_IT_VBUS_ERROR | DDL_USB_IT_SOF);
@@ -315,8 +314,8 @@ ErrorStatus DDL_USB_HostInit(USB_OTG_TypeDef *USBx, DDL_USB_OTG_InitTypeDef *USB
  */
 void DDL_USB_HCHalt(USB_OTG_TypeDef *USBx, uint8_t ch_num)
 {
-  USBx->TX_CSR = 0U;
-  USBx->RX_CSR = 0U;
+  USBx->TXCSR = 0U;
+  USBx->RXCSR = 0U;
   DDL_USB_FlushFIFO(USBx, ch_num, DDL_USB_EP_DIR_HOST_IN);
   DDL_USB_FlushFIFO(USBx, ch_num, DDL_USB_EP_DIR_HOST_OUT);
 }
@@ -441,6 +440,7 @@ ErrorStatus DDL_USB_EP0StartXfer(USB_OTG_TypeDef *USBx, DDL_USB_OTG_EPTypeDef *E
     if (len == 0U)
     {
       // Send ZLP only need to set DATAEND, if set TXPKTRDY together, will cause TXPKTRDY and RXPKTRDY both set, then error caused
+      DDL_USB_EP0_SetActiveFlag_TXPKTRDY(USBx);
       DDL_USB_EP0_EnableDataEnd(USBx);
     }
     else
@@ -651,7 +651,7 @@ ErrorStatus DDL_USB_StopDevice(USB_OTG_TypeDef *USBx)
   ASSERT_PARAM(IS_USB_ALL_INSTANCE(USBx));
 
   /* Disable all interrupts */
-  USBx->INTR_USBE = 0U;
+  USBx->INTRUSBE = 0U;
 
   /* Clear all pending interrupts */
   (void)DDL_USB_ReadInterrupts(USBx);

@@ -4,7 +4,7 @@
   * @brief   Header file of PMU DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -107,7 +107,7 @@ extern "C" {
   */
 #define DDL_PMU_REGU_VOLTAGE_SCALE3         0x00000000U
 #define DDL_PMU_REGU_VOLTAGE_SCALE2         (PMU_CTRL_VOSSEL_0)
-#define DDL_PMU_REGU_VOLTAGE_SCALE1         (PMU_CTRL_VOSSEL)
+#define DDL_PMU_REGU_VOLTAGE_SCALE1         (PMU_CTRL_VOSSEL_1)
 /**
   * @}
   */
@@ -134,9 +134,9 @@ extern "C" {
 /** @defgroup PMU_DDL_EC_PVDLEVEL Power Voltage Detector Level
   * @{
   */
-#define DDL_PMU_PVDLEVEL_0                  (PMU_CTRL_PLSEL_LEV0)      /*!< Voltage threshold detected by PVD 2.2 V */
-#define DDL_PMU_PVDLEVEL_1                  (PMU_CTRL_PLSEL_LEV1)      /*!< Voltage threshold detected by PVD 2.3 V */
-#define DDL_PMU_PVDLEVEL_2                  (PMU_CTRL_PLSEL_LEV2)      /*!< Voltage threshold detected by PVD 2.4 V */
+#define DDL_PMU_PVDLEVEL_0                  (PMU_CTRL_PLSEL_LEV0)      /*!< Voltage threshold detected by PVD 2.0 V */
+#define DDL_PMU_PVDLEVEL_1                  (PMU_CTRL_PLSEL_LEV1)      /*!< Voltage threshold detected by PVD 2.1 V */
+#define DDL_PMU_PVDLEVEL_2                  (PMU_CTRL_PLSEL_LEV2)      /*!< Voltage threshold detected by PVD 2.3 V */
 #define DDL_PMU_PVDLEVEL_3                  (PMU_CTRL_PLSEL_LEV3)      /*!< Voltage threshold detected by PVD 2.5 V */
 #define DDL_PMU_PVDLEVEL_4                  (PMU_CTRL_PLSEL_LEV4)      /*!< Voltage threshold detected by PVD 2.6 V */
 #define DDL_PMU_PVDLEVEL_5                  (PMU_CTRL_PLSEL_LEV5)      /*!< Voltage threshold detected by PVD 2.7 V */

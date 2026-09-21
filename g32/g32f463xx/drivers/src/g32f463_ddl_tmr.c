@@ -281,7 +281,7 @@ void DDL_TMR_StructInit(DDL_TMR_InitTypeDef *TMR_InitStruct)
   * @param  TMR_InitStruct pointer to a @ref DDL_TMR_InitTypeDef structure
   *         (TMRx time base unit configuration data structure)
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 ErrorStatus DDL_TMR_Init(TMR_TypeDef *TMRx, DDL_TMR_InitTypeDef *TMR_InitStruct)
@@ -562,7 +562,7 @@ void DDL_TMR_HALLSENSOR_StructInit(DDL_TMR_HALLSENSOR_InitTypeDef *TMR_HallSenso
   * @param  TMR_HallSensorInitStruct pointer to a @ref DDL_TMR_HALLSENSOR_InitTypeDef structure (TMRx DALL sensor
   *         interface configuration data structure)
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 ErrorStatus DDL_TMR_HALLSENSOR_Init(TMR_TypeDef *TMRx, DDL_TMR_HALLSENSOR_InitTypeDef *TMR_HallSensorInitStruct)
@@ -597,6 +597,7 @@ ErrorStatus DDL_TMR_HALLSENSOR_Init(TMR_TypeDef *TMRx, DDL_TMR_HALLSENSOR_InitTy
   tmpcr2 |= TMR_CTRL2_TI1SEL;
 
   /* OC2REF signal is used as trigger output (TRGO) */
+  tmpcr2 &= (uint32_t)~TMR_CTRL2_MMSEL;
   tmpcr2 |= DDL_TMR_TRGO_OC2REF;
 
   /* Configure the slave mode controller */
@@ -718,7 +719,7 @@ ErrorStatus DDL_TMR_BDT_Init(TMR_TypeDef *TMRx, DDL_TMR_BDT_InitTypeDef *TMR_BDT
   * @param  TMRx Timer Instance
   * @param  TMR_OCInitStruct pointer to the the TMRx output channel 1 configuration data structure
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 static ErrorStatus OC1Config(TMR_TypeDef *TMRx, DDL_TMR_OC_InitTypeDef *TMR_OCInitStruct)
@@ -797,7 +798,7 @@ static ErrorStatus OC1Config(TMR_TypeDef *TMRx, DDL_TMR_OC_InitTypeDef *TMR_OCIn
   * @param  TMRx Timer Instance
   * @param  TMR_OCInitStruct pointer to the the TMRx output channel 2 configuration data structure
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 static ErrorStatus OC2Config(TMR_TypeDef *TMRx, DDL_TMR_OC_InitTypeDef *TMR_OCInitStruct)
@@ -876,7 +877,7 @@ static ErrorStatus OC2Config(TMR_TypeDef *TMRx, DDL_TMR_OC_InitTypeDef *TMR_OCIn
   * @param  TMRx Timer Instance
   * @param  TMR_OCInitStruct pointer to the the TMRx output channel 3 configuration data structure
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 static ErrorStatus OC3Config(TMR_TypeDef *TMRx, DDL_TMR_OC_InitTypeDef *TMR_OCInitStruct)
@@ -955,7 +956,7 @@ static ErrorStatus OC3Config(TMR_TypeDef *TMRx, DDL_TMR_OC_InitTypeDef *TMR_OCIn
   * @param  TMRx Timer Instance
   * @param  TMR_OCInitStruct pointer to the the TMRx output channel 4 configuration data structure
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 static ErrorStatus OC4Config(TMR_TypeDef *TMRx, DDL_TMR_OC_InitTypeDef *TMR_OCInitStruct)
@@ -1026,7 +1027,7 @@ static ErrorStatus OC4Config(TMR_TypeDef *TMRx, DDL_TMR_OC_InitTypeDef *TMR_OCIn
   * @param  TMRx Timer Instance
   * @param  TMR_ICInitStruct pointer to the the TMRx input channel 1 configuration data structure
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 static ErrorStatus IC1Config(TMR_TypeDef *TMRx, DDL_TMR_IC_InitTypeDef *TMR_ICInitStruct)
@@ -1059,7 +1060,7 @@ static ErrorStatus IC1Config(TMR_TypeDef *TMRx, DDL_TMR_IC_InitTypeDef *TMR_ICIn
   * @param  TMRx Timer Instance
   * @param  TMR_ICInitStruct pointer to the the TMRx input channel 2 configuration data structure
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 static ErrorStatus IC2Config(TMR_TypeDef *TMRx, DDL_TMR_IC_InitTypeDef *TMR_ICInitStruct)
@@ -1092,7 +1093,7 @@ static ErrorStatus IC2Config(TMR_TypeDef *TMRx, DDL_TMR_IC_InitTypeDef *TMR_ICIn
   * @param  TMRx Timer Instance
   * @param  TMR_ICInitStruct pointer to the the TMRx input channel 3 configuration data structure
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 static ErrorStatus IC3Config(TMR_TypeDef *TMRx, DDL_TMR_IC_InitTypeDef *TMR_ICInitStruct)
@@ -1125,7 +1126,7 @@ static ErrorStatus IC3Config(TMR_TypeDef *TMRx, DDL_TMR_IC_InitTypeDef *TMR_ICIn
   * @param  TMRx Timer Instance
   * @param  TMR_ICInitStruct pointer to the the TMRx input channel 4 configuration data structure
   * @retval An ErrorStatus enumeration value:
-  *          - SUCCESS: TMRx registers are de-initialized
+  *          - SUCCESS: TMRx registers are initialized
   *          - ERROR: not applicable
   */
 static ErrorStatus IC4Config(TMR_TypeDef *TMRx, DDL_TMR_IC_InitTypeDef *TMR_ICInitStruct)

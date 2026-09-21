@@ -4,7 +4,7 @@
   * @brief   Header file of USART DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -376,13 +376,13 @@ typedef struct
   *         expected Baud Rate in 8 bits sampling mode (32 bits value of USARTDIV is returned)
   * @param  __PERIPHCLK__ Peripheral Clock frequency used for USART instance
   * @param  __BAUDRATE__ Baud rate value to achieve
-  * @retval USARTDIV value to be used for BRR register filling in OverSampling_8 case
+  * @retval USARTDIV value to be used for BR register filling in OverSampling_8 case
   */
 #define __DDL_USART_DIV_SAMPLING8_100(__PERIPHCLK__, __BAUDRATE__)      ((uint32_t)((((uint64_t)(__PERIPHCLK__))*25)/(2*((uint64_t)(__BAUDRATE__)))))
 #define __DDL_USART_DIVMANT_SAMPLING8(__PERIPHCLK__, __BAUDRATE__)      (__DDL_USART_DIV_SAMPLING8_100((__PERIPHCLK__), (__BAUDRATE__))/100)
 #define __DDL_USART_DIVFRAQ_SAMPLING8(__PERIPHCLK__, __BAUDRATE__)      ((((__DDL_USART_DIV_SAMPLING8_100((__PERIPHCLK__), (__BAUDRATE__)) - (__DDL_USART_DIVMANT_SAMPLING8((__PERIPHCLK__), (__BAUDRATE__)) * 100)) * 8)\
                                                                          + 50) / 100)
-/* UART BRR = mantissa + overflow + fraction
+/* UART BR = mantissa + overflow + fraction
             = (UART DIVMANT << 4) + ((UART DIVFRAQ & 0xF8) << 1) + (UART DIVFRAQ & 0x07) */
 #define __DDL_USART_DIV_SAMPLING8(__PERIPHCLK__, __BAUDRATE__)             (((__DDL_USART_DIVMANT_SAMPLING8((__PERIPHCLK__), (__BAUDRATE__)) << 4) + \
                                                                             ((__DDL_USART_DIVFRAQ_SAMPLING8((__PERIPHCLK__), (__BAUDRATE__)) & 0xF8) << 1)) + \
@@ -393,13 +393,13 @@ typedef struct
   *         expected Baud Rate in 16 bits sampling mode (32 bits value of USARTDIV is returned)
   * @param  __PERIPHCLK__ Peripheral Clock frequency used for USART instance
   * @param  __BAUDRATE__ Baud rate value to achieve
-  * @retval USARTDIV value to be used for BRR register filling in OverSampling_16 case
+  * @retval USARTDIV value to be used for BR register filling in OverSampling_16 case
   */
 #define __DDL_USART_DIV_SAMPLING16_100(__PERIPHCLK__, __BAUDRATE__)     ((uint32_t)((((uint64_t)(__PERIPHCLK__))*25)/(4*((uint64_t)(__BAUDRATE__)))))
 #define __DDL_USART_DIVMANT_SAMPLING16(__PERIPHCLK__, __BAUDRATE__)     (__DDL_USART_DIV_SAMPLING16_100((__PERIPHCLK__), (__BAUDRATE__))/100)
 #define __DDL_USART_DIVFRAQ_SAMPLING16(__PERIPHCLK__, __BAUDRATE__)     ((((__DDL_USART_DIV_SAMPLING16_100((__PERIPHCLK__), (__BAUDRATE__)) - (__DDL_USART_DIVMANT_SAMPLING16((__PERIPHCLK__), (__BAUDRATE__)) * 100)) * 16)\
                                                                          + 50) / 100)
-/* USART BRR = mantissa + overflow + fraction
+/* USART BR = mantissa + overflow + fraction
             = (USART DIVMANT << 4) + (USART DIVFRAQ & 0xF0) + (USART DIVFRAQ & 0x0F) */
 #define __DDL_USART_DIV_SAMPLING16(__PERIPHCLK__, __BAUDRATE__)            (((__DDL_USART_DIVMANT_SAMPLING16((__PERIPHCLK__), (__BAUDRATE__)) << 4) + \
                                                                             (__DDL_USART_DIVFRAQ_SAMPLING16((__PERIPHCLK__), (__BAUDRATE__)) & 0xF0)) + \
@@ -437,7 +437,7 @@ __STATIC_INLINE void DDL_USART_Enable(USART_TypeDef *USARTx)
   * @brief  USART Disable (all USART prescalers and outputs are disabled)
   * @note   When USART is disabled, USART prescalers and outputs are stopped immediately,
   *         and current operations are discarded. The configuration of the USART is kept, but all the status
-  *         flags, in the USARTx_SR are set to their default values.
+  *         flags, in the USARTx_STS are set to their default values.
   * @param  USARTx USART Instance
   * @retval None
   */
@@ -991,18 +991,18 @@ __STATIC_INLINE void DDL_USART_SetBaudRate(USART_TypeDef *USARTx, uint32_t Perip
 {
   if (OverSampling == DDL_USART_OVERSAMPLING_8)
   {
-    USARTx->BR = (uint16_t)(__DDL_USART_DIV_SAMPLING8(PeriphClk, BaudRate));
+    WRITE_REG(USARTx->BR, (uint16_t)(__DDL_USART_DIV_SAMPLING8(PeriphClk, BaudRate)));
   }
   else
   {
-    USARTx->BR = (uint16_t)(__DDL_USART_DIV_SAMPLING16(PeriphClk, BaudRate));
+    WRITE_REG(USARTx->BR, (uint16_t)(__DDL_USART_DIV_SAMPLING16(PeriphClk, BaudRate)));
   }
 }
 
 /**
-  * @brief  Return current Baud Rate value, according to USARTDIV present in BRR register
-  *         (full BRR content), and to used Peripheral Clock and Oversampling mode values
-  * @note   In case of non-initialized or invalid value stored in BRR register, value 0 will be returned.
+  * @brief  Return current Baud Rate value, according to USARTDIV present in BR register
+  *         (full BR content), and to used Peripheral Clock and Oversampling mode values
+  * @note   In case of non-initialized or invalid value stored in BR register, value 0 will be returned.
   * @param  USARTx USART Instance
   * @param  PeriphClk Peripheral Clock
   * @param  OverSampling This parameter can be one of the following values:
@@ -1015,7 +1015,7 @@ __STATIC_INLINE uint32_t DDL_USART_GetBaudRate(USART_TypeDef *USARTx, uint32_t P
   uint32_t usartdiv = 0x0U;
   uint32_t brrresult = 0x0U;
 
-  usartdiv = USARTx->BR;
+  usartdiv = READ_REG(USARTx->BR);
 
   if (OverSampling == DDL_USART_OVERSAMPLING_8)
   {
@@ -1100,7 +1100,7 @@ __STATIC_INLINE void DDL_USART_SetIrdaPowerMode(USART_TypeDef *USARTx, uint32_t 
   * @param  USARTx USART Instance
   * @retval Returned value can be one of the following values:
   *         @arg @ref DDL_USART_IRDA_POWER_NORMAL
-  *         @arg @ref DDL_USART_PHASE_2EDGE
+  *         @arg @ref DDL_USART_IRDA_POWER_LOW
   */
 __STATIC_INLINE uint32_t DDL_USART_GetIrdaPowerMode(USART_TypeDef *USARTx)
 {
@@ -1225,7 +1225,7 @@ __STATIC_INLINE uint32_t DDL_USART_IsEnabledSmartcard(USART_TypeDef *USARTx)
   */
 __STATIC_INLINE void DDL_USART_SetSmartcardPrescaler(USART_TypeDef *USARTx, uint32_t PrescalerValue)
 {
-  MODIFY_REG(USARTx->GTPSC, USART_GTPSC_PSC, PrescalerValue);
+  MODIFY_REG(USARTx->GTPSC, USART_GTPSC_PSC, (PrescalerValue & 0x1FU));
 }
 
 /**
@@ -1759,8 +1759,8 @@ __STATIC_INLINE uint32_t DDL_USART_IsActiveFlag_RWU(USART_TypeDef *USARTx)
 
 /**
   * @brief  Clear Parity Error Flag
-  * @note   Clearing this flag is done by a read access to the USARTx_SR
-  *         register followed by a read access to the USARTx_DR register.
+  * @note   Clearing this flag is done by a read access to the USARTx_STS
+  *         register followed by a read access to the USARTx_DATA register.
   * @note   Please also consider that when clearing this flag, other flags as
   *         NE, FE, ORE, IDLE would also be cleared.
   * @param  USARTx USART Instance
@@ -1777,8 +1777,8 @@ __STATIC_INLINE void DDL_USART_ClearFlag_PE(USART_TypeDef *USARTx)
 
 /**
   * @brief  Clear Framing Error Flag
-  * @note   Clearing this flag is done by a read access to the USARTx_SR
-  *         register followed by a read access to the USARTx_DR register.
+  * @note   Clearing this flag is done by a read access to the USARTx_STS
+  *         register followed by a read access to the USARTx_DATA register.
   * @note   Please also consider that when clearing this flag, other flags as
   *         PE, NE, ORE, IDLE would also be cleared.
   * @param  USARTx USART Instance
@@ -1795,8 +1795,8 @@ __STATIC_INLINE void DDL_USART_ClearFlag_FE(USART_TypeDef *USARTx)
 
 /**
   * @brief  Clear Noise detected Flag
-  * @note   Clearing this flag is done by a read access to the USARTx_SR
-  *         register followed by a read access to the USARTx_DR register.
+  * @note   Clearing this flag is done by a read access to the USARTx_STS
+  *         register followed by a read access to the USARTx_DATA register.
   * @note   Please also consider that when clearing this flag, other flags as
   *         PE, FE, ORE, IDLE would also be cleared.
   * @param  USARTx USART Instance
@@ -1813,8 +1813,8 @@ __STATIC_INLINE void DDL_USART_ClearFlag_NE(USART_TypeDef *USARTx)
 
 /**
   * @brief  Clear OverRun Error Flag
-  * @note   Clearing this flag is done by a read access to the USARTx_SR
-  *         register followed by a read access to the USARTx_DR register.
+  * @note   Clearing this flag is done by a read access to the USARTx_STS
+  *         register followed by a read access to the USARTx_DATA register.
   * @note   Please also consider that when clearing this flag, other flags as
   *         PE, NE, FE, IDLE would also be cleared.
   * @param  USARTx USART Instance
@@ -1831,8 +1831,8 @@ __STATIC_INLINE void DDL_USART_ClearFlag_ORE(USART_TypeDef *USARTx)
 
 /**
   * @brief  Clear IDLE line detected Flag
-  * @note   Clearing this flag is done by a read access to the USARTx_SR
-  *         register followed by a read access to the USARTx_DR register.
+  * @note   Clearing this flag is done by a read access to the USARTx_STS
+  *         register followed by a read access to the USARTx_DATA register.
   * @note   Please also consider that when clearing this flag, other flags as
   *         PE, NE, FE, ORE would also be cleared.
   * @param  USARTx USART Instance
@@ -1964,9 +1964,9 @@ __STATIC_INLINE void DDL_USART_EnableIT_LBD(USART_TypeDef *USARTx)
 /**
   * @brief  Enable Error Interrupt
   * @note   When set, Error Interrupt Enable Bit is enabling interrupt generation in case of a framing
-  *         error, overrun error or noise flag (FE=1 or ORE=1 or NF=1 in the USARTx_SR register).
+  *         error, overrun error or noise flag (FE=1 or ORE=1 or NF=1 in the USARTx_STS register).
   *           0: Interrupt is inhibited
-  *           1: An interrupt is generated when FE=1 or ORE=1 or NF=1 in the USARTx_SR register.
+  *           1: An interrupt is generated when FE=1 or ORE=1 or NF=1 in the USARTx_STS register.
   * @param  USARTx USART Instance
   * @retval None
   */
@@ -2052,9 +2052,9 @@ __STATIC_INLINE void DDL_USART_DisableIT_LBD(USART_TypeDef *USARTx)
 /**
   * @brief  Disable Error Interrupt
   * @note   When set, Error Interrupt Enable Bit is enabling interrupt generation in case of a framing
-  *         error, overrun error or noise flag (FE=1 or ORE=1 or NF=1 in the USARTx_SR register).
+  *         error, overrun error or noise flag (FE=1 or ORE=1 or NF=1 in the USARTx_STS register).
   *           0: Interrupt is inhibited
-  *           1: An interrupt is generated when FE=1 or ORE=1 or NF=1 in the USARTx_SR register.
+  *           1: An interrupt is generated when FE=1 or ORE=1 or NF=1 in the USARTx_STS register.
   * @param  USARTx USART Instance
   * @retval None
   */

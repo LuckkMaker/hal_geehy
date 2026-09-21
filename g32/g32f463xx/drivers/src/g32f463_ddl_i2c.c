@@ -159,7 +159,6 @@ ErrorStatus DDL_I2C_Init(I2C_TypeDef *I2Cx, DDL_I2C_InitTypeDef *I2C_InitStruct)
 
   /* Check the I2C parameters from I2C_InitStruct */
   ASSERT_PARAM(IS_DDL_I2C_PERIPHERAL_MODE(I2C_InitStruct->PeripheralMode));
-  ASSERT_PARAM(IS_DDL_I2C_ANALOG_FILTER(I2C_InitStruct->AnalogFilter));
   ASSERT_PARAM(IS_DDL_I2C_DIGITAL_FILTER(I2C_InitStruct->DigitalFilter));
   ASSERT_PARAM(IS_DDL_I2C_OWN_ADDRESS1(I2C_InitStruct->OwnAddress1));
   ASSERT_PARAM(IS_DDL_I2C_TYPE_ACKNOWLEDGE(I2C_InitStruct->TypeAcknowledge));
@@ -169,16 +168,15 @@ ErrorStatus DDL_I2C_Init(I2C_TypeDef *I2Cx, DDL_I2C_InitTypeDef *I2C_InitStruct)
   DDL_I2C_Disable(I2Cx);
 
   /*---------------------------- I2Cx CR1 Configuration ------------------------
-   * Configure the analog and digital noise filters with parameters :
-   * - AnalogFilter: I2C_CTRL1_ANFD bit
+   * Configure the digital noise filters with parameters :
    * - DigitalFilter: I2C_CTRL1_DNFCFG[3:0] bits
    */
-  DDL_I2C_ConfigFilters(I2Cx, I2C_InitStruct->AnalogFilter, I2C_InitStruct->DigitalFilter);
+  DDL_I2C_ConfigFilters(I2Cx, I2C_InitStruct->DigitalFilter);
 
-  /*---------------------------- I2Cx TIMINGR Configuration --------------------
+  /*---------------------------- I2Cx TIMING Configuration --------------------
    * Configure the SDA setup, hold time and the SCL high, low period with parameter :
-   * - Timing: I2C_TIMINGR_PRESC[3:0], I2C_TIMINGR_SCLDEL[3:0], I2C_TIMINGR_SDADEL[3:0],
-   *           I2C_TIMINGR_SCLH[7:0] and I2C_TIMINGR_SCLL[7:0] bits
+   * - Timing: I2C_TIMING_TIMINGPSC[3:0], I2C_TIMING_DATAHT[3:0], I2C_TIMING_DATAT[3:0],
+   *           I2C_TIMING_SCLH[7:0] and I2C_TIMING_SCLL[7:0] bits
    */
   DDL_I2C_SetTiming(I2Cx, I2C_InitStruct->Timing);
 
@@ -225,7 +223,6 @@ void DDL_I2C_StructInit(DDL_I2C_InitTypeDef *I2C_InitStruct)
   /* Set I2C_InitStruct fields to default values */
   I2C_InitStruct->PeripheralMode  = DDL_I2C_MODE_I2C;
   I2C_InitStruct->Timing          = 0U;
-  I2C_InitStruct->AnalogFilter    = DDL_I2C_ANALOGFILTER_ENABLE;
   I2C_InitStruct->DigitalFilter   = 0U;
   I2C_InitStruct->OwnAddress1     = 0U;
   I2C_InitStruct->TypeAcknowledge = DDL_I2C_NACK;

@@ -105,17 +105,17 @@
 uint32_t DDL_EINT_DeInit(void)
 {
   /* Interrupt mask register set to default reset values */
-  DDL_EINT_WriteReg(IMASK,   0x00000000U);
+  DDL_EINT_WriteReg(IMASK, 0x00000000U);
   /* Event mask register set to default reset values */
-  DDL_EINT_WriteReg(EMASK,   0x00000000U);
+  DDL_EINT_WriteReg(EMASK, 0x00000000U);
   /* Rising Trigger selection register set to default reset values */
-  DDL_EINT_WriteReg(RTEN,  0x00000000U);
+  DDL_EINT_WriteReg(RTEN, 0x00000000U);
   /* Falling Trigger selection register set to default reset values */
-  DDL_EINT_WriteReg(FTEN,  0x00000000U);
+  DDL_EINT_WriteReg(FTEN, 0x00000000U);
   /* Software interrupt event register set to default reset values */
   DDL_EINT_WriteReg(SWINTE, 0x00000000U);
   /* Pending register set to default reset values */
-  DDL_EINT_WriteReg(IPEND,    0x00FFFFFFU);
+  DDL_EINT_WriteReg(IPEND, 0x007FFFFFU);
 
   return SUCCESS;
 }
@@ -199,6 +199,8 @@ uint32_t DDL_EINT_Init(DDL_EINT_InitTypeDef *EINT_InitStruct)
     /* De-configure EINT Lines in range from 0 to 31 */
     DDL_EINT_DisableIT_0_31(EINT_InitStruct->Line_0_31);
     DDL_EINT_DisableEvent_0_31(EINT_InitStruct->Line_0_31);
+    DDL_EINT_DisableRisingTrig_0_31(EINT_InitStruct->Line_0_31);
+    DDL_EINT_DisableFallingTrig_0_31(EINT_InitStruct->Line_0_31);
   }
   return status;
 }

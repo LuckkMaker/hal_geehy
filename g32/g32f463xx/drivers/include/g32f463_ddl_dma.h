@@ -4,7 +4,7 @@
   * @brief   Header file of DMA DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -168,7 +168,7 @@ typedef struct
                                         @note The Direct mode (FIFO mode disabled) cannot be used if the
                                         memory-to-memory data transfer is configured on the selected stream
 
-                                        This feature can be modified afterwards using unitary functions @ref DDL_DMA_EnableFifoMode() or @ref DDL_DMA_EnableFifoMode() . */
+                                        This feature can be modified afterwards using unitary functions @ref DDL_DMA_EnableFifoMode() or @ref DDL_DMA_DisableFifoMode() . */
 
   uint32_t FIFOThreshold;          /*!< Specifies the FIFO threshold level.
                                         This parameter can be a value of @ref DMA_DDL_EC_FIFOTHRESHOLD
@@ -552,6 +552,49 @@ __STATIC_INLINE void DDL_DMA_DisableStream(DMA_TypeDef *DMAx, uint32_t Stream)
 __STATIC_INLINE uint32_t DDL_DMA_IsEnabledStream(DMA_TypeDef *DMAx, uint32_t Stream)
 {
   return (READ_BIT(((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->SCFG, DMA_SCFGx_EN) == (DMA_SCFGx_EN));
+}
+
+/**
+  * @brief Set peripheral flow controller.
+  * @param  DMAx DMAx Instance
+  * @param  Stream This parameter can be one of the following values:
+  *         @arg @ref DDL_DMA_STREAM_0
+  *         @arg @ref DDL_DMA_STREAM_1
+  *         @arg @ref DDL_DMA_STREAM_2
+  *         @arg @ref DDL_DMA_STREAM_3
+  *         @arg @ref DDL_DMA_STREAM_4
+  *         @arg @ref DDL_DMA_STREAM_5
+  *         @arg @ref DDL_DMA_STREAM_6
+  *         @arg @ref DDL_DMA_STREAM_7
+  * @param  Source This parameter can be one of the following values:
+  *         @arg @ref DDL_DMA_FLOW_CONTROLLER_SOURCE_DMA
+  *         @arg @ref DDL_DMA_FLOW_CONTROLLER_SOURCE_PERIPHERAL
+  * @retval None
+  */
+__STATIC_INLINE void DDL_DMA_SetFlowControllerSource(DMA_TypeDef *DMAx, uint32_t Stream, uint32_t Source)
+{
+  MODIFY_REG(((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->SCFG, DMA_SCFGx_PERFC, Source);
+}
+
+/**
+  * @brief Get peripheral flow controller.
+  * @param  DMAx DMAx Instance
+  * @param  Stream This parameter can be one of the following values:
+  *         @arg @ref DDL_DMA_STREAM_0
+  *         @arg @ref DDL_DMA_STREAM_1
+  *         @arg @ref DDL_DMA_STREAM_2
+  *         @arg @ref DDL_DMA_STREAM_3
+  *         @arg @ref DDL_DMA_STREAM_4
+  *         @arg @ref DDL_DMA_STREAM_5
+  *         @arg @ref DDL_DMA_STREAM_6
+  *         @arg @ref DDL_DMA_STREAM_7
+  * @retval Returned value can be one of the following values:
+  *         @arg @ref DDL_DMA_FLOW_CONTROLLER_SOURCE_DMA
+  *         @arg @ref DDL_DMA_FLOW_CONTROLLER_SOURCE_PERIPHERAL
+  */
+__STATIC_INLINE uint32_t DDL_DMA_GetFlowControllerSource(DMA_TypeDef *DMAx, uint32_t Stream)
+{
+  return (READ_BIT(((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->SCFG, DMA_SCFGx_PERFC));
 }
 
 /**
@@ -951,12 +994,12 @@ __STATIC_INLINE uint32_t DDL_DMA_GetStreamPriorityLevel(DMA_TypeDef *DMAx, uint3
   *         @arg @ref DDL_DMA_STREAM_5
   *         @arg @ref DDL_DMA_STREAM_6
   *         @arg @ref DDL_DMA_STREAM_7
-  * @param  NbData Between 0 to 0xFFFFFFFF
+  * @param  NbData Between 0 to 0xFFFF
   * @retval None
   */
 __STATIC_INLINE void DDL_DMA_SetDataLength(DMA_TypeDef* DMAx, uint32_t Stream, uint32_t NbData)
 {
-  MODIFY_REG(((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->NDATA, DMA_NDATAx, NbData);
+  MODIFY_REG(((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->NDATA, DMA_NDATAx_NDATA, NbData);
 }
 
 /**
@@ -977,7 +1020,7 @@ __STATIC_INLINE void DDL_DMA_SetDataLength(DMA_TypeDef* DMAx, uint32_t Stream, u
   */
 __STATIC_INLINE uint32_t DDL_DMA_GetDataLength(DMA_TypeDef* DMAx, uint32_t Stream)
 {
-  return (READ_BIT(((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->NDATA, DMA_NDATAx));
+  return (READ_BIT(((DMA_Stream_TypeDef*)((uint32_t)((uint32_t)DMAx + STREAM_OFFSET_TAB[Stream])))->NDATA, DMA_NDATAx_NDATA));
 }
 
 /**
@@ -2701,8 +2744,8 @@ __STATIC_INLINE uint32_t DDL_DMA_IsEnabledIT_FE(DMA_TypeDef *DMAx, uint32_t Stre
   * @{
   */
 
-uint32_t DDL_DMA_Init(DMA_TypeDef *DMAx, uint32_t Stream, DDL_DMA_InitTypeDef *DMA_InitStruct);
-uint32_t DDL_DMA_DeInit(DMA_TypeDef *DMAx, uint32_t Stream);
+ErrorStatus DDL_DMA_Init(DMA_TypeDef *DMAx, uint32_t Stream, DDL_DMA_InitTypeDef *DMA_InitStruct);
+ErrorStatus DDL_DMA_DeInit(DMA_TypeDef *DMAx, uint32_t Stream);
 void DDL_DMA_StructInit(DDL_DMA_InitTypeDef *DMA_InitStruct);
 
 /**

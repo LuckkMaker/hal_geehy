@@ -119,7 +119,7 @@ typedef struct
 
   uint32_t PLL1A;   /*!< Multiplication factor for PLL VCO output clock.
                         This parameter must be a number between Min_Data = @ref RCM_PLL1A_MIN_VALUE
-                        and Max_Data = @ref RCM_PLL1A_MIN_VALUE
+                        and Max_Data = @ref RCM_PLL1A_MAX_VALUE
 
                         This feature can be modified afterwards using unitary function
                         @ref DDL_RCM_PLL_ConfigDomain_SYS(). */

@@ -4,7 +4,7 @@
   * @brief   Header file of QSPI DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -128,10 +128,6 @@ typedef struct
 } DDL_QSPI_CommandTypeDef;
 
 /**
-  * @}
-  */
-
-/**
   * @brief  QSPI XIP structure definition
   */
 typedef struct
@@ -174,11 +170,9 @@ typedef struct
 
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
-
 /** @defgroup QSPI_DDL_Exported_Macros QSPI Exported Macros
   * @{
   */
-
 
 /** @defgroup QSPI_DDL_EC_DFS Data Frame Size
   * @{
@@ -219,7 +213,6 @@ typedef struct
   * @}
   */
 
-
 /** @defgroup QSPI_DDL_EC_TXMODE Transmission Mode
   * @{
   */
@@ -255,7 +248,6 @@ typedef struct
   */
 #define DDL_QSPI_RSE_RISING          0x00000000             /*!< Rising edge sample  */
 #define DDL_QSPI_RSE_FALLING         QSPI_RSD_RSE           /*!< Falling edge sample */
-
 /**
   * @}
   */
@@ -289,7 +281,6 @@ typedef struct
 #define DDL_QSPI_ADDR_LEN_52BIT           (QSPI_CTRL3_ADDRLEN_3 | QSPI_CTRL3_ADDRLEN_2 | QSPI_CTRL3_ADDRLEN_0)  /*!< 52-bit address length  */
 #define DDL_QSPI_ADDR_LEN_56BIT           (QSPI_CTRL3_ADDRLEN_3 | QSPI_CTRL3_ADDRLEN_2 | QSPI_CTRL3_ADDRLEN_1)  /*!< 56-bit address length  */
 #define DDL_QSPI_ADDR_LEN_60BIT           (QSPI_CTRL3_ADDRLEN)                                                  /*!< 60-bit address length  */
-
 /**
   * @}
   */
@@ -310,7 +301,6 @@ typedef struct
   */
 #define DDL_QSPI_XIP_MEM_ACCESS_BIG_ENDIAN       0x00000000                       /*!< Big endian     */
 #define DDL_QSPI_XIP_MEM_ACCESS_LITTLE_ENDIAN    QSPI_SWITCH_LITTLE_ENDIAN     /*!< Little endian  */
-
 /**
   * @}
   */
@@ -1841,14 +1831,7 @@ __STATIC_INLINE uint32_t DDL_QSPI_XIP_IsEnabled(QSPI_TypeDef *QSPIx)
     return ((READ_BIT(QSPIx->XIP_EN, QSPI_XIP_EN_XIP_EN) == QSPI_XIP_EN_XIP_EN) ? 1UL : 0UL);
 }
 
-
-
 #endif
-
-
-/**
-  * @}
-  */
 
 #if defined(USE_FULL_DDL_DRIVER)
 /** @defgroup FDCAN_DDL_EF_Init Initialization and de-initialization functions
@@ -1866,7 +1849,8 @@ ErrorStatus DDL_QSPI_Receive(QSPI_TypeDef *QSPIx, uint8_t *pRxData);
 /**
   * @}
   */
-/** @defgroup FDCAN_DDL_EF_XIP
+
+/** @defgroup QSPI_DDL_EF_XIP XIP Management
   * @{
   */
 ErrorStatus DDL_QSPI_MemoryMapped(QSPI_TypeDef *QSPIx, DDL_QSPI_XIPTypeDef *xipConfig);

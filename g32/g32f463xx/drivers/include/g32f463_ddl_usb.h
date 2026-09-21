@@ -4,7 +4,7 @@
   * @brief   Header file of USB Low Layer DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -335,13 +335,13 @@ typedef struct
   * @}
   */
 
-/** @defgroup USB_DDL_EC_TEST_MODE Test Mode
+/** @defgroup USB_DDL_EC_TESTMODE Test Mode
   * @{
   */
-#define DDL_USB_TEST_SE0_NAK        OTG_HS_TEST_MODE_B_TEST_SE0_NAK
-#define DDL_USB_TEST_J              OTG_HS_TEST_MODE_B_TEST_J
-#define DDL_USB_TEST_K              OTG_HS_TEST_MODE_B_TEST_K
-#define DDL_USB_TEST_PACKET         OTG_HS_TEST_MODE_B_TEST_PACKET
+#define DDL_USB_TEST_SE0_NAK        OTG_HS_TESTMODE_B_TEST_SE0_NAK
+#define DDL_USB_TEST_J              OTG_HS_TESTMODE_B_TEST_J
+#define DDL_USB_TEST_K              OTG_HS_TESTMODE_B_TEST_K
+#define DDL_USB_TEST_PACKET         OTG_HS_TESTMODE_B_TEST_PACKET
 /**
   * @}
   */
@@ -379,15 +379,15 @@ typedef struct
   * @{
   */
 #define DDL_USB_FIFO_SIZE_8           0x00000000UL                                                                                    /*!< FIFO size 8 bytes */
-#define DDL_USB_FIFO_SIZE_16          (OTG_HS_TXFIFO_SZ_SIZE_0)                                                                   /*!< FIFO size 16 bytes */
-#define DDL_USB_FIFO_SIZE_32          (OTG_HS_TXFIFO_SZ_SIZE_1)                                                                   /*!< FIFO size 32 bytes */
-#define DDL_USB_FIFO_SIZE_64          (OTG_HS_TXFIFO_SZ_SIZE_1 | OTG_HS_TXFIFO_SZ_SIZE_0)                                     /*!< FIFO size 64 bytes */
-#define DDL_USB_FIFO_SIZE_128         (OTG_HS_TXFIFO_SZ_SIZE_2)                                                                   /*!< FIFO size 128 bytes */
-#define DDL_USB_FIFO_SIZE_256         (OTG_HS_TXFIFO_SZ_SIZE_2 | OTG_HS_TXFIFO_SZ_SIZE_0)                                     /*!< FIFO size 256 bytes */
-#define DDL_USB_FIFO_SIZE_512         (OTG_HS_TXFIFO_SZ_SIZE_2 | OTG_HS_TXFIFO_SZ_SIZE_1)                                     /*!< FIFO size 512 bytes */
-#define DDL_USB_FIFO_SIZE_1024        (OTG_HS_TXFIFO_SZ_SIZE_2 | OTG_HS_TXFIFO_SZ_SIZE_1 | OTG_HS_TXFIFO_SZ_SIZE_0)       /*!< FIFO size 1024 bytes */
-#define DDL_USB_FIFO_SIZE_2048        (OTG_HS_TXFIFO_SZ_SIZE_3)                                                                   /*!< FIFO size 2048 bytes */
-#define DDL_USB_FIFO_SIZE_4096        (OTG_HS_TXFIFO_SZ_SIZE_3 | OTG_HS_TXFIFO_SZ_SIZE_0)                                     /*!< FIFO size 4096 bytes */
+#define DDL_USB_FIFO_SIZE_16          (OTG_HS_TXFIFOSZ_SIZE_0)                                                                   /*!< FIFO size 16 bytes */
+#define DDL_USB_FIFO_SIZE_32          (OTG_HS_TXFIFOSZ_SIZE_1)                                                                   /*!< FIFO size 32 bytes */
+#define DDL_USB_FIFO_SIZE_64          (OTG_HS_TXFIFOSZ_SIZE_1 | OTG_HS_TXFIFOSZ_SIZE_0)                                     /*!< FIFO size 64 bytes */
+#define DDL_USB_FIFO_SIZE_128         (OTG_HS_TXFIFOSZ_SIZE_2)                                                                   /*!< FIFO size 128 bytes */
+#define DDL_USB_FIFO_SIZE_256         (OTG_HS_TXFIFOSZ_SIZE_2 | OTG_HS_TXFIFOSZ_SIZE_0)                                     /*!< FIFO size 256 bytes */
+#define DDL_USB_FIFO_SIZE_512         (OTG_HS_TXFIFOSZ_SIZE_2 | OTG_HS_TXFIFOSZ_SIZE_1)                                     /*!< FIFO size 512 bytes */
+#define DDL_USB_FIFO_SIZE_1024        (OTG_HS_TXFIFOSZ_SIZE_2 | OTG_HS_TXFIFOSZ_SIZE_1 | OTG_HS_TXFIFOSZ_SIZE_0)       /*!< FIFO size 1024 bytes */
+#define DDL_USB_FIFO_SIZE_2048        (OTG_HS_TXFIFOSZ_SIZE_3)                                                                   /*!< FIFO size 2048 bytes */
+#define DDL_USB_FIFO_SIZE_4096        (OTG_HS_TXFIFOSZ_SIZE_3 | OTG_HS_TXFIFOSZ_SIZE_0)                                     /*!< FIFO size 4096 bytes */
 /**
   * @}
   */
@@ -440,15 +440,15 @@ typedef struct
 /** @defgroup USB_DDL_EC_INTR USB Interrupts
   * @{
   */
-#define DDL_USB_IT_SUSPEND            OTG_HS_INTR_USB_INT_SUSPEND       /*!< USB Suspend Interrupt */
-#define DDL_USB_IT_RESUME             OTG_HS_INTR_USB_INT_RESUME        /*!< USB Resume Interrupt */
-#define DDL_USB_IT_RESET              OTG_HS_INTR_USB_INT_RESET         /*!< USB Reset Interrupt */
-#define DDL_USB_IT_BABBLE             OTG_HS_INTR_USB_INT_BABBLE        /*!< USB Babble Interrupt */
-#define DDL_USB_IT_SOF                OTG_HS_INTR_USB_INT_SOF           /*!< USB Start of Frame Interrupt */
-#define DDL_USB_IT_CONNECT            OTG_HS_INTR_USB_INT_CONN          /*!< USB Connect Interrupt */
-#define DDL_USB_IT_DISCONNECT         OTG_HS_INTR_USB_INT_DISCON        /*!< USB Disconnect Interrupt */
-#define DDL_USB_IT_SESSION            OTG_HS_INTR_USB_INT_SESS_REQ      /*!< USB Session Request Interrupt */
-#define DDL_USB_IT_VBUS_ERROR         OTG_HS_INTR_USB_INT_VBUS_ERROR    /*!< USB VBUS Error Interrupt */
+#define DDL_USB_IT_SUSPEND            OTG_HS_INTRUSB_INT_SUSPEND       /*!< USB Suspend Interrupt */
+#define DDL_USB_IT_RESUME             OTG_HS_INTRUSB_INT_RESUME        /*!< USB Resume Interrupt */
+#define DDL_USB_IT_RESET              OTG_HS_INTRUSB_INT_RESET         /*!< USB Reset Interrupt */
+#define DDL_USB_IT_BABBLE             OTG_HS_INTRUSB_INT_BABBLE        /*!< USB Babble Interrupt */
+#define DDL_USB_IT_SOF                OTG_HS_INTRUSB_INT_SOF           /*!< USB Start of Frame Interrupt */
+#define DDL_USB_IT_CONNECT            OTG_HS_INTRUSB_INT_CONN          /*!< USB Connect Interrupt */
+#define DDL_USB_IT_DISCONNECT         OTG_HS_INTRUSB_INT_DISCON        /*!< USB Disconnect Interrupt */
+#define DDL_USB_IT_SESSION            OTG_HS_INTRUSB_INT_SESS_REQ      /*!< USB Session Request Interrupt */
+#define DDL_USB_IT_VBUS_ERROR         OTG_HS_INTRUSB_INT_VBUS_ERROR    /*!< USB VBUS Error Interrupt */
 /**
   * @}
   */
@@ -457,9 +457,9 @@ typedef struct
   * @{
   */
 #define DDL_USB_EP_TYPE_CTRL                  0x00000000UL                      /*!< Control Endpoint */
-#define DDL_USB_EP_TYPE_ISOC                  (OTG_HS_TX_TYPE_PROTOCOL_0)   /*!< Isochronous Endpoint */
-#define DDL_USB_EP_TYPE_BULK                  (OTG_HS_TX_TYPE_PROTOCOL_1)   /*!< Bulk Endpoint */
-#define DDL_USB_EP_TYPE_INTR                  (OTG_HS_TX_TYPE_PROTOCOL_1 | OTG_HS_TX_TYPE_PROTOCOL_0) /*!< Interrupt Endpoint */
+#define DDL_USB_EP_TYPE_ISOC                  (OTG_HS_TXTYPE_PROTOCOL_0)   /*!< Isochronous Endpoint */
+#define DDL_USB_EP_TYPE_BULK                  (OTG_HS_TXTYPE_PROTOCOL_1)   /*!< Bulk Endpoint */
+#define DDL_USB_EP_TYPE_INTR                  (OTG_HS_TXTYPE_PROTOCOL_1 | OTG_HS_TXTYPE_PROTOCOL_0) /*!< Interrupt Endpoint */
 /**
   * @}
   */
@@ -517,7 +517,7 @@ typedef struct
 */
 __STATIC_INLINE void DDL_USB_PHY_ForceReset(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->USBPHY_RESET, OTG_HS_PHY_RESET_USBPHY_RESET);
+  SET_BIT(USBx->USBPHY_RESET, OTG_PHY_RESET_USB_PHY_RESET);
 }
 
 /**
@@ -527,7 +527,7 @@ __STATIC_INLINE void DDL_USB_PHY_ForceReset(USB_OTG_TypeDef *USBx)
 */
 __STATIC_INLINE void DDL_USB_PHY_ReleaseReset(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->USBPHY_RESET, OTG_HS_PHY_RESET_USBPHY_RESET);
+  CLEAR_BIT(USBx->USBPHY_RESET, OTG_PHY_RESET_USB_PHY_RESET);
 }
 
 /**
@@ -537,7 +537,7 @@ __STATIC_INLINE void DDL_USB_PHY_ReleaseReset(USB_OTG_TypeDef *USBx)
 */
 __STATIC_INLINE void DDL_USB_PHY_EnableBypass(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->OTG_SUSPENDM, OTG_HS_PHY_OTG_SUSPENDM_USBPHY_BYPASS_EN);
+  SET_BIT(USBx->OTG_SUSPENDM, OTG_PHY_OTG_SUSPENDM_USBPHY_BYPASS_EN);
 }
 
 /**
@@ -547,7 +547,7 @@ __STATIC_INLINE void DDL_USB_PHY_EnableBypass(USB_OTG_TypeDef *USBx)
 */
 __STATIC_INLINE void DDL_USB_PHY_DisableBypass(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->OTG_SUSPENDM, OTG_HS_PHY_OTG_SUSPENDM_USBPHY_BYPASS_EN);
+  CLEAR_BIT(USBx->OTG_SUSPENDM, OTG_PHY_OTG_SUSPENDM_USBPHY_BYPASS_EN);
 }
 
 /**
@@ -557,7 +557,7 @@ __STATIC_INLINE void DDL_USB_PHY_DisableBypass(USB_OTG_TypeDef *USBx)
 */
 __STATIC_INLINE void DDL_USB_PHY_EnableVbusDetect(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->OTG_SUSPENDM, OTG_HS_PHY_OTG_SUSPENDM_VBUS_CHG_SEL);
+  SET_BIT(USBx->OTG_SUSPENDM, OTG_PHY_OTG_SUSPENDM_VBUS_CHG_SEL);
 }
 
 /**
@@ -567,7 +567,7 @@ __STATIC_INLINE void DDL_USB_PHY_EnableVbusDetect(USB_OTG_TypeDef *USBx)
 */
 __STATIC_INLINE void DDL_USB_PHY_DisableVbusDetect(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->OTG_SUSPENDM, OTG_HS_PHY_OTG_SUSPENDM_VBUS_CHG_SEL);
+  CLEAR_BIT(USBx->OTG_SUSPENDM, OTG_PHY_OTG_SUSPENDM_VBUS_CHG_SEL);
 }
 
 /**
@@ -577,7 +577,7 @@ __STATIC_INLINE void DDL_USB_PHY_DisableVbusDetect(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_PHY_EnableOTGFunction(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->OTG_SUSPENDM, OTG_HS_PHY_OTG_SUSPENDM_OTG_SUSPENDM);
+  SET_BIT(USBx->OTG_SUSPENDM, OTG_PHY_OTG_SUSPENDM_OTG_SUSPENDM);
 }
 
 /**
@@ -587,7 +587,7 @@ __STATIC_INLINE void DDL_USB_PHY_EnableOTGFunction(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_PHY_DisableOTGFunction(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->OTG_SUSPENDM, OTG_HS_PHY_OTG_SUSPENDM_OTG_SUSPENDM);
+  CLEAR_BIT(USBx->OTG_SUSPENDM, OTG_PHY_OTG_SUSPENDM_OTG_SUSPENDM);
 }
 
 /**
@@ -809,7 +809,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledSuspendMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_GetVBUSLevel(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_VBUS) >> OTG_HS_DEV_CTL_VBUS_Pos);
+  return (uint32_t)(READ_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_VBUS) >> OTG_HS_DEVCTL_VBUS_Pos);
 }
 
 /**
@@ -820,7 +820,7 @@ __STATIC_INLINE uint32_t DDL_USB_GetVBUSLevel(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableHostSessionRequest(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_HOST_REQ);
+  SET_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_HOST_REQ);
 }
 
 /**
@@ -831,7 +831,7 @@ __STATIC_INLINE void DDL_USB_EnableHostSessionRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableHostSessionRequest(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_HOST_REQ);
+  CLEAR_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_HOST_REQ);
 }
 
 /**
@@ -842,7 +842,7 @@ __STATIC_INLINE void DDL_USB_DisableHostSessionRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledHostSessionRequest(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_HOST_REQ) == (OTG_HS_DEV_CTL_HOST_REQ)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_HOST_REQ) == (OTG_HS_DEVCTL_HOST_REQ)) ? 1UL : 0UL);
 }
 
 /**
@@ -852,7 +852,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledHostSessionRequest(USB_OTG_TypeDef *US
   */
 __STATIC_INLINE void DDL_USB_EnableSessionRequest(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_SESSION);
+  SET_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_SESSION);
 }
 
 /**
@@ -862,7 +862,7 @@ __STATIC_INLINE void DDL_USB_EnableSessionRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableSessionRequest(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_SESSION);
+  CLEAR_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_SESSION);
 }
 
 /**
@@ -872,7 +872,7 @@ __STATIC_INLINE void DDL_USB_DisableSessionRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledSessionRequest(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_SESSION) == (OTG_HS_DEV_CTL_SESSION)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_SESSION) == (OTG_HS_DEVCTL_SESSION)) ? 1UL : 0UL);
 }
 
 /**
@@ -884,7 +884,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledSessionRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_GetRole(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_BDEVICE) >> OTG_HS_DEV_CTL_BDEVICE_Pos);
+  return (uint32_t)(READ_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_BDEVICE) >> OTG_HS_DEVCTL_BDEVICE_Pos);
 }
 
 /**
@@ -895,7 +895,7 @@ __STATIC_INLINE uint32_t DDL_USB_GetRole(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_SetWaitConnectTime(USB_OTG_TypeDef *USBx, uint8_t Time)
 {
-  MODIFY_REG(USBx->LINK_INFO, OTG_HS_LINK_INFO_WTCON, Time << OTG_HS_LINK_INFO_WTCON_Pos);
+  MODIFY_REG(USBx->LINKINFO, OTG_HS_LINKINFO_WTCON, Time << OTG_HS_LINKINFO_WTCON_Pos);
 }
 
 /**
@@ -905,7 +905,7 @@ __STATIC_INLINE void DDL_USB_SetWaitConnectTime(USB_OTG_TypeDef *USBx, uint8_t T
   */
 __STATIC_INLINE uint8_t DDL_USB_GetWaitConnectTime(USB_OTG_TypeDef *USBx)
 {
-  return (uint8_t)(READ_BIT(USBx->LINK_INFO, OTG_HS_LINK_INFO_WTCON) >> OTG_HS_LINK_INFO_WTCON_Pos);
+  return (uint8_t)(READ_BIT(USBx->LINKINFO, OTG_HS_LINKINFO_WTCON) >> OTG_HS_LINKINFO_WTCON_Pos);
 }
 
 /**
@@ -916,7 +916,7 @@ __STATIC_INLINE uint8_t DDL_USB_GetWaitConnectTime(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_SetIdDetectTime(USB_OTG_TypeDef *USBx, uint8_t Time)
 {
-  MODIFY_REG(USBx->LINK_INFO, OTG_HS_LINK_INFO_WTID, Time & OTG_HS_LINK_INFO_WTID);
+  MODIFY_REG(USBx->LINKINFO, OTG_HS_LINKINFO_WTID, Time & OTG_HS_LINKINFO_WTID);
 }
 
 /**
@@ -926,7 +926,7 @@ __STATIC_INLINE void DDL_USB_SetIdDetectTime(USB_OTG_TypeDef *USBx, uint8_t Time
   */
 __STATIC_INLINE uint8_t DDL_USB_GetIdDetectTime(USB_OTG_TypeDef *USBx)
 {
-  return (uint8_t)(READ_BIT(USBx->LINK_INFO, OTG_HS_LINK_INFO_WTID) >> OTG_HS_LINK_INFO_WTID_Pos);
+  return (uint8_t)(READ_BIT(USBx->LINKINFO, OTG_HS_LINKINFO_WTID) >> OTG_HS_LINKINFO_WTID_Pos);
 }
 
 /**
@@ -937,7 +937,7 @@ __STATIC_INLINE uint8_t DDL_USB_GetIdDetectTime(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_SetVBUSChargingPulseWidth(USB_OTG_TypeDef *USBx, uint8_t PulseWidth)
 {
-  MODIFY_REG(USBx->VP_LEN, OTG_HS_VP_LEN_VPLEN, PulseWidth & OTG_HS_VP_LEN_VPLEN);
+  MODIFY_REG(USBx->VPLEN, OTG_HS_VPLEN_VPLEN, PulseWidth & OTG_HS_VPLEN_VPLEN);
 }
 
 /**
@@ -947,7 +947,7 @@ __STATIC_INLINE void DDL_USB_SetVBUSChargingPulseWidth(USB_OTG_TypeDef *USBx, ui
   */
 __STATIC_INLINE uint8_t DDL_USB_GetVBUSChargingPulseWidth(USB_OTG_TypeDef *USBx)
 {
-  return (uint8_t)(READ_BIT(USBx->VP_LEN, OTG_HS_VP_LEN_VPLEN) >> OTG_HS_VP_LEN_VPLEN_Pos);
+  return (uint8_t)(READ_BIT(USBx->VPLEN, OTG_HS_VPLEN_VPLEN) >> OTG_HS_VPLEN_VPLEN_Pos);
 }
 
 /**
@@ -958,7 +958,7 @@ __STATIC_INLINE uint8_t DDL_USB_GetVBUSChargingPulseWidth(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_SetHighSpeedEOFTime(USB_OTG_TypeDef *USBx, uint8_t Time)
 {
-  MODIFY_REG(USBx->HS_EOF1, OTG_HS_HS_EOF1_HS_EOF1, Time & OTG_HS_HS_EOF1_HS_EOF1);
+  MODIFY_REG(USBx->HS_EOF1, OTG_HS_EOF1_HS_EOF1, Time & OTG_HS_EOF1_HS_EOF1);
 }
 
 /**
@@ -968,7 +968,7 @@ __STATIC_INLINE void DDL_USB_SetHighSpeedEOFTime(USB_OTG_TypeDef *USBx, uint8_t 
   */
 __STATIC_INLINE uint8_t DDL_USB_GetHighSpeedEOFTime(USB_OTG_TypeDef *USBx)
 {
-  return (uint8_t)(READ_BIT(USBx->HS_EOF1, OTG_HS_HS_EOF1_HS_EOF1) >> OTG_HS_HS_EOF1_HS_EOF1_Pos);
+  return (uint8_t)(READ_BIT(USBx->HS_EOF1, OTG_HS_EOF1_HS_EOF1) >> OTG_HS_EOF1_HS_EOF1_Pos);
 }
 
 /**
@@ -979,7 +979,7 @@ __STATIC_INLINE uint8_t DDL_USB_GetHighSpeedEOFTime(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_SetFullSpeedEOFTime(USB_OTG_TypeDef *USBx, uint8_t Time)
 {
-  MODIFY_REG(USBx->FS_EOF1, OTG_HS_FS_EOF1_FS_EOF1, Time & OTG_HS_FS_EOF1_FS_EOF1);
+  MODIFY_REG(USBx->FS_EOF1, OTG_FS_EOF1_FS_EOF1, Time & OTG_FS_EOF1_FS_EOF1);
 }
 
 /**
@@ -989,7 +989,7 @@ __STATIC_INLINE void DDL_USB_SetFullSpeedEOFTime(USB_OTG_TypeDef *USBx, uint8_t 
   */
 __STATIC_INLINE uint8_t DDL_USB_GetFullSpeedEOFTime(USB_OTG_TypeDef *USBx)
 {
-  return (uint8_t)(READ_BIT(USBx->FS_EOF1, OTG_HS_FS_EOF1_FS_EOF1) >> OTG_HS_FS_EOF1_FS_EOF1_Pos);
+  return (uint8_t)(READ_BIT(USBx->FS_EOF1, OTG_FS_EOF1_FS_EOF1) >> OTG_FS_EOF1_FS_EOF1_Pos);
 }
 
 /**
@@ -1000,7 +1000,7 @@ __STATIC_INLINE uint8_t DDL_USB_GetFullSpeedEOFTime(USB_OTG_TypeDef *USBx)
  */
 __STATIC_INLINE void DDL_USB_SetLowSpeedEOFTime(USB_OTG_TypeDef *USBx, uint8_t Time)
 {
-  MODIFY_REG(USBx->LS_EOF1, OTG_HS_LS_EOF1_LS_EOF1, Time & OTG_HS_LS_EOF1_LS_EOF1);
+  MODIFY_REG(USBx->LS_EOF1, OTG_LS_EOF1_LS_EOF1, Time & OTG_LS_EOF1_LS_EOF1);
 }
 
 /**
@@ -1010,7 +1010,7 @@ __STATIC_INLINE void DDL_USB_SetLowSpeedEOFTime(USB_OTG_TypeDef *USBx, uint8_t T
   */
 __STATIC_INLINE uint8_t DDL_USB_GetLowSpeedEOFTime(USB_OTG_TypeDef *USBx)
 {
-  return (uint8_t)(READ_BIT(USBx->LS_EOF1, OTG_HS_LS_EOF1_LS_EOF1) >> OTG_HS_LS_EOF1_LS_EOF1_Pos);
+  return (uint8_t)(READ_BIT(USBx->LS_EOF1, OTG_LS_EOF1_LS_EOF1) >> OTG_LS_EOF1_LS_EOF1_Pos);
 }
 
 /**
@@ -1022,7 +1022,7 @@ __STATIC_INLINE uint8_t DDL_USB_GetLowSpeedEOFTime(USB_OTG_TypeDef *USBx)
  */
 __STATIC_INLINE void DDL_USB_SetMultiBulkPacketCount(USB_OTG_TypeDef *USBx, uint8_t EpNum, uint16_t Count)
 {
-  MODIFY_REG(USBx->RQPKT_COUNT[(EpNum - 1U)], OTG_HS_RQPKT_COUNT_RQPKTCOUNT, Count);
+  MODIFY_REG(USBx->RQPKT_COUNT[(EpNum - 1U)], OTG_HS_RQPKTCOUNT_RQPKTCOUNT, Count);
 }
 
 /**
@@ -1033,7 +1033,7 @@ __STATIC_INLINE void DDL_USB_SetMultiBulkPacketCount(USB_OTG_TypeDef *USBx, uint
  */
 __STATIC_INLINE uint16_t DDL_USB_GetMultiBulkPacketCount(USB_OTG_TypeDef *USBx, uint8_t EpNum)
 {
-  return (uint16_t)(READ_BIT(USBx->RQPKT_COUNT[(EpNum - 1U)], OTG_HS_RQPKT_COUNT_RQPKTCOUNT));
+  return (uint16_t)(READ_BIT(USBx->RQPKT_COUNT[(EpNum - 1U)], OTG_HS_RQPKTCOUNT_RQPKTCOUNT));
 }
 
 /**
@@ -1064,7 +1064,7 @@ __STATIC_INLINE uint8_t DDL_USB_GetEpIndex(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableForceHostMode(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_HOST);
+  SET_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_HOST);
 }
 
 /**
@@ -1074,7 +1074,7 @@ __STATIC_INLINE void DDL_USB_EnableForceHostMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableForceHostMode(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_HOST);
+  CLEAR_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_HOST);
 }
 
 /**
@@ -1084,7 +1084,7 @@ __STATIC_INLINE void DDL_USB_DisableForceHostMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledForceHostMode(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_HOST) == (OTG_HS_TEST_MODE_B_FORCE_HOST)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_HOST) == (OTG_HS_TESTMODE_B_FORCE_HOST)) ? 1UL : 0UL);
 }
 
 /**
@@ -1094,7 +1094,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledForceHostMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableFifoAccess(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FIFO_ACCESS);
+  SET_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FIFO_ACCESS);
 }
 
 /**
@@ -1104,7 +1104,7 @@ __STATIC_INLINE void DDL_USB_EnableFifoAccess(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableForceFSMode(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_FS);
+  SET_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_FS);
 }
 
 /**
@@ -1114,7 +1114,7 @@ __STATIC_INLINE void DDL_USB_EnableForceFSMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableForceFSMode(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_FS);
+  CLEAR_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_FS);
 }
 
 /**
@@ -1124,7 +1124,7 @@ __STATIC_INLINE void DDL_USB_DisableForceFSMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledForceFSMode(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_FS) == (OTG_HS_TEST_MODE_B_FORCE_FS)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_FS) == (OTG_HS_TESTMODE_B_FORCE_FS)) ? 1UL : 0UL);
 }
 
 /**
@@ -1134,7 +1134,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledForceFSMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableForceHSMode(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_HS);
+  SET_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_HS);
 }
 
 /**
@@ -1144,7 +1144,7 @@ __STATIC_INLINE void DDL_USB_EnableForceHSMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableForceHSMode(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_HS);
+  CLEAR_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_HS);
 }
 
 /**
@@ -1154,7 +1154,7 @@ __STATIC_INLINE void DDL_USB_DisableForceHSMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledForceHSMode(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_FORCE_HS) == (OTG_HS_TEST_MODE_B_FORCE_HS)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TESTMODE, OTG_HS_TESTMODE_B_FORCE_HS) == (OTG_HS_TESTMODE_B_FORCE_HS)) ? 1UL : 0UL);
 }
 
 /**
@@ -1169,7 +1169,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledForceHSMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_SetTestMode(USB_OTG_TypeDef *USBx, uint32_t TestMode)
 {
-  MODIFY_REG(USBx->TEST_MODE, OTG_HS_TEST_MODE_B_TEST_MODE, TestMode & OTG_HS_TEST_MODE_B_TEST_MODE);
+  MODIFY_REG(USBx->TESTMODE, OTG_HS_TESTMODE_B_TESTMODE, TestMode & OTG_HS_TESTMODE_B_TESTMODE);
 }
 
 /**
@@ -1179,7 +1179,7 @@ __STATIC_INLINE void DDL_USB_SetTestMode(USB_OTG_TypeDef *USBx, uint32_t TestMod
   */
 __STATIC_INLINE uint32_t DDL_USB_GetTestMode(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->TEST_MODE) & OTG_HS_TEST_MODE_B_TEST_MODE);
+  return (uint32_t)(READ_REG(USBx->TESTMODE) & OTG_HS_TESTMODE_B_TESTMODE);
 }
 
 /**
@@ -1189,7 +1189,7 @@ __STATIC_INLINE uint32_t DDL_USB_GetTestMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_GetCurrentFrame(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->FRAME_NUM));
+  return (uint32_t)(READ_REG(USBx->FRAMENUM));
 }
 
 /**
@@ -1199,7 +1199,7 @@ __STATIC_INLINE uint32_t DDL_USB_GetCurrentFrame(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint16_t DDL_USB_ReadAllEpTxInterrupt(USB_OTG_TypeDef *USBx)
 {
-  return (uint16_t)(READ_REG(USBx->INTR_TX));
+  return (uint16_t)(READ_REG(USBx->INTRTX));
 }
 
 /**
@@ -1209,7 +1209,7 @@ __STATIC_INLINE uint16_t DDL_USB_ReadAllEpTxInterrupt(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint16_t DDL_USB_ReadAllEpRxInterrupt(USB_OTG_TypeDef *USBx)
 {
-  return (uint16_t)(READ_REG(USBx->INTR_RX));
+  return (uint16_t)(READ_REG(USBx->INTRRX));
 }
 
 /**
@@ -1230,7 +1230,7 @@ __STATIC_INLINE uint16_t DDL_USB_ReadAllEpRxInterrupt(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint16_t DDL_USB_ReadEpTxInterrupt(USB_OTG_TypeDef *USBx, uint16_t EpNum)
 {
-  return (uint16_t)(READ_BIT(USBx->INTR_TX, EpNum));
+  return (uint16_t)(READ_BIT(USBx->INTRTX, EpNum));
 }
 
 /**
@@ -1250,7 +1250,7 @@ __STATIC_INLINE uint16_t DDL_USB_ReadEpTxInterrupt(USB_OTG_TypeDef *USBx, uint16
   */
 __STATIC_INLINE uint16_t DDL_USB_ReadEpRxInterrupt(USB_OTG_TypeDef *USBx, uint16_t EpNum)
 {
-  return (uint16_t)(READ_BIT(USBx->INTR_RX, EpNum));
+  return (uint16_t)(READ_BIT(USBx->INTRRX, EpNum));
 }
 
 /**
@@ -1271,7 +1271,7 @@ __STATIC_INLINE uint16_t DDL_USB_ReadEpRxInterrupt(USB_OTG_TypeDef *USBx, uint16
   */
 __STATIC_INLINE void DDL_USB_EnableEpTxInterrupt(USB_OTG_TypeDef *USBx, uint16_t EpNum)
 {
-  SET_BIT(USBx->INTR_TXE, EpNum);
+  SET_BIT(USBx->INTRTXE, EpNum);
 }
 
 /**
@@ -1292,7 +1292,7 @@ __STATIC_INLINE void DDL_USB_EnableEpTxInterrupt(USB_OTG_TypeDef *USBx, uint16_t
   */
 __STATIC_INLINE void DDL_USB_DisableEpTxInterrupt(USB_OTG_TypeDef *USBx, uint16_t EpNum)
 {
-  CLEAR_BIT(USBx->INTR_TXE, EpNum);
+  CLEAR_BIT(USBx->INTRTXE, EpNum);
 }
 
 /**
@@ -1313,7 +1313,7 @@ __STATIC_INLINE void DDL_USB_DisableEpTxInterrupt(USB_OTG_TypeDef *USBx, uint16_
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledEpTxInterrupt(USB_OTG_TypeDef *USBx, uint16_t EpNum)
 {
-  return ((READ_BIT(USBx->INTR_TXE, EpNum) == (EpNum)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->INTRTXE, EpNum) == (EpNum)) ? 1UL : 0UL);
 }
 
 /**
@@ -1333,7 +1333,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledEpTxInterrupt(USB_OTG_TypeDef *USBx, u
   */
 __STATIC_INLINE void DDL_USB_EnableEpRxInterrupt(USB_OTG_TypeDef *USBx, uint16_t EpNum)
 {
-  SET_BIT(USBx->INTR_RXE, EpNum);
+  SET_BIT(USBx->INTRRXE, EpNum);
 }
 
 /**
@@ -1353,7 +1353,7 @@ __STATIC_INLINE void DDL_USB_EnableEpRxInterrupt(USB_OTG_TypeDef *USBx, uint16_t
   */
 __STATIC_INLINE void DDL_USB_DisableEpRxInterrupt(USB_OTG_TypeDef *USBx, uint16_t EpNum)
 {
-  CLEAR_BIT(USBx->INTR_RXE, EpNum);
+  CLEAR_BIT(USBx->INTRRXE, EpNum);
 }
 
 /**
@@ -1373,7 +1373,7 @@ __STATIC_INLINE void DDL_USB_DisableEpRxInterrupt(USB_OTG_TypeDef *USBx, uint16_
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledEpRxInterrupt(USB_OTG_TypeDef *USBx, uint16_t EpNum)
 {
-  return ((READ_BIT(USBx->INTR_RXE, EpNum) == (EpNum)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->INTRRXE, EpNum) == (EpNum)) ? 1UL : 0UL);
 }
 
 /**
@@ -1383,7 +1383,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledEpRxInterrupt(USB_OTG_TypeDef *USBx, u
   */
 __STATIC_INLINE uint32_t DDL_USB_ReadInterrupts(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->INTR_USB));
+  return (uint32_t)(READ_REG(USBx->INTRUSB));
 }
 
 /**
@@ -1393,7 +1393,7 @@ __STATIC_INLINE uint32_t DDL_USB_ReadInterrupts(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableIT_SUSPEND(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SUSPENDE);
+  SET_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SUSPENDE);
 }
 
 /**
@@ -1403,7 +1403,7 @@ __STATIC_INLINE void DDL_USB_EnableIT_SUSPEND(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableIT_SUSPEND(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SUSPENDE);
+  CLEAR_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SUSPENDE);
 }
 
 /**
@@ -1413,7 +1413,7 @@ __STATIC_INLINE void DDL_USB_DisableIT_SUSPEND(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_SUSPEND(USB_OTG_TypeDef *USBx)
 {
-  return (READ_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SUSPENDE) == (OTG_HS_INTR_USBE_INT_SUSPENDE) ? 1UL : 0UL);
+  return (READ_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SUSPENDE) == (OTG_HS_INTRUSBE_INT_SUSPENDE) ? 1UL : 0UL);
 }
 
 /**
@@ -1423,7 +1423,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_SUSPEND(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableIT_RESUME(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_RESUMEE);
+  SET_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_RESUMEE);
 }
 
 /**
@@ -1433,7 +1433,7 @@ __STATIC_INLINE void DDL_USB_EnableIT_RESUME(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableIT_RESUME(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_RESUMEE);
+  CLEAR_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_RESUMEE);
 }
 
 /**
@@ -1443,7 +1443,7 @@ __STATIC_INLINE void DDL_USB_DisableIT_RESUME(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_RESUME(USB_OTG_TypeDef *USBx)
 {
-  return (READ_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_RESUMEE) == (OTG_HS_INTR_USBE_INT_RESUMEE) ? 1UL : 0UL);
+  return (READ_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_RESUMEE) == (OTG_HS_INTRUSBE_INT_RESUMEE) ? 1UL : 0UL);
 }
 
 /**
@@ -1453,7 +1453,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_RESUME(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableIT_RESET(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_RESET_BABBLE);
+  SET_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_RESET_BABBLE);
 }
 
 /**
@@ -1463,7 +1463,7 @@ __STATIC_INLINE void DDL_USB_EnableIT_RESET(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableIT_RESET(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_RESET_BABBLE);
+  CLEAR_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_RESET_BABBLE);
 }
 
 /**
@@ -1473,7 +1473,7 @@ __STATIC_INLINE void DDL_USB_DisableIT_RESET(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_RESET(USB_OTG_TypeDef *USBx)
 {
-  return (READ_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_RESET_BABBLE) == (OTG_HS_INTR_USBE_INT_RESET_BABBLE) ? 1UL : 0UL);
+  return (READ_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_RESET_BABBLE) == (OTG_HS_INTRUSBE_INT_RESET_BABBLE) ? 1UL : 0UL);
 }
 
 /**
@@ -1483,7 +1483,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_RESET(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableIT_SOF(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SOFE);
+  SET_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SOFE);
 }
 
 /**
@@ -1493,7 +1493,7 @@ __STATIC_INLINE void DDL_USB_EnableIT_SOF(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableIT_SOF(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SOFE);
+  CLEAR_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SOFE);
 }
 
 /**
@@ -1503,7 +1503,7 @@ __STATIC_INLINE void DDL_USB_DisableIT_SOF(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_SOF(USB_OTG_TypeDef *USBx)
 {
-  return (READ_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SOFE) == (OTG_HS_INTR_USBE_INT_SOFE) ? 1UL : 0UL);
+  return (READ_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SOFE) == (OTG_HS_INTRUSBE_INT_SOFE) ? 1UL : 0UL);
 }
 
 /**
@@ -1513,7 +1513,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_SOF(USB_OTG_TypeDef *USBx)
  */
 __STATIC_INLINE void DDL_USB_EnableIT_CONNECT(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_CONNE);
+  SET_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_CONNE);
 }
 
 /**
@@ -1523,7 +1523,7 @@ __STATIC_INLINE void DDL_USB_EnableIT_CONNECT(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableIT_CONNECT(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_CONNE);
+  CLEAR_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_CONNE);
 }
 
 /**
@@ -1533,7 +1533,7 @@ __STATIC_INLINE void DDL_USB_DisableIT_CONNECT(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_CONNECT(USB_OTG_TypeDef *USBx)
 {
-  return (READ_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_CONNE) == (OTG_HS_INTR_USBE_INT_CONNE) ? 1UL : 0UL);
+  return (READ_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_CONNE) == (OTG_HS_INTRUSBE_INT_CONNE) ? 1UL : 0UL);
 }
 
 /**
@@ -1543,7 +1543,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_CONNECT(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableIT_DISCONNECT(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_DISCONE);
+  SET_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_DISCONE);
 }
 
 /**
@@ -1553,7 +1553,7 @@ __STATIC_INLINE void DDL_USB_EnableIT_DISCONNECT(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableIT_DISCONNECT(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_DISCONE);
+  CLEAR_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_DISCONE);
 }
 
 /**
@@ -1563,7 +1563,7 @@ __STATIC_INLINE void DDL_USB_DisableIT_DISCONNECT(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_DISCONNECT(USB_OTG_TypeDef *USBx)
 {
-  return (READ_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_DISCONE) == (OTG_HS_INTR_USBE_INT_DISCONE) ? 1UL : 0UL);
+  return (READ_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_DISCONE) == (OTG_HS_INTRUSBE_INT_DISCONE) ? 1UL : 0UL);
 }
 
 /**
@@ -1573,7 +1573,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_DISCONNECT(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableIT_SESSREQ(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SESS_REQE);
+  SET_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SESS_REQE);
 }
 
 /**
@@ -1583,7 +1583,7 @@ __STATIC_INLINE void DDL_USB_EnableIT_SESSREQ(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableIT_SESSREQ(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SESS_REQE);
+  CLEAR_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SESS_REQE);
 }
 
 /**
@@ -1593,7 +1593,7 @@ __STATIC_INLINE void DDL_USB_DisableIT_SESSREQ(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_SESSREQ(USB_OTG_TypeDef *USBx)
 {
-  return (READ_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_SESS_REQE) == (OTG_HS_INTR_USBE_INT_SESS_REQE) ? 1UL : 0UL);
+  return (READ_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_SESS_REQE) == (OTG_HS_INTRUSBE_INT_SESS_REQE) ? 1UL : 0UL);
 }
 
 /**
@@ -1603,7 +1603,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_SESSREQ(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EnableIT_VBUSERROR(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_VBUS_ERRORE);
+  SET_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_VBUS_ERRORE);
 }
 
 /**
@@ -1613,7 +1613,7 @@ __STATIC_INLINE void DDL_USB_EnableIT_VBUSERROR(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_DisableIT_VBUSERROR(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_VBUS_ERRORE);
+  CLEAR_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_VBUS_ERRORE);
 }
 
 /**
@@ -1623,7 +1623,7 @@ __STATIC_INLINE void DDL_USB_DisableIT_VBUSERROR(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsEnabledIT_VBUSERROR(USB_OTG_TypeDef *USBx)
 {
-  return (READ_BIT(USBx->INTR_USBE, OTG_HS_INTR_USBE_INT_VBUS_ERRORE) == (OTG_HS_INTR_USBE_INT_VBUS_ERRORE) ? 1UL : 0UL);
+  return (READ_BIT(USBx->INTRUSBE, OTG_HS_INTRUSBE_INT_VBUS_ERRORE) == (OTG_HS_INTRUSBE_INT_VBUS_ERRORE) ? 1UL : 0UL);
 }
 
 /**
@@ -1666,7 +1666,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsActiveFlag_SUSPEND(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsActiveFlag_LSDEV(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_LSDEV) == (OTG_HS_DEV_CTL_LSDEV)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_LSDEV) == (OTG_HS_DEVCTL_LSDEV)) ? 1UL : 0UL);
 }
 
 /**
@@ -1677,7 +1677,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsActiveFlag_LSDEV(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsActiveFlag_FSDEV(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_FSDEV) == (OTG_HS_DEV_CTL_FSDEV) && \
+  return ((READ_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_FSDEV) == (OTG_HS_DEVCTL_FSDEV) && \
           (READ_BIT(USBx->POWER, OTG_HS_POWER_HSMODE) == RESET)) ? 1UL : 0UL);
 }
 
@@ -1689,7 +1689,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsActiveFlag_FSDEV(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_IsActiveFlag_HSDEV(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_FSDEV) == (OTG_HS_DEV_CTL_FSDEV) && \
+  return ((READ_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_FSDEV) == (OTG_HS_DEVCTL_FSDEV) && \
           (READ_BIT(USBx->POWER, OTG_HS_POWER_HSMODE) == (OTG_HS_POWER_HSMODE))) ? 1UL : 0UL);
 }
 
@@ -1700,7 +1700,7 @@ __STATIC_INLINE uint32_t DDL_USB_IsActiveFlag_HSDEV(USB_OTG_TypeDef *USBx)
  */
 __STATIC_INLINE uint32_t DDL_USB_IsActiveFlag_HOST(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->DEV_CTL, OTG_HS_DEV_CTL_HOST_MODE) == (OTG_HS_DEV_CTL_HOST_MODE)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->DEVCTL, OTG_HS_DEVCTL_HOST_MODE) == (OTG_HS_DEVCTL_HOST_MODE)) ? 1UL : 0UL);
 }
 
 /**
@@ -2485,8 +2485,8 @@ __STATIC_INLINE uint32_t DDL_USB_EP0_GetRxDataCount(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableDmaRequest(USB_OTG_TypeDef *USBx, uint32_t mode)
 {
-  MODIFY_REG(USBx->TX_CSR, OTG_HS_TX_CSR_AUTOSET | OTG_HS_TX_CSR_DMAREQENAB | OTG_HS_TX_CSR_DMAREQMODE,
-              OTG_HS_TX_CSR_AUTOSET | OTG_HS_TX_CSR_DMAREQENAB | mode << OTG_HS_TX_CSR_DMAREQMODE_Pos);
+  MODIFY_REG(USBx->TXCSR, OTG_HS_TXCSR_AUTOSET | OTG_HS_TXCSR_DMAREQENAB | OTG_HS_TXCSR_DMAREQMODE,
+              OTG_HS_TXCSR_AUTOSET | OTG_HS_TXCSR_DMAREQENAB | mode << OTG_HS_TXCSR_DMAREQMODE_Pos);
 }
 
 /**
@@ -2496,7 +2496,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableDmaRequest(USB_OTG_TypeDef *USBx, uint32
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableDmaRequest(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_AUTOSET | OTG_HS_TX_CSR_DMAREQENAB | OTG_HS_TX_CSR_DMAREQMODE);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_AUTOSET | OTG_HS_TXCSR_DMAREQENAB | OTG_HS_TXCSR_DMAREQMODE);
 }
 
 /**
@@ -2512,7 +2512,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableDmaRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetProtocol(USB_OTG_TypeDef *USBx, uint32_t Protocol)
 {
-  MODIFY_REG(USBx->TX_TYPE, OTG_HS_TX_TYPE_PROTOCOL, Protocol);
+  MODIFY_REG(USBx->TXTYPE, OTG_HS_TXTYPE_PROTOCOL, Protocol);
 }
 
 /**
@@ -2527,7 +2527,7 @@ __STATIC_INLINE void DDL_USB_EPTX_SetProtocol(USB_OTG_TypeDef *USBx, uint32_t Pr
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_GetProtocol(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->TX_TYPE) & OTG_HS_TX_TYPE_PROTOCOL);
+  return (uint32_t)(READ_REG(USBx->TXTYPE) & OTG_HS_TXTYPE_PROTOCOL);
 }
 
 /**
@@ -2539,7 +2539,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_GetProtocol(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetTargetEndpoint(USB_OTG_TypeDef *USBx, uint32_t EpNum)
 {
-  MODIFY_REG(USBx->TX_TYPE, OTG_HS_TX_TYPE_TARGET_ENDPOINT_NUMBER, EpNum);
+  MODIFY_REG(USBx->TXTYPE, OTG_HS_TXTYPE_TARGET_ENDPOINT_NUMBER, EpNum);
 }
 
 /**
@@ -2550,7 +2550,7 @@ __STATIC_INLINE void DDL_USB_EPTX_SetTargetEndpoint(USB_OTG_TypeDef *USBx, uint3
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_GetTargetEndpoint(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->TX_TYPE) & OTG_HS_TX_TYPE_TARGET_ENDPOINT_NUMBER);
+  return (uint32_t)(READ_REG(USBx->TXTYPE) & OTG_HS_TXTYPE_TARGET_ENDPOINT_NUMBER);
 }
 
 /**
@@ -2563,7 +2563,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_GetTargetEndpoint(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetInterval(USB_OTG_TypeDef *USBx, uint32_t Interval)
 {
-  MODIFY_REG(USBx->TX_INTERVAL, OTG_HS_TX_INTERVAL_TXINTERVAL_NAKLIMIT, Interval);
+  MODIFY_REG(USBx->TXINTERVAL, OTG_HS_TXINTERVAL_TXINTERVAL_NAKLIMIT, Interval);
 }
 
 /**
@@ -2575,7 +2575,7 @@ __STATIC_INLINE void DDL_USB_EPTX_SetInterval(USB_OTG_TypeDef *USBx, uint32_t In
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_GetInterval(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->TX_INTERVAL) & OTG_HS_TX_INTERVAL_TXINTERVAL_NAKLIMIT);
+  return (uint32_t)(READ_REG(USBx->TXINTERVAL) & OTG_HS_TXINTERVAL_TXINTERVAL_NAKLIMIT);
 }
 
 /**
@@ -2588,7 +2588,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_GetInterval(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetNAKLimit(USB_OTG_TypeDef *USBx, uint32_t Limit)
 {
-  MODIFY_REG(USBx->TX_INTERVAL, OTG_HS_TX_INTERVAL_TXINTERVAL_NAKLIMIT, Limit);
+  MODIFY_REG(USBx->TXINTERVAL, OTG_HS_TXINTERVAL_TXINTERVAL_NAKLIMIT, Limit);
 }
 
 /**
@@ -2600,7 +2600,7 @@ __STATIC_INLINE void DDL_USB_EPTX_SetNAKLimit(USB_OTG_TypeDef *USBx, uint32_t Li
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_GetNAKLimit(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_BIT(USBx->TX_INTERVAL, OTG_HS_TX_INTERVAL_TXINTERVAL_NAKLIMIT));
+  return (uint32_t)(READ_BIT(USBx->TXINTERVAL, OTG_HS_TXINTERVAL_TXINTERVAL_NAKLIMIT));
 }
 
 /**
@@ -2621,7 +2621,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_GetNAKLimit(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetFifoSize(USB_OTG_TypeDef *USBx, uint32_t Size)
 {
-  MODIFY_REG(USBx->TXFIFO_SZ, OTG_HS_TXFIFO_SZ_SIZE, Size & OTG_HS_TXFIFO_SZ_SIZE);
+  MODIFY_REG(USBx->TXFIFOSZ, OTG_HS_TXFIFOSZ_SIZE, Size & OTG_HS_TXFIFOSZ_SIZE);
 }
 
 /**
@@ -2631,7 +2631,7 @@ __STATIC_INLINE void DDL_USB_EPTX_SetFifoSize(USB_OTG_TypeDef *USBx, uint32_t Si
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_GetFifoSize(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->TXFIFO_SZ) & OTG_HS_TXFIFO_SZ_SIZE);
+  return (uint32_t)(READ_REG(USBx->TXFIFOSZ) & OTG_HS_TXFIFOSZ_SIZE);
 }
 
 /**
@@ -2641,7 +2641,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_GetFifoSize(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableFifoDPB(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TXFIFO_SZ, OTG_HS_TXFIFO_SZ_DPB);
+  SET_BIT(USBx->TXFIFOSZ, OTG_HS_TXFIFOSZ_DPB);
 }
 
 /**
@@ -2651,7 +2651,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableFifoDPB(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableFifoDPB(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TXFIFO_SZ, OTG_HS_TXFIFO_SZ_DPB);
+  CLEAR_BIT(USBx->TXFIFOSZ, OTG_HS_TXFIFOSZ_DPB);
 }
 
 /**
@@ -2661,7 +2661,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableFifoDPB(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledFifoDPB(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TXFIFO_SZ, OTG_HS_TXFIFO_SZ_DPB) == (OTG_HS_TXFIFO_SZ_DPB)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXFIFOSZ, OTG_HS_TXFIFOSZ_DPB) == (OTG_HS_TXFIFOSZ_DPB)) ? 1UL : 0UL);
 }
 
 /**
@@ -2672,7 +2672,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledFifoDPB(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetFifoAddress(USB_OTG_TypeDef *USBx, uint16_t Address)
 {
-  MODIFY_REG(USBx->TXFIFO_ADD, OTG_HS_TXFIFO_ADD_ADD, Address & OTG_HS_TXFIFO_ADD_ADD);
+  MODIFY_REG(USBx->TXFIFOADD, OTG_HS_TXFIFOADD_ADD, Address & OTG_HS_TXFIFOADD_ADD);
 }
 
 /**
@@ -2682,7 +2682,7 @@ __STATIC_INLINE void DDL_USB_EPTX_SetFifoAddress(USB_OTG_TypeDef *USBx, uint16_t
   */
 __STATIC_INLINE uint16_t DDL_USB_EPTX_GetFifoAddress(USB_OTG_TypeDef *USBx)
 {
-  return (uint16_t)(READ_REG(USBx->TXFIFO_ADD) & OTG_HS_TXFIFO_ADD_ADD);
+  return (uint16_t)(READ_REG(USBx->TXFIFOADD) & OTG_HS_TXFIFOADD_ADD);
 }
 
 /**
@@ -2692,7 +2692,7 @@ __STATIC_INLINE uint16_t DDL_USB_EPTX_GetFifoAddress(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableIso3TM(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_MAX, OTG_HS_TX_MAX_TX_3T_M);
+  SET_BIT(USBx->TXMAX, OTG_HS_TXMAX_TX_3T_M);
 }
 
 /**
@@ -2702,7 +2702,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableIso3TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableIso3TM(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_MAX, OTG_HS_TX_MAX_TX_3T_M);
+  CLEAR_BIT(USBx->TXMAX, OTG_HS_TXMAX_TX_3T_M);
 }
 
 /**
@@ -2712,7 +2712,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableIso3TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledIso3TM(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_MAX, OTG_HS_TX_MAX_TX_3T_M) == (OTG_HS_TX_MAX_TX_3T_M)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXMAX, OTG_HS_TXMAX_TX_3T_M) == (OTG_HS_TXMAX_TX_3T_M)) ? 1UL : 0UL);
 }
 
 /**
@@ -2722,7 +2722,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledIso3TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableIso2TM(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_MAX, OTG_HS_TX_MAX_TX_2T_M);
+  SET_BIT(USBx->TXMAX, OTG_HS_TXMAX_TX_2T_M);
 }
 
 /**
@@ -2732,7 +2732,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableIso2TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableIso2TM(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_MAX, OTG_HS_TX_MAX_TX_2T_M);
+  CLEAR_BIT(USBx->TXMAX, OTG_HS_TXMAX_TX_2T_M);
 }
 
 /**
@@ -2742,7 +2742,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableIso2TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledIso2TM(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_MAX, OTG_HS_TX_MAX_TX_2T_M) == (OTG_HS_TX_MAX_TX_2T_M)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXMAX, OTG_HS_TXMAX_TX_2T_M) == (OTG_HS_TXMAX_TX_2T_M)) ? 1UL : 0UL);
 }
 
 /**
@@ -2753,7 +2753,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledIso2TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetMaxPacketSize(USB_OTG_TypeDef *USBx, uint16_t MaxPacketSize)
 {
-  MODIFY_REG(USBx->TX_MAX, OTG_HS_TX_MAX_TX_MAX, MaxPacketSize & OTG_HS_TX_MAX_TX_MAX);
+  MODIFY_REG(USBx->TXMAX, OTG_HS_TXMAX_TXMAX, MaxPacketSize & OTG_HS_TXMAX_TXMAX);
 }
 
 /**
@@ -2763,7 +2763,7 @@ __STATIC_INLINE void DDL_USB_EPTX_SetMaxPacketSize(USB_OTG_TypeDef *USBx, uint16
   */
 __STATIC_INLINE uint16_t DDL_USB_EPTX_GetMaxPacketSize(USB_OTG_TypeDef *USBx)
 {
-  return (uint16_t)(READ_REG(USBx->TX_MAX) & OTG_HS_TX_MAX_TX_MAX);
+  return (uint16_t)(READ_REG(USBx->TXMAX) & OTG_HS_TXMAX_TXMAX);
 }
 
 /**
@@ -2773,7 +2773,7 @@ __STATIC_INLINE uint16_t DDL_USB_EPTX_GetMaxPacketSize(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableAutoSet(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_AUTOSET);
+  SET_BIT(USBx->TXCSR, OTG_HS_TXCSR_AUTOSET);
 }
 
 /**
@@ -2783,7 +2783,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableAutoSet(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableAutoSet(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_AUTOSET);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_AUTOSET);
 }
 
 /**
@@ -2793,7 +2793,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableAutoSet(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledAutoSet(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_AUTOSET) == (OTG_HS_TX_CSR_AUTOSET)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_AUTOSET) == (OTG_HS_TXCSR_AUTOSET)) ? 1UL : 0UL);
 }
 
 /**
@@ -2804,7 +2804,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledAutoSet(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableIsoTransfer(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_ISO);
+  SET_BIT(USBx->TXCSR, OTG_HS_TXCSR_ISO);
 }
 
 /**
@@ -2815,7 +2815,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableIsoTransfer(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableIsoTransfer(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_ISO);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_ISO);
 }
 
 /**
@@ -2826,7 +2826,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableIsoTransfer(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledIsoTransfer(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_ISO) == (OTG_HS_TX_CSR_ISO)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_ISO) == (OTG_HS_TXCSR_ISO)) ? 1UL : 0UL);
 }
 
 /**
@@ -2836,7 +2836,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledIsoTransfer(USB_OTG_TypeDef *USBx
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableDMARequest(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_DMAREQENAB);
+  SET_BIT(USBx->TXCSR, OTG_HS_TXCSR_DMAREQENAB);
 }
 
 /**
@@ -2846,7 +2846,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableDMARequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableDMARequest(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_DMAREQENAB);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_DMAREQENAB);
 }
 
 /**
@@ -2856,7 +2856,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableDMARequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledDMARequest(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_DMAREQENAB) == (OTG_HS_TX_CSR_DMAREQENAB)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_DMAREQENAB) == (OTG_HS_TXCSR_DMAREQENAB)) ? 1UL : 0UL);
 }
 
 /**
@@ -2866,7 +2866,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledDMARequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableForceDataToggle(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_FRCDATATOG);
+  SET_BIT(USBx->TXCSR, OTG_HS_TXCSR_FRCDATATOG);
 }
 
 /**
@@ -2876,7 +2876,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableForceDataToggle(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableForceDataToggle(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_FRCDATATOG);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_FRCDATATOG);
 }
 
 /**
@@ -2886,7 +2886,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableForceDataToggle(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledForceDataToggle(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_FRCDATATOG) == (OTG_HS_TX_CSR_FRCDATATOG)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_FRCDATATOG) == (OTG_HS_TXCSR_FRCDATATOG)) ? 1UL : 0UL);
 }
 
 /**
@@ -2899,7 +2899,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledForceDataToggle(USB_OTG_TypeDef *
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetDMARequestMode(USB_OTG_TypeDef *USBx, uint32_t Mode)
 {
-  MODIFY_REG(USBx->TX_CSR, OTG_HS_TX_CSR_DMAREQMODE, Mode << OTG_HS_TX_CSR_DMAREQMODE_Pos);
+  MODIFY_REG(USBx->TXCSR, OTG_HS_TXCSR_DMAREQMODE, Mode << OTG_HS_TXCSR_DMAREQMODE_Pos);
 }
 
 /**
@@ -2909,7 +2909,7 @@ __STATIC_INLINE void DDL_USB_EPTX_SetDMARequestMode(USB_OTG_TypeDef *USBx, uint3
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_GetDMARequestMode(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->TX_CSR) & OTG_HS_TX_CSR_DMAREQMODE);
+  return (uint32_t)(READ_REG(USBx->TXCSR) & OTG_HS_TXCSR_DMAREQMODE);
 }
 
 /**
@@ -2919,7 +2919,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_GetDMARequestMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_ClearDataToggle(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_CLRDATATOG);
+  SET_BIT(USBx->TXCSR, OTG_HS_TXCSR_CLRDATATOG);
 }
 
 /**
@@ -2930,7 +2930,7 @@ __STATIC_INLINE void DDL_USB_EPTX_ClearDataToggle(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_EnableStall(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_SENDSTALL);
+  SET_BIT(USBx->TXCSR, OTG_HS_TXCSR_SENDSTALL);
 }
 
 /**
@@ -2941,7 +2941,7 @@ __STATIC_INLINE void DDL_USB_EPTX_EnableStall(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_DisableStall(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_SENDSTALL);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_SENDSTALL);
 }
 
 /**
@@ -2952,7 +2952,7 @@ __STATIC_INLINE void DDL_USB_EPTX_DisableStall(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledStall(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_SENDSTALL) == (OTG_HS_TX_CSR_SENDSTALL)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_SENDSTALL) == (OTG_HS_TXCSR_SENDSTALL)) ? 1UL : 0UL);
 }
 
 /**
@@ -2962,7 +2962,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsEnabledStall(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_FlushFIFO(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_FLUSHFIFO);
+  SET_BIT(USBx->TXCSR, OTG_HS_TXCSR_FLUSHFIFO);
 }
 
 /**
@@ -2973,7 +2973,7 @@ __STATIC_INLINE void DDL_USB_EPTX_FlushFIFO(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_HBTX(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_INCOMPTX) == (OTG_HS_TX_CSR_INCOMPTX)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_INCOMPTX) == (OTG_HS_TXCSR_INCOMPTX)) ? 1UL : 0UL);
 }
 
 /**
@@ -2984,7 +2984,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_HBTX(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_HBTX(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_INCOMPTX);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_INCOMPTX);
 }
 
 /**
@@ -2995,7 +2995,7 @@ __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_HBTX(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_NAKTIMEOUT(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_NAKTIMEOUT) == (OTG_HS_TX_CSR_NAKTIMEOUT)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_NAKTIMEOUT) == (OTG_HS_TXCSR_NAKTIMEOUT)) ? 1UL : 0UL);
 }
 
 /**
@@ -3006,7 +3006,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_NAKTIMEOUT(USB_OTG_TypeDef *U
   */
 __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_NAKTIMEOUT(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_NAKTIMEOUT);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_NAKTIMEOUT);
 }
 
 /**
@@ -3016,7 +3016,7 @@ __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_NAKTIMEOUT(USB_OTG_TypeDef *US
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_STALL(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_SENTSTALL) == (OTG_HS_TX_CSR_SENTSTALL)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_SENTSTALL) == (OTG_HS_TXCSR_SENTSTALL)) ? 1UL : 0UL);
 }
 
 /**
@@ -3026,7 +3026,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_STALL(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_STALL(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_SENTSTALL);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_SENTSTALL);
 }
 
 /**
@@ -3037,7 +3037,7 @@ __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_STALL(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_UNDERRUN(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_UNDERRUN) == (OTG_HS_TX_CSR_UNDERRUN)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_UNDERRUN) == (OTG_HS_TXCSR_UNDERRUN)) ? 1UL : 0UL);
 }
 
 /**
@@ -3048,7 +3048,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_UNDERRUN(USB_OTG_TypeDef *USB
   */
 __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_UNDERRUN(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_UNDERRUN);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_UNDERRUN);
 }
 
 /**
@@ -3059,7 +3059,7 @@ __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_UNDERRUN(USB_OTG_TypeDef *USBx
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_ERROR(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_ERROR) == (OTG_HS_TX_CSR_ERROR)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_ERROR) == (OTG_HS_TXCSR_ERROR)) ? 1UL : 0UL);
 }
 
 /**
@@ -3070,7 +3070,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_ERROR(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_ERROR(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_ERROR);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_ERROR);
 }
 
 /**
@@ -3080,7 +3080,7 @@ __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_ERROR(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_FNE(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_FIFONOTEMPTY) == (OTG_HS_TX_CSR_FIFONOTEMPTY)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_FIFONOTEMPTY) == (OTG_HS_TXCSR_FIFONOTEMPTY)) ? 1UL : 0UL);
 }
 
 /**
@@ -3090,7 +3090,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_FNE(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_FNE(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_FIFONOTEMPTY);
+  CLEAR_BIT(USBx->TXCSR, OTG_HS_TXCSR_FIFONOTEMPTY);
 }
 
 /**
@@ -3100,7 +3100,7 @@ __STATIC_INLINE void DDL_USB_EPTX_ClearActiveFlag_FNE(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_TXPKTRDY(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_TXPKTRDY) == (OTG_HS_TX_CSR_TXPKTRDY)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->TXCSR, OTG_HS_TXCSR_TXPKTRDY) == (OTG_HS_TXCSR_TXPKTRDY)) ? 1UL : 0UL);
 }
 
 /**
@@ -3110,7 +3110,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPTX_IsActiveFlag_TXPKTRDY(USB_OTG_TypeDef *USB
   */
 __STATIC_INLINE void DDL_USB_EPTX_SetActiveFlag_TXPKTRDY(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->TX_CSR, OTG_HS_TX_CSR_TXPKTRDY);
+  SET_BIT(USBx->TXCSR, OTG_HS_TXCSR_TXPKTRDY);
 }
 
 /**
@@ -3123,8 +3123,8 @@ __STATIC_INLINE void DDL_USB_EPTX_SetActiveFlag_TXPKTRDY(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableDmaRequest(USB_OTG_TypeDef *USBx, uint32_t mode)
 {
-  MODIFY_REG(USBx->RX_CSR, OTG_HS_RX_CSR_AUTOCLEAR | OTG_HS_RX_CSR_DMAREQENAB | OTG_HS_RX_CSR_DMAREQMODE,
-              OTG_HS_RX_CSR_AUTOCLEAR | OTG_HS_RX_CSR_DMAREQENAB | mode << OTG_HS_RX_CSR_DMAREQMODE_Pos);
+  MODIFY_REG(USBx->RXCSR, OTG_HS_RXCSR_AUTOCLEAR | OTG_HS_RXCSR_DMAREQENAB | OTG_HS_RXCSR_DMAREQMODE,
+              OTG_HS_RXCSR_AUTOCLEAR | OTG_HS_RXCSR_DMAREQENAB | mode << OTG_HS_RXCSR_DMAREQMODE_Pos);
 }
 
 /**
@@ -3134,7 +3134,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableDmaRequest(USB_OTG_TypeDef *USBx, uint32
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableDmaRequest(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_AUTOCLEAR | OTG_HS_RX_CSR_DMAREQENAB | OTG_HS_RX_CSR_DMAREQMODE);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_AUTOCLEAR | OTG_HS_RXCSR_DMAREQENAB | OTG_HS_RXCSR_DMAREQMODE);
 }
 
 /**
@@ -3150,7 +3150,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableDmaRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_SetProtocol(USB_OTG_TypeDef *USBx, uint32_t Protocol)
 {
-  MODIFY_REG(USBx->RX_TYPE, OTG_HS_RX_TYPE_PROTOCOL, Protocol);
+  MODIFY_REG(USBx->RXTYPE, OTG_HS_RXTYPE_PROTOCOL, Protocol);
 }
 
 /**
@@ -3165,7 +3165,7 @@ __STATIC_INLINE void DDL_USB_EPRX_SetProtocol(USB_OTG_TypeDef *USBx, uint32_t Pr
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_GetProtocol(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->RX_TYPE) & OTG_HS_RX_TYPE_PROTOCOL);
+  return (uint32_t)(READ_REG(USBx->RXTYPE) & OTG_HS_RXTYPE_PROTOCOL);
 }
 
 /**
@@ -3177,7 +3177,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_GetProtocol(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_SetTargetEndpoint(USB_OTG_TypeDef *USBx, uint32_t EpNum)
 {
-  MODIFY_REG(USBx->RX_TYPE, OTG_HS_RX_TYPE_TARGET_ENDPOINT_NUMBER, EpNum);
+  MODIFY_REG(USBx->RXTYPE, OTG_HS_RXTYPE_TARGET_ENDPOINT_NUMBER, EpNum);
 }
 
 /**
@@ -3188,7 +3188,7 @@ __STATIC_INLINE void DDL_USB_EPRX_SetTargetEndpoint(USB_OTG_TypeDef *USBx, uint3
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_GetTargetEndpoint(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->RX_TYPE) & OTG_HS_RX_TYPE_TARGET_ENDPOINT_NUMBER);
+  return (uint32_t)(READ_REG(USBx->RXTYPE) & OTG_HS_RXTYPE_TARGET_ENDPOINT_NUMBER);
 }
 
 /**
@@ -3201,7 +3201,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_GetTargetEndpoint(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_SetInterval(USB_OTG_TypeDef *USBx, uint32_t Interval)
 {
-  MODIFY_REG(USBx->RX_INTERVAL, OTG_HS_RX_INTERVAL_RXINTERVAL, Interval);
+  MODIFY_REG(USBx->RXINTERVAL, OTG_HS_RXINTERVAL_RXINTERVAL, Interval);
 }
 
 /**
@@ -3213,7 +3213,7 @@ __STATIC_INLINE void DDL_USB_EPRX_SetInterval(USB_OTG_TypeDef *USBx, uint32_t In
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_GetInterval(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->RX_INTERVAL) & OTG_HS_RX_INTERVAL_RXINTERVAL);
+  return (uint32_t)(READ_REG(USBx->RXINTERVAL) & OTG_HS_RXINTERVAL_RXINTERVAL);
 }
 
 /**
@@ -3226,7 +3226,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_GetInterval(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_SetNAKLimit(USB_OTG_TypeDef *USBx, uint32_t Limit)
 {
-  MODIFY_REG(USBx->RX_INTERVAL, OTG_HS_RX_INTERVAL_RXINTERVAL, Limit);
+  MODIFY_REG(USBx->RXINTERVAL, OTG_HS_RXINTERVAL_RXINTERVAL, Limit);
 }
 
 /**
@@ -3238,7 +3238,7 @@ __STATIC_INLINE void DDL_USB_EPRX_SetNAKLimit(USB_OTG_TypeDef *USBx, uint32_t Li
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_GetNAKLimit(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_BIT(USBx->RX_INTERVAL, OTG_HS_RX_INTERVAL_RXINTERVAL));
+  return (uint32_t)(READ_BIT(USBx->RXINTERVAL, OTG_HS_RXINTERVAL_RXINTERVAL));
 }
 
 /**
@@ -3259,7 +3259,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_GetNAKLimit(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_SetFifoSize(USB_OTG_TypeDef *USBx, uint32_t Size)
 {
-  MODIFY_REG(USBx->RXFIFO_SZ, OTG_HS_RXFIFO_SZ_SIZE, Size & OTG_HS_RXFIFO_SZ_SIZE);
+  MODIFY_REG(USBx->RXFIFOSZ, OTG_HS_RXFIFOSZ_SIZE, Size & OTG_HS_RXFIFOSZ_SIZE);
 }
 
 /**
@@ -3269,7 +3269,7 @@ __STATIC_INLINE void DDL_USB_EPRX_SetFifoSize(USB_OTG_TypeDef *USBx, uint32_t Si
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_GetFifoSize(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->RXFIFO_SZ) & OTG_HS_RXFIFO_SZ_SIZE);
+  return (uint32_t)(READ_REG(USBx->RXFIFOSZ) & OTG_HS_RXFIFOSZ_SIZE);
 }
 
 /**
@@ -3279,7 +3279,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_GetFifoSize(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableFifoDPB(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RXFIFO_SZ, OTG_HS_RXFIFO_SZ_DPB);
+  SET_BIT(USBx->RXFIFOSZ, OTG_HS_RXFIFOSZ_DPB);
 }
 
 /**
@@ -3289,7 +3289,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableFifoDPB(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableFifoDPB(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RXFIFO_SZ, OTG_HS_RXFIFO_SZ_DPB);
+  CLEAR_BIT(USBx->RXFIFOSZ, OTG_HS_RXFIFOSZ_DPB);
 }
 
 /**
@@ -3299,7 +3299,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableFifoDPB(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledFifoDPB(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RXFIFO_SZ, OTG_HS_RXFIFO_SZ_DPB) == (OTG_HS_RXFIFO_SZ_DPB)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXFIFOSZ, OTG_HS_RXFIFOSZ_DPB) == (OTG_HS_RXFIFOSZ_DPB)) ? 1UL : 0UL);
 }
 
 /**
@@ -3310,7 +3310,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledFifoDPB(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_SetFifoAddress(USB_OTG_TypeDef *USBx, uint16_t Address)
 {
-  MODIFY_REG(USBx->RXFIFO_ADD, OTG_HS_RXFIFO_ADD_ADD, Address & OTG_HS_RXFIFO_ADD_ADD);
+  MODIFY_REG(USBx->RXFIFOADD, OTG_HS_RXFIFOADD_ADD, Address & OTG_HS_RXFIFOADD_ADD);
 }
 
 /**
@@ -3320,7 +3320,7 @@ __STATIC_INLINE void DDL_USB_EPRX_SetFifoAddress(USB_OTG_TypeDef *USBx, uint16_t
   */
 __STATIC_INLINE uint16_t DDL_USB_EPRX_GetFifoAddress(USB_OTG_TypeDef *USBx)
 {
-  return (uint16_t)(READ_REG(USBx->RXFIFO_ADD) & OTG_HS_RXFIFO_ADD_ADD);
+  return (uint16_t)(READ_REG(USBx->RXFIFOADD) & OTG_HS_RXFIFOADD_ADD);
 }
 
 /**
@@ -3330,7 +3330,7 @@ __STATIC_INLINE uint16_t DDL_USB_EPRX_GetFifoAddress(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableIso3TM(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_MAX, OTG_HS_RX_MAX_RX_3T_M);
+  SET_BIT(USBx->RXMAX, OTG_HS_RXMAX_RX_3T_M);
 }
 
 /**
@@ -3340,7 +3340,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableIso3TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableIso3TM(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_MAX, OTG_HS_RX_MAX_RX_3T_M);
+  CLEAR_BIT(USBx->RXMAX, OTG_HS_RXMAX_RX_3T_M);
 }
 
 /**
@@ -3350,7 +3350,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableIso3TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledIso3TM(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_MAX, OTG_HS_RX_MAX_RX_3T_M) == (OTG_HS_RX_MAX_RX_3T_M)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXMAX, OTG_HS_RXMAX_RX_3T_M) == (OTG_HS_RXMAX_RX_3T_M)) ? 1UL : 0UL);
 }
 
 /**
@@ -3360,7 +3360,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledIso3TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableIso2TM(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_MAX, OTG_HS_RX_MAX_RX_2T_M);
+  SET_BIT(USBx->RXMAX, OTG_HS_RXMAX_RX_2T_M);
 }
 
 /**
@@ -3370,7 +3370,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableIso2TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableIso2TM(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_MAX, OTG_HS_RX_MAX_RX_2T_M);
+  CLEAR_BIT(USBx->RXMAX, OTG_HS_RXMAX_RX_2T_M);
 }
 
 /**
@@ -3380,7 +3380,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableIso2TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledIso2TM(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_MAX, OTG_HS_RX_MAX_RX_2T_M) == (OTG_HS_RX_MAX_RX_2T_M)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXMAX, OTG_HS_RXMAX_RX_2T_M) == (OTG_HS_RXMAX_RX_2T_M)) ? 1UL : 0UL);
 }
 
 /**
@@ -3391,7 +3391,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledIso2TM(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_SetMaxPacketSize(USB_OTG_TypeDef *USBx, uint16_t MaxPacketSize)
 {
-  MODIFY_REG(USBx->RX_MAX, OTG_HS_RX_MAX_RX_MAX, MaxPacketSize & OTG_HS_RX_MAX_RX_MAX);
+  MODIFY_REG(USBx->RXMAX, OTG_HS_RXMAX_RXMAX, MaxPacketSize & OTG_HS_RXMAX_RXMAX);
 }
 
 /**
@@ -3401,7 +3401,7 @@ __STATIC_INLINE void DDL_USB_EPRX_SetMaxPacketSize(USB_OTG_TypeDef *USBx, uint16
   */
 __STATIC_INLINE uint16_t DDL_USB_EPRX_GetMaxPacketSize(USB_OTG_TypeDef *USBx)
 {
-  return (uint16_t)(READ_REG(USBx->RX_MAX) & OTG_HS_RX_MAX_RX_MAX);
+  return (uint16_t)(READ_REG(USBx->RXMAX) & OTG_HS_RXMAX_RXMAX);
 }
 
 /**
@@ -3411,7 +3411,7 @@ __STATIC_INLINE uint16_t DDL_USB_EPRX_GetMaxPacketSize(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableAutoClear(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_AUTOCLEAR);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_AUTOCLEAR);
 }
 
 /**
@@ -3421,7 +3421,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableAutoClear(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableAutoClear(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_AUTOCLEAR);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_AUTOCLEAR);
 }
 
 /**
@@ -3431,7 +3431,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableAutoClear(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledAutoClear(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_AUTOCLEAR) == (OTG_HS_RX_CSR_AUTOCLEAR)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_AUTOCLEAR) == (OTG_HS_RXCSR_AUTOCLEAR)) ? 1UL : 0UL);
 }
 
 /**
@@ -3442,7 +3442,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledAutoClear(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableIsoTransfer(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_ISO);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_ISO);
 }
 
 /**
@@ -3453,7 +3453,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableIsoTransfer(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableIsoTransfer(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_ISO);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_ISO);
 }
 
 /**
@@ -3464,7 +3464,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableIsoTransfer(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledIsoTransfer(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_ISO) == (OTG_HS_RX_CSR_ISO)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_ISO) == (OTG_HS_RXCSR_ISO)) ? 1UL : 0UL);
 }
 
 /**
@@ -3475,7 +3475,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledIsoTransfer(USB_OTG_TypeDef *USBx
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableAutoRequest(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_AUTOREQ);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_AUTOREQ);
 }
 
 /**
@@ -3486,7 +3486,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableAutoRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableAutoRequest(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_AUTOREQ);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_AUTOREQ);
 }
 
 /**
@@ -3497,7 +3497,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableAutoRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledAutoRequest(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_AUTOREQ) == (OTG_HS_RX_CSR_AUTOREQ)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_AUTOREQ) == (OTG_HS_RXCSR_AUTOREQ)) ? 1UL : 0UL);
 }
 
 /**
@@ -3507,7 +3507,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledAutoRequest(USB_OTG_TypeDef *USBx
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableDMARequest(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DMAREQENAB);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_DMAREQENAB);
 }
 
 /**
@@ -3517,7 +3517,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableDMARequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableDMARequest(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DMAREQENAB);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_DMAREQENAB);
 }
 
 /**
@@ -3527,7 +3527,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableDMARequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledDMARequest(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DMAREQENAB) == (OTG_HS_RX_CSR_DMAREQENAB)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_DMAREQENAB) == (OTG_HS_RXCSR_DMAREQENAB)) ? 1UL : 0UL);
 }
 
 /**
@@ -3538,7 +3538,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledDMARequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableNYET(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DISNYET_PIDERR);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_DISNYET_PIDERR);
 }
 
 /**
@@ -3549,7 +3549,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableNYET(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableNYET(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DISNYET_PIDERR);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_DISNYET_PIDERR);
 }
 
 /**
@@ -3560,7 +3560,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableNYET(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledNYET(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DISNYET_PIDERR) == (OTG_HS_RX_CSR_DISNYET_PIDERR)) ? 0UL : 1UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_DISNYET_PIDERR) == (OTG_HS_RXCSR_DISNYET_PIDERR)) ? 0UL : 1UL);
 }
 
 /**
@@ -3573,7 +3573,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledNYET(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_SetDMARequestMode(USB_OTG_TypeDef *USBx, uint32_t Mode)
 {
-  MODIFY_REG(USBx->RX_CSR, OTG_HS_RX_CSR_DMAREQMODE, Mode << OTG_HS_RX_CSR_DMAREQMODE_Pos);
+  MODIFY_REG(USBx->RXCSR, OTG_HS_RXCSR_DMAREQMODE, Mode << OTG_HS_RXCSR_DMAREQMODE_Pos);
 }
 
 /**
@@ -3583,7 +3583,7 @@ __STATIC_INLINE void DDL_USB_EPRX_SetDMARequestMode(USB_OTG_TypeDef *USBx, uint3
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_GetDMARequestMode(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->RX_CSR) & OTG_HS_RX_CSR_DMAREQMODE);
+  return (uint32_t)(READ_REG(USBx->RXCSR) & OTG_HS_RXCSR_DMAREQMODE);
 }
 
 /**
@@ -3593,7 +3593,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_GetDMARequestMode(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_HBRX(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_INCOMPRX) == (OTG_HS_RX_CSR_INCOMPRX)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_INCOMPRX) == (OTG_HS_RXCSR_INCOMPRX)) ? 1UL : 0UL);
 }
 
 /**
@@ -3603,7 +3603,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_HBRX(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_HBRX(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_INCOMPRX);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_INCOMPRX);
 }
 
 /**
@@ -3613,7 +3613,7 @@ __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_HBRX(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearDataToggle(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_CLRDATATOG);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_CLRDATATOG);
 }
 
 /**
@@ -3623,7 +3623,7 @@ __STATIC_INLINE void DDL_USB_EPRX_ClearDataToggle(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_STALL(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_SENTSTALL) == (OTG_HS_RX_CSR_SENTSTALL)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_SENTSTALL) == (OTG_HS_RXCSR_SENTSTALL)) ? 1UL : 0UL);
 }
 
 /**
@@ -3633,7 +3633,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_STALL(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_STALL(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_SENTSTALL);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_SENTSTALL);
 }
 
 /**
@@ -3644,7 +3644,7 @@ __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_STALL(USB_OTG_TypeDef *USBx)
  */
 __STATIC_INLINE void DDL_USB_EPRX_EnableInPacketRequest(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_REQPKT);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_REQPKT);
 }
 
 /**
@@ -3655,7 +3655,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableInPacketRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableInPacketRequest(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_REQPKT);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_REQPKT);
 }
 
 /**
@@ -3666,7 +3666,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableInPacketRequest(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledInPacketRequest(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_REQPKT) == (OTG_HS_RX_CSR_REQPKT)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_REQPKT) == (OTG_HS_RXCSR_REQPKT)) ? 1UL : 0UL);
 }
 
 /**
@@ -3677,7 +3677,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledInPacketRequest(USB_OTG_TypeDef *
   */
 __STATIC_INLINE void DDL_USB_EPRX_EnableStall(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_SENDSTALL);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_SENDSTALL);
 }
 
 /**
@@ -3688,7 +3688,7 @@ __STATIC_INLINE void DDL_USB_EPRX_EnableStall(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_DisableStall(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_SENDSTALL);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_SENDSTALL);
 }
 
 /**
@@ -3699,7 +3699,7 @@ __STATIC_INLINE void DDL_USB_EPRX_DisableStall(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledStall(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_SENDSTALL) == (OTG_HS_RX_CSR_SENDSTALL)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_SENDSTALL) == (OTG_HS_RXCSR_SENDSTALL)) ? 1UL : 0UL);
 }
 
 /**
@@ -3709,7 +3709,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsEnabledStall(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_FlushFIFO(USB_OTG_TypeDef *USBx)
 {
-  SET_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_FLUSHFIFO);
+  SET_BIT(USBx->RXCSR, OTG_HS_RXCSR_FLUSHFIFO);
 }
 
 /**
@@ -3719,7 +3719,7 @@ __STATIC_INLINE void DDL_USB_EPRX_FlushFIFO(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_GetRxDataCount(USB_OTG_TypeDef *USBx)
 {
-  return (uint32_t)(READ_REG(USBx->RX_COUNT) & OTG_HS_RX_COUNT_RXCOUNT);
+  return (uint32_t)(READ_REG(USBx->RXCOUNT) & OTG_HS_RXCOUNT_RXCOUNT);
 }
 
 /**
@@ -3729,7 +3729,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_GetRxDataCount(USB_OTG_TypeDef *USBx)
  */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_PIDERR(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DISNYET_PIDERR) == (OTG_HS_RX_CSR_DISNYET_PIDERR)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_DISNYET_PIDERR) == (OTG_HS_RXCSR_DISNYET_PIDERR)) ? 1UL : 0UL);
 }
 
 /**
@@ -3739,7 +3739,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_PIDERR(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_PIDERR(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DISNYET_PIDERR);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_DISNYET_PIDERR);
 }
 
 /**
@@ -3749,7 +3749,7 @@ __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_PIDERR(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_DATAERR(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DATAERROR) == (OTG_HS_RX_CSR_DATAERROR)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_DATAERROR) == (OTG_HS_RXCSR_DATAERROR)) ? 1UL : 0UL);
 }
 
 /**
@@ -3760,7 +3760,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_DATAERR(USB_OTG_TypeDef *USBx
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_DATAERR(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DATAERROR);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_DATAERROR);
 }
 
 /**
@@ -3771,7 +3771,7 @@ __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_DATAERR(USB_OTG_TypeDef *USBx)
  */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_NAKTIMEOUT(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DATAERROR_NAKTIMEOUT) == (OTG_HS_RX_CSR_DATAERROR_NAKTIMEOUT)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_DATAERROR_NAKTIMEOUT) == (OTG_HS_RXCSR_DATAERROR_NAKTIMEOUT)) ? 1UL : 0UL);
 }
 
 /**
@@ -3782,7 +3782,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_NAKTIMEOUT(USB_OTG_TypeDef *U
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_NAKTIMEOUT(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_DATAERROR_NAKTIMEOUT);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_DATAERROR_NAKTIMEOUT);
 }
 
 /**
@@ -3793,7 +3793,7 @@ __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_NAKTIMEOUT(USB_OTG_TypeDef *US
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_OVERRUN(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_OVERRUN) == (OTG_HS_RX_CSR_OVERRUN)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_OVERRUN) == (OTG_HS_RXCSR_OVERRUN)) ? 1UL : 0UL);
 }
 
 /**
@@ -3804,7 +3804,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_OVERRUN(USB_OTG_TypeDef *USBx
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_OVERRUN(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_OVERRUN);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_OVERRUN);
 }
 
 /**
@@ -3815,7 +3815,7 @@ __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_OVERRUN(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_ERROR(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_ERROR) == (OTG_HS_RX_CSR_ERROR)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_ERROR) == (OTG_HS_RXCSR_ERROR)) ? 1UL : 0UL);
 }
 
 /**
@@ -3826,7 +3826,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_ERROR(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_ERROR(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_ERROR);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_ERROR);
 }
 
 /**
@@ -3836,7 +3836,7 @@ __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_ERROR(USB_OTG_TypeDef *USBx)
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_FIFOFULL(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_FIFOFULL) == (OTG_HS_RX_CSR_FIFOFULL)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_FIFOFULL) == (OTG_HS_RXCSR_FIFOFULL)) ? 1UL : 0UL);
 }
 
 /**
@@ -3846,7 +3846,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_FIFOFULL(USB_OTG_TypeDef *USB
   */
 __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_RXPKTRDY(USB_OTG_TypeDef *USBx)
 {
-  return ((READ_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_RXPKTRDY) == (OTG_HS_RX_CSR_RXPKTRDY)) ? 1UL : 0UL);
+  return ((READ_BIT(USBx->RXCSR, OTG_HS_RXCSR_RXPKTRDY) == (OTG_HS_RXCSR_RXPKTRDY)) ? 1UL : 0UL);
 }
 
 /**
@@ -3856,7 +3856,7 @@ __STATIC_INLINE uint32_t DDL_USB_EPRX_IsActiveFlag_RXPKTRDY(USB_OTG_TypeDef *USB
   */
 __STATIC_INLINE void DDL_USB_EPRX_ClearActiveFlag_RXPKTRDY(USB_OTG_TypeDef *USBx)
 {
-  CLEAR_BIT(USBx->RX_CSR, OTG_HS_RX_CSR_RXPKTRDY);
+  CLEAR_BIT(USBx->RXCSR, OTG_HS_RXCSR_RXPKTRDY);
 }
 
 /**

@@ -61,21 +61,22 @@ extern "C" {
 
 /* Private types -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-/** @defgroup TMR_DDL_Private_Variables TMR Private Variables
+/** @defgroup BZTMR_DDL_Private_Variables BZTMR Private Variables
   * @{
   */
 static const uint8_t OFFSET_TAB_OFRx[] =
 {
-  0x00U,   /* 0: BZTMR_CH1   */
-  0x00U,   /* 1: BZTMR_CH2   */
-  0x04U,   /* 2: BZTMR_CH3   */
-  0x04U,   /* 3: BZTMR_CH4   */
-  0x08U,   /* 4: BZTMR_CH5   */
-  0x08U,   /* 5: BZTMR_CH6   */
-  0x0CU,   /* 6: BZTMR_CH7   */
-  0x0CU,   /* 7: BZTMR_CH8   */
-  0x10U,   /* 8: BZTMR_CH9   */
-  0x10U,   /* 9: BZTMR_CH10  */
+  0x00U,   /* 0: Reserved */
+  0x00U,   /* 1: BZTMR_CH0  */
+  0x00U,   /* 2: BZTMR_CH1  */
+  0x04U,   /* 3: BZTMR_CH2  */
+  0x04U,   /* 4: BZTMR_CH3  */
+  0x08U,   /* 5: BZTMR_CH4  */
+  0x08U,   /* 6: BZTMR_CH5  */
+  0x0CU,   /* 7: BZTMR_CH6  */
+  0x0CU,   /* 8: BZTMR_CH7  */
+  0x10U,   /* 9: BZTMR_CH8  */
+  0x10U,   /* 10: BZTMR_CH9  */
 };
 
 static const uint8_t OFFSET_TAB_CSRx[] =
@@ -94,30 +95,32 @@ static const uint8_t OFFSET_TAB_CSRx[] =
 
 static const uint8_t SHIFT_TAB_EL[] =
 {
-  0x09U,   /* 0: OFR1_EL1  */
-  0x19U,   /* 1: OFR1_EL2  */
-  0x09U,   /* 2: OFR2_EL1  */
-  0x19U,   /* 3: OFR2_EL2  */
-  0x09U,   /* 4: OFR3_EL1  */
-  0x19U,   /* 5: OFR3_EL2  */
-  0x09U,   /* 6: OFR4_EL1  */
-  0x19U,   /* 7: OFR4_EL2  */
-  0x09U,   /* 8: OFR5_EL1  */
-  0x19U,   /* 9: OFR5_EL2  */
+  0x00U,   /* 0: Reserved */
+  0x09U,   /* 1: OFR1_EL1  */
+  0x19U,   /* 2: OFR1_EL2  */
+  0x09U,   /* 3: OFR2_EL1  */
+  0x19U,   /* 4: OFR2_EL2  */
+  0x09U,   /* 5: OFR3_EL1  */
+  0x19U,   /* 6: OFR3_EL2  */
+  0x09U,   /* 7: OFR4_EL1  */
+  0x19U,   /* 8: OFR4_EL2  */
+  0x09U,   /* 9: OFR5_EL1  */
+  0x19U,   /* 10: OFR5_EL2  */
 };
 
 static const uint8_t SHIFT_TAB_DL[] =
 {
-  0x00U,   /* 0: OFR1_DL1  */
-  0x10U,   /* 1: OFR1_DL2  */
-  0x00U,   /* 2: OFR2_DL1  */
-  0x10U,   /* 3: OFR2_DL2  */
-  0x00U,   /* 4: OFR3_DL1  */
-  0x10U,   /* 5: OFR3_DL2  */
-  0x00U,   /* 6: OFR4_DL1  */
-  0x10U,   /* 7: OFR4_DL2  */
-  0x00U,   /* 8: OFR5_DL1  */
-  0x10U,   /* 9: OFR5_DL2  */
+  0x00U,   /* 0: Reserved */
+  0x00U,   /* 1: OFR1_DL1  */
+  0x10U,   /* 2: OFR1_DL2  */
+  0x00U,   /* 3: OFR2_DL1  */
+  0x10U,   /* 4: OFR2_DL2  */
+  0x00U,   /* 5: OFR3_DL1  */
+  0x10U,   /* 6: OFR3_DL2  */
+  0x00U,   /* 7: OFR4_DL1  */
+  0x10U,   /* 8: OFR4_DL2  */
+  0x00U,   /* 9: OFR5_DL1  */
+  0x10U,   /* 10: OFR5_DL2  */
 };
 
 static const uint8_t SHIFT_TAB_SEQ[] =
@@ -156,7 +159,7 @@ static const uint8_t SHIFT_TAB_SEQ[] =
   */
 
 /**
-  * @brief LL BZTMR Init Structure definition
+  * @brief DDL BZTMR Init Structure definition
   */
 typedef struct
 {
@@ -182,7 +185,9 @@ typedef struct
   uint32_t OutputReversal;  /*!< Specifies whether the output is reversed.
                                 This parameter can be a value of ENABLE or DISABLE.
 
-                              BZTMR HW configuration can be modified afterwards using unitary function @ref DDL_BZTMR_EnableOutputReverse().*/
+                              BZTMR HW configuration can be modified afterwards using unitary function
+                              @ref DDL_BZTMR_EnableOutputReverse() or
+                              @ref DDL_BZTMR_DisableOutputReverse(). */
 
   uint32_t SequencerLength;  /*!< Specifies the number of channels to be transferred.
                               This parameter can be a value between Min_Data = 0x00 and Max_Data = 0x0A.
@@ -216,7 +221,7 @@ typedef struct
                               This parameter can be a value of @ref BZTMR_DDL_EC_CHANNEL */
 
   uint32_t Rank;         /*!< Specifies the rank in the sequencer.
-                              This parameter can be a value of @ref BZTMR_DDL_EC_SEQUENCY */
+                              This parameter can be a value of @ref BZTMR_DDL_EC_SEQUENCE */
 
   uint32_t DataLength;   /*!< Specifies the data package length for the channel.
                               This parameter must be a number Min_Data = 0x00 and Max_Data = 0x1FF */
@@ -238,21 +243,21 @@ typedef struct
 /** @defgroup BZTMR_DDL_EC_CHANNEL Channel
   * @{
   */
-#define DDL_BZTMR_CHANNEL_CH0                 0x00000000U
-#define DDL_BZTMR_CHANNEL_CH1                 0x00000001U
-#define DDL_BZTMR_CHANNEL_CH2                 0x00000002U
-#define DDL_BZTMR_CHANNEL_CH3                 0x00000003U
-#define DDL_BZTMR_CHANNEL_CH4                 0x00000004U
-#define DDL_BZTMR_CHANNEL_CH5                 0x00000005U
-#define DDL_BZTMR_CHANNEL_CH6                 0x00000006U
-#define DDL_BZTMR_CHANNEL_CH7                 0x00000007U
-#define DDL_BZTMR_CHANNEL_CH8                 0x00000008U
-#define DDL_BZTMR_CHANNEL_CH9                 0x00000009U
+#define DDL_BZTMR_CHANNEL_CH0                 0x00000001U
+#define DDL_BZTMR_CHANNEL_CH1                 0x00000002U
+#define DDL_BZTMR_CHANNEL_CH2                 0x00000003U
+#define DDL_BZTMR_CHANNEL_CH3                 0x00000004U
+#define DDL_BZTMR_CHANNEL_CH4                 0x00000005U
+#define DDL_BZTMR_CHANNEL_CH5                 0x00000006U
+#define DDL_BZTMR_CHANNEL_CH6                 0x00000007U
+#define DDL_BZTMR_CHANNEL_CH7                 0x00000008U
+#define DDL_BZTMR_CHANNEL_CH8                 0x00000009U
+#define DDL_BZTMR_CHANNEL_CH9                 0x0000000AU
 /**
   * @}
   */
 
-/** @defgroup BZTMR_DDL_EC_SEQUENCY Sequency
+/** @defgroup BZTMR_DDL_EC_SEQUENCE Sequence
   * @{
   */
 #define DDL_BZTMR_SEQ1                        0x00000000U
@@ -284,7 +289,7 @@ typedef struct
   * @{
   */
 #define DDL_BZTMR_OUTPUT_FORMAT_LSB           0x00000000U
-#define DDL_BZTMR_OUTPUT_FORMAT_MSB           BZTMR_CR_FORMAT_OUTPUT
+#define DDL_BZTMR_OUTPUT_FORMAT_MSB           BZTMR_CR_MSB_FIRST
 /**
   * @}
   */
@@ -293,7 +298,7 @@ typedef struct
   * @{
   */
 #define DDL_BZTMR_CHANNEL_POLARITY_LOW        0x00000000U
-#define DDL_BZTMR_CHANNEL_POLARITY_HIGH       BZTMR_CR_INIT_POL
+#define DDL_BZTMR_CHANNEL_POLARITY_HIGH       BZTMR_CR_DEFAULT_VALUE
 /**
   * @}
   */
@@ -403,7 +408,7 @@ __STATIC_INLINE void DDL_BZTMR_DisableDMAReq(BZTMR_TypeDef *BZTMRx)
   */
 __STATIC_INLINE void DDL_BZTMR_SetChannelPolarity(BZTMR_TypeDef *BZTMRx, uint32_t Polarity)
 {
-  MODIFY_REG(BZTMRx->CR, BZTMR_CR_INIT_POL, Polarity);
+  MODIFY_REG(BZTMRx->CR, BZTMR_CR_DEFAULT_VALUE, Polarity);
 }
 
 /**
@@ -415,20 +420,20 @@ __STATIC_INLINE void DDL_BZTMR_SetChannelPolarity(BZTMR_TypeDef *BZTMRx, uint32_
   */
 __STATIC_INLINE uint32_t DDL_BZTMR_GetChannelPolarity(BZTMR_TypeDef *BZTMRx)
 {
-  return (READ_BIT(BZTMRx->CR, BZTMR_CR_INIT_POL));
+  return (READ_BIT(BZTMRx->CR, BZTMR_CR_DEFAULT_VALUE));
 }
 
 /**
   * @brief  Configure output format.
   * @param  BZTMRx BZTMR instance
-  * @param  Polarity This parameter can be one of the following values:
+  * @param  Format This parameter can be one of the following values:
   *         @arg @ref DDL_BZTMR_OUTPUT_FORMAT_LSB
   *         @arg @ref DDL_BZTMR_OUTPUT_FORMAT_MSB
   * @retval None
   */
 __STATIC_INLINE void DDL_BZTMR_SetOutputFormat(BZTMR_TypeDef *BZTMRx, uint32_t Format)
 {
-  MODIFY_REG(BZTMRx->CR, BZTMR_CR_FORMAT_OUTPUT, Format);
+  MODIFY_REG(BZTMRx->CR, BZTMR_CR_MSB_FIRST, Format);
 }
 
 /**
@@ -440,7 +445,7 @@ __STATIC_INLINE void DDL_BZTMR_SetOutputFormat(BZTMR_TypeDef *BZTMRx, uint32_t F
   */
 __STATIC_INLINE uint32_t DDL_BZTMR_GetOutputFormat(BZTMR_TypeDef *BZTMRx)
 {
-  return (READ_BIT(BZTMRx->CR, BZTMR_CR_FORMAT_OUTPUT));
+  return (READ_BIT(BZTMRx->CR, BZTMR_CR_MSB_FIRST));
 }
 
 /**
@@ -450,7 +455,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_GetOutputFormat(BZTMR_TypeDef *BZTMRx)
   */
 __STATIC_INLINE void DDL_BZTMR_EnableOutputReverse(BZTMR_TypeDef *BZTMRx)
 {
-  SET_BIT(BZTMRx->CR, BZTMR_CR_OUTPUT_REVERSE);
+  SET_BIT(BZTMRx->CR, BZTMR_CR_OUTPUT_REVERSAL);
 }
 
 /**
@@ -460,7 +465,7 @@ __STATIC_INLINE void DDL_BZTMR_EnableOutputReverse(BZTMR_TypeDef *BZTMRx)
   */
 __STATIC_INLINE void DDL_BZTMR_DisableOutputReverse(BZTMR_TypeDef *BZTMRx)
 {
-  CLEAR_BIT(BZTMRx->CR, BZTMR_CR_OUTPUT_REVERSE);
+  CLEAR_BIT(BZTMRx->CR, BZTMR_CR_OUTPUT_REVERSAL);
 }
 
 /**
@@ -668,13 +673,13 @@ __STATIC_INLINE void DDL_BZTMR_SetResetTime(BZTMR_TypeDef *BZTMRx, uint32_t Time
   */
 __STATIC_INLINE uint32_t DDL_BZTMR_GetResetTime(BZTMR_TypeDef *BZTMRx)
 {
-  return (READ_BIT(BZTMRx->RFR, BZTMR_RFR_RESET_TIME));
+  return (READ_BIT(BZTMRx->RFR, BZTMR_RFR_RESET_TIME) >> BZTMR_RFR_RESET_TIME_Pos);
 }
 
 /**
   * @brief  Write data.
   * @param  BZTMRx BZTMR instance
-  * @param  Time This parameter can between Min_num=0x0 and Max_num=0xFFFFFFFF
+  * @param  Data This parameter can between Min_num=0x0 and Max_num=0xFFFFFFFF
   * @retval None
   */
 __STATIC_INLINE void DDL_BZTMR_TxData(BZTMR_TypeDef *BZTMRx, uint32_t Data)
@@ -693,7 +698,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_GetData(BZTMR_TypeDef *BZTMRx)
 }
 
 /**
-  * @brief  Configura data package length.
+  * @brief  Configure data package length.
   * @param  BZTMRx BZTMR instance
   * @param  Channel This parameter can be one of following parameter:
   *         @arg @ref DDL_BZTMR_CHANNEL_CH0
@@ -706,7 +711,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_GetData(BZTMR_TypeDef *BZTMRx)
   *         @arg @ref DDL_BZTMR_CHANNEL_CH7
   *         @arg @ref DDL_BZTMR_CHANNEL_CH8
   *         @arg @ref DDL_BZTMR_CHANNEL_CH9
-  * @param  Length This parameter can between Min_num=0x0 and Max_num=0x1F
+  * @param  Length This parameter can between Min_num=0x0 and Max_num=0x1FF
   * @retval None
   */
 __STATIC_INLINE void DDL_BZTMR_SetPackageLength(BZTMR_TypeDef *BZTMRx, uint32_t Channel, uint32_t Length)
@@ -729,7 +734,7 @@ __STATIC_INLINE void DDL_BZTMR_SetPackageLength(BZTMR_TypeDef *BZTMRx, uint32_t 
   *         @arg @ref DDL_BZTMR_CHANNEL_CH7
   *         @arg @ref DDL_BZTMR_CHANNEL_CH8
   *         @arg @ref DDL_BZTMR_CHANNEL_CH9
-  * @retval This return value can between Min_num=0x0 and Max_num=0x1F
+  * @retval This return value can between Min_num=0x0 and Max_num=0x1FF
   */
 __STATIC_INLINE uint32_t DDL_BZTMR_GetPackageLength(BZTMR_TypeDef *BZTMRx, uint32_t Channel)
 {
@@ -790,7 +795,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_GetEndPackageLength(BZTMR_TypeDef *BZTMRx, ui
   */
 __STATIC_INLINE void DDL_BZTMR_SetClockDivision(BZTMR_TypeDef *BZTMRx, uint32_t Division)
 {
-  MODIFY_REG(BZTMRx->CDR, BZTMR_CDR_PCLK_DIV, Division);
+  MODIFY_REG(BZTMRx->CDR, BZTMR_CDR_PCLK_DIV, (Division << BZTMR_CDR_PCLK_DIV_Pos));
 }
 
 /**
@@ -811,7 +816,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_GetClockDivision(BZTMR_TypeDef *BZTMRx)
   */
 __STATIC_INLINE void DDL_BZTMR_SetTransmitSequenceNumber(BZTMR_TypeDef *BZTMRx, uint32_t Number)
 {
-  MODIFY_REG(BZTMRx->CSR1, BZTMR_CSR1_SEQ_LEN, Number);
+  MODIFY_REG(BZTMRx->CSR1, BZTMR_CSR1_NTC, (Number << BZTMR_CSR1_NTC_Pos));
 }
 
 /**
@@ -821,11 +826,11 @@ __STATIC_INLINE void DDL_BZTMR_SetTransmitSequenceNumber(BZTMR_TypeDef *BZTMRx, 
   */
 __STATIC_INLINE uint32_t DDL_BZTMR_GetTransmitSequenceNumber(BZTMR_TypeDef *BZTMRx)
 {
-  return READ_BIT(BZTMRx->CSR1, BZTMR_CSR1_SEQ_LEN);
+  return READ_BIT(BZTMRx->CSR1, BZTMR_CSR1_NTC);
 }
 
 /**
-  * @brief  Configure the channel for the transmit squence.
+  * @brief  Configure the channel for the transmit sequence.
   * @param  BZTMRx BZTMR instance
   * @param  Sequence This parameter can be one of following parameter:
   *         @arg @ref DDL_BZTMR_SEQ1
@@ -854,11 +859,11 @@ __STATIC_INLINE uint32_t DDL_BZTMR_GetTransmitSequenceNumber(BZTMR_TypeDef *BZTM
 __STATIC_INLINE void DDL_BZTMR_SetTransmitSequence(BZTMR_TypeDef *BZTMRx, uint32_t Sequence, uint32_t Channel)
 {
   __IO uint32_t* reg = (__IO uint32_t *)((uint32_t)(&BZTMRx->CSR1) + OFFSET_TAB_CSRx[Sequence]);
-  MODIFY_REG(*reg, (BZTMR_CSR2_SEQ8 << SHIFT_TAB_SEQ[Sequence]), ((Channel + 1) << SHIFT_TAB_SEQ[Sequence]));
+  MODIFY_REG(*reg, (BZTMR_CSR2_SEQ8 << SHIFT_TAB_SEQ[Sequence]), ((Channel) << SHIFT_TAB_SEQ[Sequence]));
 }
 
 /**
-  * @brief  Get the channel for the transmit squence.
+  * @brief  Get the channel for the transmit sequence.
   * @param  BZTMRx BZTMR instance
   * @param  Sequence This parameter can be one of following parameter:
   *         @arg @ref DDL_BZTMR_SEQ1
@@ -886,7 +891,7 @@ __STATIC_INLINE void DDL_BZTMR_SetTransmitSequence(BZTMR_TypeDef *BZTMRx, uint32
 __STATIC_INLINE uint32_t DDL_BZTMR_GetTransmitSequence(BZTMR_TypeDef *BZTMRx, uint32_t Sequence)
 {
   __IO uint32_t* reg = (__IO uint32_t *)((uint32_t)(&BZTMRx->CSR1) + OFFSET_TAB_CSRx[Sequence]);
-  return (READ_BIT(*reg, (BZTMR_CSR2_SEQ8 << SHIFT_TAB_SEQ[Sequence])) >> SHIFT_TAB_SEQ[Sequence]);
+  return ((READ_BIT(*reg, (BZTMR_CSR2_SEQ8 << SHIFT_TAB_SEQ[Sequence])) >> SHIFT_TAB_SEQ[Sequence]));
 }
 
 /**
@@ -928,7 +933,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_IsEnableIT_TC(BZTMR_TypeDef *BZTMRx)
 }
 
 /**
-  * @brief  Enable data overflow inerrupt.
+  * @brief  Enable data overflow interrupt.
   * @param  BZTMRx BZTMR instance
   * @retval None
   */
@@ -938,7 +943,7 @@ __STATIC_INLINE void DDL_BZTMR_EnableIT_ORE(BZTMR_TypeDef *BZTMRx)
 }
 
 /**
- * @brief  Disable data overflow inerrupt.
+ * @brief  Disable data overflow interrupt.
  * @param  BZTMRx BZTMR instance
  * @retval None
  */
@@ -958,7 +963,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_IsEnableIT_ORE(BZTMR_TypeDef *BZTMRx)
 }
 
 /**
-  * @brief  Enable Tx buffer empty inerrupt.
+  * @brief  Enable Tx buffer empty interrupt.
   * @param  BZTMRx BZTMR instance
   * @retval None
   */
@@ -968,7 +973,7 @@ __STATIC_INLINE void DDL_BZTMR_EnableIT_TXE(BZTMR_TypeDef *BZTMRx)
 }
 
 /**
- * @brief  Disable Tx buffer empty inerrupt.
+ * @brief  Disable Tx buffer empty interrupt.
  * @param  BZTMRx BZTMR instance
  * @retval None
  */
@@ -991,7 +996,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_IsEnableIT_TXE(BZTMR_TypeDef *BZTMRx)
   * @}
   */
 
-/** @defgroup BZTMR_DDL_EF_IT_Management interrupt management
+/** @defgroup  BZTMR_DDL_EF_FLAG_Management flag management
   * @{
   */
 /**
@@ -1007,7 +1012,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_IsActiveFlag_TC(BZTMR_TypeDef *BZTMRx)
 /**
   * @brief  Clear transmit complete flag.
   * @param  BZTMRx BZTMR instance
-  * @retval State of bit (1 or 0).
+  * @retval None
   */
 __STATIC_INLINE void DDL_BZTMR_ClearFlag_TC(BZTMR_TypeDef *BZTMRx)
 {
@@ -1027,7 +1032,7 @@ __STATIC_INLINE uint32_t DDL_BZTMR_IsActiveFlag_ORE(BZTMR_TypeDef *BZTMRx)
 /**
   * @brief  Clear data overflow flag.
   * @param  BZTMRx BZTMR instance
-  * @retval State of bit (1 or 0).
+  * @retval None
   */
 __STATIC_INLINE void DDL_BZTMR_ClearFlag_ORE(BZTMR_TypeDef *BZTMRx)
 {
@@ -1044,15 +1049,6 @@ __STATIC_INLINE uint32_t DDL_BZTMR_IsActiveFlag_TXE(BZTMR_TypeDef *BZTMRx)
   return (READ_BIT(BZTMRx->IR, BZTMR_IR_TXE) == BZTMR_IR_TXE ? 1U : 0U);
 }
 
-/**
-  * @brief  Clear Tx buffer empty flag.
-  * @param  BZTMRx BZTMR instance
-  * @retval State of bit (1 or 0).
-  */
-__STATIC_INLINE void DDL_BZTMR_ClearFlag_TXE(BZTMR_TypeDef *BZTMRx)
-{
-  SET_BIT(BZTMRx->IR, BZTMR_IR_TXE);
-}
 /**
   * @}
   */

@@ -4,7 +4,7 @@
   * @brief   FDCAN DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -56,7 +56,7 @@
   * @{
   */
 
-#if defined (FDCAN1)
+#if defined (FDCAN)
 
 /** @addtogroup FDCAN_DDL
   * @{
@@ -90,19 +90,19 @@ static const uint8_t DLCtoBytes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 
 
 #define IS_DDL_FDCAN_NOMINAL_PSC(__VALUE__)       (((0U) < (__VALUE__)) && ((__VALUE__) <= (512U)))
 
-#define IS_DDL_FDCAN_NOMINAL_SJW(__VALUE__)       (((1U) < (__VALUE__)) && ((__VALUE__) <= (128U)))
+#define IS_DDL_FDCAN_NOMINAL_SJW(__VALUE__)       (((0U) < (__VALUE__)) && ((__VALUE__) <= (128U)))
 
-#define IS_DDL_FDCAN_NOMINAL_TIMESEG1(__VALUE__)  (((2U) < (__VALUE__)) && ((__VALUE__) <= (256U)))
+#define IS_DDL_FDCAN_NOMINAL_TIMESEG1(__VALUE__)  (((1U) < (__VALUE__)) && ((__VALUE__) <= (256U)))
 
-#define IS_DDL_FDCAN_NOMINAL_TIMESEG2(__VALUE__)  (((2U) < (__VALUE__)) && ((__VALUE__) <= (128U)))
+#define IS_DDL_FDCAN_NOMINAL_TIMESEG2(__VALUE__)  (((1U) < (__VALUE__)) && ((__VALUE__) <= (128U)))
 
 #define IS_DDL_FDCAN_DATA_PSC(__VALUE__)          (((0U) < (__VALUE__)) && ((__VALUE__) <= (32U)))
 
-#define IS_DDL_FDCAN_DATA_SJW(__VALUE__)          (((1U) < (__VALUE__)) && ((__VALUE__) <= (16U)))
+#define IS_DDL_FDCAN_DATA_SJW(__VALUE__)          (((0U) < (__VALUE__)) && ((__VALUE__) <= (16U)))
 
-#define IS_DDL_FDCAN_DATA_TIMESEG1(__VALUE__)     (((1U) < (__VALUE__)) && ((__VALUE__) <= (32U)))
+#define IS_DDL_FDCAN_DATA_TIMESEG1(__VALUE__)     (((0U) < (__VALUE__)) && ((__VALUE__) <= (32U)))
 
-#define IS_DDL_FDCAN_DATA_TIMESEG2(__VALUE__)     (((2U) < (__VALUE__)) && ((__VALUE__) <= (16U)))
+#define IS_DDL_FDCAN_DATA_TIMESEG2(__VALUE__)     (((1U) < (__VALUE__)) && ((__VALUE__) <= (16U)))
 
 #define IS_DDL_FDCAN_MAX_NUM(__VALUE__, __MAX__)     (((__VALUE__) <= (__MAX__)))
 
@@ -193,8 +193,8 @@ ErrorStatus DDL_FDCAN_DeInit(FDCAN_TypeDef *FDCANx)
   ASSERT_PARAM(IS_FDCAN_ALL_INSTANCE(FDCANx));
 
   /* Force and Release reset on clock of FDCANx Port */
-  DDL_APB1_GRP1_ForceReset(DDL_APB1_GRP1_PERIPH_FDCAN1);
-  DDL_APB1_GRP1_ReleaseReset(DDL_APB1_GRP1_PERIPH_FDCAN1);
+  DDL_APB1_GRP1_ForceReset(DDL_APB1_GRP1_PERIPH_FDCAN);
+  DDL_APB1_GRP1_ReleaseReset(DDL_APB1_GRP1_PERIPH_FDCAN);
 
   return (status);
 }
@@ -207,6 +207,7 @@ ErrorStatus DDL_FDCAN_DeInit(FDCAN_TypeDef *FDCANx)
   * @retval An ErrorStatus enumeration value:
   *          - SUCCESS: FDCAN registers are initialized according to FDCAN_InitStruct content
   *          - ERROR:   Not applicable
+  * @note   After calling this function, the FDCAN module is in the initialization mode.
   */
 ErrorStatus DDL_FDCAN_Init(FDCAN_TypeDef *FDCANx, DDL_FDCAN_InitTypeDef *FDCAN_InitStruct)
 {
@@ -323,6 +324,7 @@ void DDL_FDCAN_StructInit(DDL_FDCAN_InitTypeDef *FDCAN_InitStruct)
   FDCAN_InitStruct->DataSyncJumpWidth      = 1U;
   FDCAN_InitStruct->DataTimeSeg1           = 1U;
   FDCAN_InitStruct->DataTimeSeg2           = 2U;
+  FDCAN_InitStruct->TxFifoQueueMode        = DDL_FDCAN_TXMODE_FIFO;
 }
 
 /**
@@ -472,7 +474,7 @@ ErrorStatus DDL_FDCAN_TxMessage(FDCAN_TypeDef *FDCANx, DDL_FDCAN_TxMessageTypeDe
   TxAddress ++;
 
   /* Fill the data into the second word of the Tx FIFO.  */
-  *TxAddress = FDCAN_TxMessageStruct->MessageMarker | FDCAN_TxMessageStruct->EventFifoControl |
+  *TxAddress = (FDCAN_TxMessageStruct->MessageMarker << 24U) | FDCAN_TxMessageStruct->EventFifoControl |
                FDCAN_TxMessageStruct->FDFrame | FDCAN_TxMessageStruct->BitRateSwitch |
                FDCAN_TxMessageStruct->DataLength << 16U;
 
@@ -486,7 +488,7 @@ ErrorStatus DDL_FDCAN_TxMessage(FDCAN_TypeDef *FDCANx, DDL_FDCAN_TxMessageTypeDe
   }
 
   DDL_FDCAN_EnableTxRequest(FDCANx, (uint32_t)(1U << PutIndex));
-  while(DDL_FDCAN_IsActiveFlag_TxReqPending(FDCAN1, 1U << PutIndex));
+  while(DDL_FDCAN_IsActiveFlag_TRP(FDCANx, 1U << PutIndex));
 
   return (SUCCESS);
 }
@@ -518,6 +520,12 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
   /* Get the base address of FDCANx */
   SramAddressBase = __DDL_FDCAN_GET_SRAM_ADDRESS(FDCANx);
 
+  /* Check that the Rx FIFO has an allocated area into the RAM */
+  if (DDL_FDCAN_GetRxFIFOxSize(FDCANx, RxFifoNumber) == 0U)
+  {
+    return ERROR;
+  }
+
   /* Check Rx FIFO is empty or not */
   if(DDL_FDCAN_GetRxFIFOxFullLevel(FDCANx, RxFifoNumber) == 0U)
   {
@@ -527,13 +535,14 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
   /* When an Rx FIFO is operated in overwrite mode and an Rx FIFO full condition is signalled, reading
   of the Rx FIFO elements should start at least at get index + 1 */
   if(DDL_FDCAN_GetRxFIFOxMode(FDCANx, RxFifoNumber) == DDL_FDCAN_RXMODE_OVERWRITE &&
-    DDL_FDCAN_IsActiveFlag_RxFIFOxFull(FDCANx, RxFifoNumber))
+    DDL_FDCAN_IsActiveFlag_RFF(FDCANx, RxFifoNumber))
   {
     GetIndex = 1;
   }
 
   /* Calculate the Rx FIFO element index */
   GetIndex += DDL_FDCAN_GetRxFIFOxGetIndex(FDCANx, RxFifoNumber);
+
   /* Calculate the Rx FIFO element address */
   RxAddress = (uint32_t *)(SramAddressBase + DDL_FDCAN_GetRxFIFOxAddress(FDCANx, RxFifoNumber) + GetIndex * 72U);
 
@@ -574,7 +583,7 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
   FDCAN_RxMessageStruct->DataLength = (*RxAddress >> 16U) & 0xFU;
 
   /* Retrieve TimeStamp */
-  FDCAN_RxMessageStruct->TimeStamp = *RxAddress & 0xFFU;
+  FDCAN_RxMessageStruct->TimeStamp = *RxAddress & 0xFFFFU;
 
   /* Increment RxAddress pointer to Rx FIFO data element */
   RxAddress++;
@@ -585,15 +594,7 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
     FDCAN_RxMessageStruct->buffer[BytesCnt] = pDATA[BytesCnt];
   }
 
-  if(DDL_FDCAN_GetRxFIFOxMode(FDCAN1, DDL_FDCAN_RXFIFO_0) == DDL_FDCAN_RXMODE_OVERWRITE &&
-      DDL_FDCAN_IsActiveFlag_RxFIFOxFull(FDCAN1, DDL_FDCAN_RXFIFO_0))
-  {
-      DDL_FDCAN_SetRxFIFOxAckIndex(FDCAN1, DDL_FDCAN_GetRxFIFOxGetIndex(FDCAN1, DDL_FDCAN_RXFIFO_0) + 1, DDL_FDCAN_RXFIFO_0);
-  }
-  else
-  {
-      DDL_FDCAN_SetRxFIFOxAckIndex(FDCAN1, DDL_FDCAN_GetRxFIFOxGetIndex(FDCAN1, DDL_FDCAN_RXFIFO_0), DDL_FDCAN_RXFIFO_0);
-  }
+  DDL_FDCAN_SetRxFIFOxAckIndex(FDCANx, GetIndex, RxFifoNumber);
 
   return (SUCCESS);
 }
@@ -609,7 +610,7 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
   * @}
   */
 
-#endif /* defined (FDCAN1) */
+#endif /* defined (FDCAN) */
 
 /**
   * @}

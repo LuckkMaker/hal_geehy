@@ -751,7 +751,7 @@ void DAL_HCD_IRQHandler(HCD_HandleTypeDef *hhcd)
   }
 
   /* Endpoint 0 Interrupts */
-  usb_tx_int_status &= USBx->INTR_TXE;
+  usb_tx_int_status &= USBx->INTRTXE;
   if ((usb_tx_int_status & DDL_USB_IT_EP_0) != RESET)
   {
     /* Set the new endpoint index */
@@ -778,32 +778,32 @@ void DAL_HCD_IRQHandler(HCD_HandleTypeDef *hhcd)
       DDL_USB_SetEpIndex(USBx, ep_num & EP_ADDR_MSK);
 
       /* Get the endpoint status */
-      ep_status = USBx->RX_CSR;
+      ep_status = USBx->RXCSR;
 
-      if ((ep_status & OTG_HS_RX_CSR_ERROR) != RESET)
+      if ((ep_status & OTG_HS_RXCSR_ERROR) != RESET)
       {
-        USBx->RX_CSR = 0U;
+        USBx->RXCSR = 0U;
 
         hhcd->hc[ch_num].state = HC_XACTERR;
         hhcd->hc[ch_num].urb_state = URB_ERROR;
       }
-      else if ((ep_status & OTG_HS_RX_CSR_DATAERROR_NAKTIMEOUT) != RESET)
+      else if ((ep_status & OTG_HS_RXCSR_DATAERROR_NAKTIMEOUT) != RESET)
       {
-        USBx->RX_CSR = 0U;
+        USBx->RXCSR = 0U;
         DDL_USB_EPRX_FlushFIFO(USBx);
         DDL_USB_EPRX_ClearDataToggle(USBx);
         hhcd->hc[ch_num].state = HC_NAKTIMEOUT;
         hhcd->hc[ch_num].urb_state = URB_NOTREADY;
       }
-      else if ((ep_status & OTG_HS_RX_CSR_SENTSTALL) != RESET)
+      else if ((ep_status & OTG_HS_RXCSR_SENTSTALL) != RESET)
       {
-        // USBx->RX_CSR = 0U;
+        // USBx->RXCSR = 0U;
         // DDL_USB_EPRX_FlushFIFO(USBx);
         DDL_USB_EPRX_ClearDataToggle(USBx);
         hhcd->hc[ch_num].state = HC_STALL;
         hhcd->hc[ch_num].urb_state = URB_STALL;
       }
-      else if ((ep_status & OTG_HS_RX_CSR_RXPKTRDY) != RESET)
+      else if ((ep_status & OTG_HS_RXCSR_RXPKTRDY) != RESET)
       {
         /* Get the length of the packet */
         len = (hhcd->hc[ch_num].xfer_len > hhcd->hc[ch_num].max_packet) ? hhcd->hc[ch_num].max_packet : hhcd->hc[ch_num].xfer_len;
@@ -819,7 +819,7 @@ void DAL_HCD_IRQHandler(HCD_HandleTypeDef *hhcd)
           hhcd->hc[ch_num].xfer_count += len;
 
           DDL_USB_EPRX_FlushFIFO(USBx);
-          USBx->RX_CSR &= ~OTG_HS_RX_CSR_RXPKTRDY;
+          USBx->RXCSR &= ~OTG_HS_RXCSR_RXPKTRDY;
 
           if ((hhcd->hc[ch_num].xfer_count >= hhcd->hc[ch_num].xfer_len) || len < hhcd->hc[ch_num].max_packet)
           {
@@ -834,7 +834,7 @@ void DAL_HCD_IRQHandler(HCD_HandleTypeDef *hhcd)
         }
         else
         {
-          USBx->RX_CSR &= ~OTG_HS_RX_CSR_RXPKTRDY;
+          USBx->RXCSR &= ~OTG_HS_RXCSR_RXPKTRDY;
           hhcd->hc[ch_num].urb_state = URB_ERROR;
         }
       }
@@ -864,30 +864,30 @@ void DAL_HCD_IRQHandler(HCD_HandleTypeDef *hhcd)
       DDL_USB_SetEpIndex(USBx, ep_num & EP_ADDR_MSK);
 
       /* Get the endpoint status */
-      ep_status = USBx->TX_CSR;
+      ep_status = USBx->TXCSR;
 
-      if ((ep_status & OTG_HS_TX_CSR_ERROR) != RESET)
+      if ((ep_status & OTG_HS_TXCSR_ERROR) != RESET)
       {
-        USBx->TX_CSR = 0U;
+        USBx->TXCSR = 0U;
 
         hhcd->hc[ch_num].state = HC_XACTERR;
         hhcd->hc[ch_num].urb_state = URB_ERROR;
       }
-      else if ((ep_status & OTG_HS_TX_CSR_NAKTIMEOUT) != RESET)
+      else if ((ep_status & OTG_HS_TXCSR_NAKTIMEOUT) != RESET)
       {
-        // USBx->TX_CSR = 0U;
+        // USBx->TXCSR = 0U;
         hhcd->hc[ch_num].state = HC_NAKTIMEOUT;
         hhcd->hc[ch_num].urb_state = URB_NOTREADY;
       }
-      else if ((ep_status & OTG_HS_TX_CSR_SENTSTALL) != RESET)
+      else if ((ep_status & OTG_HS_TXCSR_SENTSTALL) != RESET)
       {
-        // USBx->RX_CSR = 0U;
+        // USBx->RXCSR = 0U;
         // DDL_USB_EPRX_FlushFIFO(USBx);
         DDL_USB_EPTX_ClearDataToggle(USBx);
         hhcd->hc[ch_num].state = HC_STALL;
         hhcd->hc[ch_num].urb_state = URB_STALL;
       }
-      else if ((ep_status & OTG_HS_TX_CSR_TXPKTRDY) == RESET)
+      else if ((ep_status & OTG_HS_TXCSR_TXPKTRDY) == RESET)
       {
         len = hhcd->hc[ch_num].xfer_len - hhcd->hc[ch_num].xfer_count;
         len = (len > hhcd->hc[ch_num].max_packet) ? hhcd->hc[ch_num].max_packet : len;

@@ -77,9 +77,8 @@ extern "C" {
 #define ADC_REGSEQ1_REGOFFSET                 0x00000000UL
 #define ADC_REGSEQ2_REGOFFSET                 0x00000100UL
 #define ADC_REGSEQ3_REGOFFSET                 0x00000200UL
-#define ADC_REGSEQ4_REGOFFSET                 0x00000300UL
 
-#define ADC_REG_SQRX_REGOFFSET_MASK        (ADC_REGSEQ1_REGOFFSET | ADC_REGSEQ2_REGOFFSET | ADC_REGSEQ3_REGOFFSET | ADC_REGSEQ4_REGOFFSET)
+#define ADC_REG_SQRX_REGOFFSET_MASK        (ADC_REGSEQ1_REGOFFSET | ADC_REGSEQ2_REGOFFSET | ADC_REGSEQ3_REGOFFSET)
 #define ADC_REG_RANK_ID_SQRX_MASK          (ADC_CHANNEL_ID_NUMBER_MASK_POSBIT0)
 
 /* Definition of ADC group regular sequencer bits information to be inserted  */
@@ -195,7 +194,7 @@ extern "C" {
 /* Channel differentiation between external and internal channels */
 #define ADC_CHANNEL_ID_INTERNAL_CH         0x80000000UL   /* Marker of internal channel */
 #define ADC_CHANNEL_ID_INTERNAL_CH_2       0x40000000UL   /* Marker of internal channel for other ADC instances, in case of different ADC internal channels mapped on same channel number on different ADC instances */
-#define ADC_CHANNEL_DIFFERENCIATION_TEMPSENSOR_VBAT 0x10000000U  /* Dummy bit for driver internal usage, not used in ADC channel setting registers CR1 or SQRx */
+#define ADC_CHANNEL_DIFFERENCIATION_TEMPSENSOR_VBAT 0x10000000U  /* Dummy bit for driver internal usage, not used in ADC channel setting registers CTRL1 or REGSEQx */
 #define ADC_CHANNEL_ID_INTERNAL_CH_MASK    (ADC_CHANNEL_ID_INTERNAL_CH | ADC_CHANNEL_ID_INTERNAL_CH_2 | ADC_CHANNEL_DIFFERENCIATION_TEMPSENSOR_VBAT)
 
 /* Internal register offset for ADC channel sampling time configuration */
@@ -540,6 +539,12 @@ typedef struct
 #define DDL_ADC_FLAG_AWD1_MST               ADC_CSTS_AWDFLG1       /*!< ADC flag ADC multimode master analog watchdog 1 of the ADC master */
 #define DDL_ADC_FLAG_AWD1_SLV1              ADC_CSTS_AWDFLG2       /*!< ADC flag ADC multimode slave 1 analog watchdog 1 */
 #define DDL_ADC_FLAG_AWD1_SLV2              ADC_CSTS_AWDFLG3       /*!< ADC flag ADC multimode slave 2 analog watchdog 1 */
+#define DDL_ADC_FLAG_STRT_MST               ADC_CSTS_REGCSFLG1     /*!< ADC flag ADC multimode master regular conversion start */
+#define DDL_ADC_FLAG_STRT_SLV1              ADC_CSTS_REGCSFLG2     /*!< ADC flag ADC multimode slave 1 regular conversion start */
+#define DDL_ADC_FLAG_STRT_SLV2              ADC_CSTS_REGCSFLG3     /*!< ADC flag ADC multimode slave 2 regular conversion start */
+#define DDL_ADC_FLAG_JSTRT_MST              ADC_CSTS_INJCSFLG1     /*!< ADC flag ADC multimode master injected conversion start */
+#define DDL_ADC_FLAG_JSTRT_SLV1             ADC_CSTS_INJCSFLG2     /*!< ADC flag ADC multimode slave 1 injected conversion start */
+#define DDL_ADC_FLAG_JSTRT_SLV2             ADC_CSTS_INJCSFLG3     /*!< ADC flag ADC multimode slave 2 injected conversion start */
 #endif /* ADC_MULTIMODE_SUPPORT */
 /**
   * @}
@@ -574,14 +579,11 @@ typedef struct
 /** @defgroup ADC_DDL_EC_COMMON_CLOCK_SOURCE  ADC common - Clock source
   * @{
   */
-#define DDL_ADC_CLOCK_SYNC_PCLK_DIV2        0x00000000UL                                                    /*!< ADC synchronous clock derived from AHB clock with prescaler division by 2   */
-#define DDL_ADC_CLOCK_SYNC_PCLK_DIV4        (                     ADC_CCTRL_ADCPRE_0)                       /*!< ADC synchronous clock derived from AHB clock with prescaler division by 4   */
-#define DDL_ADC_CLOCK_SYNC_PCLK_DIV8        (ADC_CCTRL_ADCPRE_1                     )                       /*!< ADC synchronous clock derived from AHB clock with prescaler division by 8   */
-#define DDL_ADC_CLOCK_SYNC_PCLK_DIV16       (ADC_CCTRL_ADCPRE_1 | ADC_CCTRL_ADCPRE_0)                       /*!< ADC synchronous clock derived from AHB clock with prescaler division by 16  */
-#define DDL_ADC_CLOCK_SYNC_PCLK_DIV32       (ADC_CCTRL_ADCPRE_2)                                            /*!< ADC synchronous clock derived from AHB clock with prescaler division by 32  */
-#define DDL_ADC_CLOCK_SYNC_PCLK_DIV64       (ADC_CCTRL_ADCPRE_2 | ADC_CCTRL_ADCPRE_0)                       /*!< ADC synchronous clock derived from AHB clock with prescaler division by 64  */
-#define DDL_ADC_CLOCK_SYNC_PCLK_DIV96       (ADC_CCTRL_ADCPRE_2 | ADC_CCTRL_ADCPRE_1)                       /*!< ADC synchronous clock derived from AHB clock with prescaler division by 96  */
-#define DDL_ADC_CLOCK_SYNC_PCLK_DIV256      (ADC_CCTRL_ADCPRE_2 | ADC_CCTRL_ADCPRE_1 | ADC_CCTRL_ADCPRE_0)  /*!< ADC synchronous clock derived from AHB clock with prescaler division by 256 */
+#define DDL_ADC_CLOCK_SYNC_PCLK_DIV2        0x00000000UL                                                 /*!< ADC synchronous clock derived from PCLK3 clock with prescaler division by 2   */
+#define DDL_ADC_CLOCK_SYNC_PCLK_DIV3        (                                        ADC_CCTRL_ADCPRE_0) /*!< ADC synchronous clock derived from PCLK3 clock with prescaler division by 3   */
+#define DDL_ADC_CLOCK_SYNC_PCLK_DIV4        (                   ADC_CCTRL_ADCPRE_1                     ) /*!< ADC synchronous clock derived from PCLK3 clock with prescaler division by 4   */
+#define DDL_ADC_CLOCK_SYNC_PCLK_DIV6        (                   ADC_CCTRL_ADCPRE_1 | ADC_CCTRL_ADCPRE_0) /*!< ADC synchronous clock derived from PCLK3 clock with prescaler division by 6  */
+#define DDL_ADC_CLOCK_SYNC_PCLK_DIV8        (ADC_CCTRL_ADCPRE_2)                                         /*!< ADC synchronous clock derived from PCLK3 clock with prescaler division by 8  */
 /**
   * @}
   */
@@ -664,8 +666,8 @@ typedef struct
 #define DDL_ADC_CHANNEL_17                  (ADC_CHANNEL_17_NUMBER | ADC_CHANNEL_17_SMP) /*!< ADC external channel (channel connected to GPIO pin) ADCx_IN17 */
 #define DDL_ADC_CHANNEL_18                  (ADC_CHANNEL_18_NUMBER | ADC_CHANNEL_18_SMP) /*!< ADC external channel (channel connected to GPIO pin) ADCx_IN18 */
 #define DDL_ADC_CHANNEL_VREFINT             (DDL_ADC_CHANNEL_17 | ADC_CHANNEL_ID_INTERNAL_CH) /*!< ADC internal channel connected to VrefInt: Internal voltage reference. On G32F4, ADC channel available only on ADC instance: ADC1. */
-#define DDL_ADC_CHANNEL_VBAT                (DDL_ADC_CHANNEL_18 | ADC_CHANNEL_ID_INTERNAL_CH) /*!< ADC internal channel connected to Vbat/3: Vbat voltage through a divider ladder of factor 1/3 to have Vbat always below Vdda. On G32F4, ADC channel available only on ADC instance: ADC1. */
 #define DDL_ADC_CHANNEL_TEMPSENSOR          (DDL_ADC_CHANNEL_16 | ADC_CHANNEL_ID_INTERNAL_CH) /*!< ADC internal channel connected to Temperature sensor. On G32F4, ADC channel available only on ADC instance: ADC1. */
+#define DDL_ADC_CHANNEL_VBAT                (DDL_ADC_CHANNEL_18 | ADC_CHANNEL_ID_INTERNAL_CH) /*!< ADC internal channel connected to Vbat/3: Vbat voltage through a divider ladder of factor 1/3 to have Vbat always below Vdda. On G32F4, ADC channel available only on ADC instance: ADC1. */
 /**
   * @}
   */
@@ -727,8 +729,8 @@ typedef struct
 /** @defgroup ADC_DDL_EC_REG_FLAG_EOC_SELECTION ADC group regular - Flag EOC selection (unitary or sequence conversions)
   * @{
   */
-#define DDL_ADC_REG_FLAG_EOC_SEQUENCE_CONV        0x00000000UL       /*!< ADC flag EOC (end of unitary conversion) selected */
-#define DDL_ADC_REG_FLAG_EOC_UNITARY_CONV        (ADC_CTRL2_EOCSEL)  /*!< ADC flag EOS (end of sequence conversions) selected */
+#define DDL_ADC_REG_FLAG_EOC_SEQUENCE_CONV        0x00000000UL       /*!< ADC flag EOS (end of sequence conversions) selected */
+#define DDL_ADC_REG_FLAG_EOC_UNITARY_CONV        (ADC_CTRL2_EOCSEL)  /*!< ADC flag EOC (end of unitary conversion) selected */
 /**
   * @}
   */
@@ -998,14 +1000,14 @@ typedef struct
 /** @defgroup ADC_DDL_EC_OVS_SHIFT  Oversampling - Data shift
   * @{
   */
-#define DDL_ADC_OVS_SHIFT_NONE              (0x00000000UL)                                                                         /*!< ADC oversampling no shift (sum of the ADC conversions data is not divided to result as the ADC oversampling conversion data) */
-#define DDL_ADC_OVS_SHIFT_RIGHT_1           (                                                                 ADC_OSAMPCTRL_OVSS_0) /*!< ADC oversampling shift of 1 (sum of the ADC conversions data is divided by 2 to result as the ADC oversampling conversion data) */
-#define DDL_ADC_OVS_SHIFT_RIGHT_2           (                                           ADC_OSAMPCTRL_OVSS_1                      ) /*!< ADC oversampling shift of 2 (sum of the ADC conversions data is divided by 4 to result as the ADC oversampling conversion data) */
-#define DDL_ADC_OVS_SHIFT_RIGHT_3           (                                           ADC_OSAMPCTRL_OVSS_1 | ADC_OSAMPCTRL_OVSS_0) /*!< ADC oversampling shift of 3 (sum of the ADC conversions data is divided by 8 to result as the ADC oversampling conversion data) */
-#define DDL_ADC_OVS_SHIFT_RIGHT_4           (                     ADC_OSAMPCTRL_OVSS_2                                            ) /*!< ADC oversampling shift of 4 (sum of the ADC conversions data is divided by 16 to result as the ADC oversampling conversion data) */
-#define DDL_ADC_OVS_SHIFT_RIGHT_5           (                     ADC_OSAMPCTRL_OVSS_2                       | ADC_OSAMPCTRL_OVSS_0) /*!< ADC oversampling shift of 5 (sum of the ADC conversions data is divided by 32 to result as the ADC oversampling conversion data) */
-#define DDL_ADC_OVS_SHIFT_RIGHT_6           (                     ADC_OSAMPCTRL_OVSS_2 | ADC_OSAMPCTRL_OVSS_1                      ) /*!< ADC oversampling shift of 6 (sum of the ADC conversions data is divided by 64 to result as the ADC oversampling conversion data) */
-#define DDL_ADC_OVS_SHIFT_RIGHT_7           (                     ADC_OSAMPCTRL_OVSS_2 | ADC_OSAMPCTRL_OVSS_1 | ADC_OSAMPCTRL_OVSS_0) /*!< ADC oversampling shift of 7 (sum of the ADC conversions data is divided by 128 to result as the ADC oversampling conversion data) */
+#define DDL_ADC_OVS_SHIFT_NONE              (0x00000000UL)                                                       /*!< ADC oversampling no shift (sum of the ADC conversions data is not divided to result as the ADC oversampling conversion data) */
+#define DDL_ADC_OVS_SHIFT_RIGHT_1           (                                              ADC_OSAMPCTRL_OVSS_0) /*!< ADC oversampling shift of 1 (sum of the ADC conversions data is divided by 2 to result as the ADC oversampling conversion data) */
+#define DDL_ADC_OVS_SHIFT_RIGHT_2           (                       ADC_OSAMPCTRL_OVSS_1                       ) /*!< ADC oversampling shift of 2 (sum of the ADC conversions data is divided by 4 to result as the ADC oversampling conversion data) */
+#define DDL_ADC_OVS_SHIFT_RIGHT_3           (                       ADC_OSAMPCTRL_OVSS_1 | ADC_OSAMPCTRL_OVSS_0) /*!< ADC oversampling shift of 3 (sum of the ADC conversions data is divided by 8 to result as the ADC oversampling conversion data) */
+#define DDL_ADC_OVS_SHIFT_RIGHT_4           (ADC_OSAMPCTRL_OVSS_2                                              ) /*!< ADC oversampling shift of 4 (sum of the ADC conversions data is divided by 16 to result as the ADC oversampling conversion data) */
+#define DDL_ADC_OVS_SHIFT_RIGHT_5           (ADC_OSAMPCTRL_OVSS_2                        | ADC_OSAMPCTRL_OVSS_0) /*!< ADC oversampling shift of 5 (sum of the ADC conversions data is divided by 32 to result as the ADC oversampling conversion data) */
+#define DDL_ADC_OVS_SHIFT_RIGHT_6           (ADC_OSAMPCTRL_OVSS_2 | ADC_OSAMPCTRL_OVSS_1                       ) /*!< ADC oversampling shift of 6 (sum of the ADC conversions data is divided by 64 to result as the ADC oversampling conversion data) */
+#define DDL_ADC_OVS_SHIFT_RIGHT_7           (ADC_OSAMPCTRL_OVSS_2 | ADC_OSAMPCTRL_OVSS_1 | ADC_OSAMPCTRL_OVSS_0) /*!< ADC oversampling shift of 7 (sum of the ADC conversions data is divided by 128 to result as the ADC oversampling conversion data) */
 /**
   * @}
   */
@@ -1063,14 +1065,13 @@ typedef struct
 /** @defgroup ADC_DDL_EC_MULTI_MODE  Multimode - Mode
   * @{
   */
-#define DDL_ADC_MULTI_INDEPENDENT           0x00000000UL                                                                           /*!< ADC dual mode disabled (ADC independent mode) */
-#define DDL_ADC_MULTI_DUAL_REG_SIMULT       (                     ADC_CCTRL_ADCMSEL_2 | ADC_CCTRL_ADCMSEL_1                      ) /*!< ADC dual mode enabled: group regular simultaneous */
-#define DDL_ADC_MULTI_DUAL_REG_INTERL       (                     ADC_CCTRL_ADCMSEL_2 | ADC_CCTRL_ADCMSEL_1 | ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: Combined group regular interleaved */
-#define DDL_ADC_MULTI_DUAL_INJ_SIMULT       (                     ADC_CCTRL_ADCMSEL_2                       | ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: group injected simultaneous */
-#define DDL_ADC_MULTI_DUAL_INJ_ALTERN       (ADC_CCTRL_ADCMSEL_3                                            | ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: group injected alternate trigger. Works only with external triggers (not internal SW start) */
-#define DDL_ADC_MULTI_DUAL_REG_SIM_INJ_SIM  (                                                                 ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: Combined group regular simultaneous + group injected simultaneous */
-#define DDL_ADC_MULTI_DUAL_REG_SIM_INJ_ALT  (                                           ADC_CCTRL_ADCMSEL_1                      ) /*!< ADC dual mode enabled: Combined group regular simultaneous + group injected alternate trigger */
-#define DDL_ADC_MULTI_DUAL_REG_INT_INJ_SIM  (                                           ADC_CCTRL_ADCMSEL_1 | ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: Combined group regular interleaved + group injected simultaneous */
+#define DDL_ADC_MULTI_INDEPENDENT             0x00000000UL                                                                            /*!< ADC dual mode disabled (ADC independent mode) */
+#define DDL_ADC_MULTI_DUAL_REG_SIM_INJ_SIM    (                                                                  ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: Combined group regular simultaneous + group injected simultaneous */
+#define DDL_ADC_MULTI_DUAL_REG_SIM_INJ_ALT    (                                            ADC_CCTRL_ADCMSEL_1                      ) /*!< ADC dual mode enabled: Combined group regular simultaneous + group injected alternate trigger */
+#define DDL_ADC_MULTI_DUAL_INJ_SIMULT         (                      ADC_CCTRL_ADCMSEL_2                       | ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: group injected simultaneous */
+#define DDL_ADC_MULTI_DUAL_REG_SIMULT         (                      ADC_CCTRL_ADCMSEL_2 | ADC_CCTRL_ADCMSEL_1                      ) /*!< ADC dual mode enabled: group regular simultaneous */
+#define DDL_ADC_MULTI_DUAL_REG_INTERL         (                      ADC_CCTRL_ADCMSEL_2 | ADC_CCTRL_ADCMSEL_1 | ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: Combined group regular interleaved */
+#define DDL_ADC_MULTI_DUAL_INJ_ALTERN         (ADC_CCTRL_ADCMSEL_3                                             | ADC_CCTRL_ADCMSEL_0) /*!< ADC dual mode enabled: group injected alternate trigger. Works only with external triggers (not internal SW start) */
 #if defined(ADC3)
 #define DDL_ADC_MULTI_TRIPLE_REG_SIM_INJ_SIM  (ADC_CCTRL_ADCMSEL_4                                             | ADC_CCTRL_ADCMSEL_0) /*!< ADC triple mode enabled: Combined group regular simultaneous + group injected simultaneous */
 #define DDL_ADC_MULTI_TRIPLE_REG_SIM_INJ_ALT  (ADC_CCTRL_ADCMSEL_4                       | ADC_CCTRL_ADCMSEL_1                      ) /*!< ADC triple mode enabled: Combined group regular simultaneous + group injected alternate trigger */
@@ -1086,13 +1087,13 @@ typedef struct
 /** @defgroup ADC_DDL_EC_MULTI_DMA_TRANSFER  Multimode - DMA transfer
   * @{
   */
-#define DDL_ADC_MULTI_REG_DMA_EACH_ADC        0x00000000UL                                                          /*!< ADC multimode group regular conversions are transferred by DMA: each ADC uses its own DMA channel, with its individual DMA transfer settings */
-#define DDL_ADC_MULTI_REG_DMA_LIMIT_1         (                                                ADC_CCTRL_DMAMODE_0) /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in limited mode (one shot mode): DMA transfer requests are stopped when number of DMA data transfers (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 1: 2 or 3 (dual or triple mode) half-words one by one, ADC1 then ADC2 then ADC3. */
-#define DDL_ADC_MULTI_REG_DMA_LIMIT_2         (                          ADC_CCTRL_DMAMODE_1                      ) /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in limited mode (one shot mode): DMA transfer requests are stopped when number of DMA data transfers (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 2: 2 or 3 (dual or triple mode) half-words one by one, ADC2&1 then ADC1&3 then ADC3&2. */
-#define DDL_ADC_MULTI_REG_DMA_LIMIT_3         (                          ADC_CCTRL_DMAMODE_1 | ADC_CCTRL_DMAMODE_0) /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in limited mode (one shot mode): DMA transfer requests are stopped when number of DMA data transfers (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 3: 2 or 3 (dual or triple mode) bytes one by one, ADC2&1 then ADC1&3 then ADC3&2. */
-#define DDL_ADC_MULTI_REG_DMA_UNLMT_1         (ADC_CCTRL_DMAMODEDISSEL |                       ADC_CCTRL_DMAMODE_0) /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in unlimited mode: DMA transfer requests are unlimited, whatever number of DMA data transferred (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 1: 2 or 3 (dual or triple mode) half-words one by one, ADC1 then ADC2 then ADC3. */
-#define DDL_ADC_MULTI_REG_DMA_UNLMT_2         (ADC_CCTRL_DMAMODEDISSEL | ADC_CCTRL_DMAMODE_1                      ) /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in unlimited mode: DMA transfer requests are unlimited, whatever number of DMA data transferred (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 2: 2 or 3 (dual or triple mode) half-words by pairs, ADC2&1 then ADC1&3 then ADC3&2. */
-#define DDL_ADC_MULTI_REG_DMA_UNLMT_3         (ADC_CCTRL_DMAMODEDISSEL | ADC_CCTRL_DMAMODE_1 | ADC_CCTRL_DMAMODE_0) /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in unlimited mode: DMA transfer requests are unlimited, whatever number of DMA data transferred (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 3: 2 or 3 (dual or triple mode) bytes one by one, ADC2&1 then ADC1&3 then ADC3&2. */
+#define DDL_ADC_MULTI_REG_DMA_EACH_ADC        0x00000000UL                                  /*!< ADC multimode group regular conversions are transferred by DMA: each ADC uses its own DMA channel, with its individual DMA transfer settings */
+#define DDL_ADC_MULTI_REG_DMA_LIMIT_1         (ADC_CCTRL_DMAMODE_0)                         /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in limited mode (one shot mode): DMA transfer requests are stopped when number of DMA data transfers (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 1: 2 or 3 (dual or triple mode) half-words one by one, ADC1 then ADC2 then ADC3. */
+#define DDL_ADC_MULTI_REG_DMA_LIMIT_2         (ADC_CCTRL_DMAMODE_1)                         /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in limited mode (one shot mode): DMA transfer requests are stopped when number of DMA data transfers (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 2: 2 or 3 (dual or triple mode) half-words one by one, ADC2&1 then ADC1&3 then ADC3&2. */
+#define DDL_ADC_MULTI_REG_DMA_LIMIT_3         (ADC_CCTRL_DMAMODE_1 | ADC_CCTRL_DMAMODE_0)   /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in limited mode (one shot mode): DMA transfer requests are stopped when number of DMA data transfers (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 3: 2 or 3 (dual or triple mode) bytes one by one, ADC2&1 then ADC1&3 then ADC3&2. */
+#define DDL_ADC_MULTI_REG_DMA_UNLMT_1         (ADC_CCTRL_DMADISSEL | ADC_CCTRL_DMAMODE_0)   /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in unlimited mode: DMA transfer requests are unlimited, whatever number of DMA data transferred (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 1: 2 or 3 (dual or triple mode) half-words one by one, ADC1 then ADC2 then ADC3. */
+#define DDL_ADC_MULTI_REG_DMA_UNLMT_2         (ADC_CCTRL_DMADISSEL | ADC_CCTRL_DMAMODE_1 )  /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in unlimited mode: DMA transfer requests are unlimited, whatever number of DMA data transferred (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 2: 2 or 3 (dual or triple mode) half-words by pairs, ADC2&1 then ADC1&3 then ADC3&2. */
+#define DDL_ADC_MULTI_REG_DMA_UNLMT_3         (ADC_CCTRL_DMADISSEL | ADC_CCTRL_DMAMODE_1 | ADC_CCTRL_DMAMODE_0) /*!< ADC multimode group regular conversions are transferred by DMA, one DMA channel for all ADC instances (DMA of ADC master), in unlimited mode: DMA transfer requests are unlimited, whatever number of DMA data transferred (number of ADC conversions) is reached. This ADC mode is intended to be used with DMA mode non-circular. Setting of DMA mode 3: 2 or 3 (dual or triple mode) bytes one by one, ADC2&1 then ADC1&3 then ADC3&2. */
 /**
   * @}
   */
@@ -1173,14 +1174,14 @@ typedef struct
 
 
 /** @defgroup ADC_DDL_EC_HW_DELAYS  Definitions of ADC hardware constraints delays
-  * @note   Only ADC IP HW delays are defined in ADC LL driver driver,
+  * @note   Only ADC IP HW delays are defined in ADC DDL driver driver,
   *         not timeout values.
   *         For details on delays values, refer to descriptions in source code
   *         above each literal definition.
   * @{
   */
 
-/* Note: Only ADC IP HW delays are defined in ADC LL driver driver,           */
+/* Note: Only ADC IP HW delays are defined in ADC DDL driver driver,           */
 /*       not timeout values.                                                  */
 /*       Timeout values for ADC operations are dependent to device clock      */
 /*       configuration (system clock versus ADC clock),                       */
@@ -1655,6 +1656,7 @@ typedef struct
   * @param  __ADC_MULTI_MASTER_SLAVE__ This parameter can be one of the following values:
   *         @arg @ref DDL_ADC_MULTI_MASTER
   *         @arg @ref DDL_ADC_MULTI_SLAVE
+  *         @arg @ref DDL_ADC_MULTI_MASTER_SLAVE
   * @param  __ADC_MULTI_CONV_DATA__ Value between Min_Data=0x000 and Max_Data=0xFFF
   * @retval Value between Min_Data=0x000 and Max_Data=0xFFF
   */
@@ -1987,7 +1989,7 @@ __STATIC_INLINE uint32_t DDL_ADC_DMA_GetRegAddr(ADC_TypeDef *ADCx, uint32_t Regi
 
   if (Register == DDL_ADC_DMA_REG_REGULAR_DATA)
   {
-    /* Retrieve address of register DR */
+    /* Retrieve address of register REGDATA */
     data_reg_addr = (uint32_t)&(ADCx->REGDATA);
   }
   else /* (Register == DDL_ADC_DMA_REG_REGULAR_DATA_MULTI) */
@@ -2300,18 +2302,17 @@ __STATIC_INLINE void DDL_ADC_REG_SetTriggerSource(ADC_TypeDef *ADCx, uint32_t Tr
   */
 __STATIC_INLINE uint32_t DDL_ADC_REG_GetTriggerSource(ADC_TypeDef *ADCx)
 {
-  uint32_t TriggerSource = READ_BIT(ADCx->CTRL2, ADC_CTRL2_REGEXTTRGSEL | ADC_CTRL2_REGEXTTRGEN);
+  uint32_t TriggerSource = READ_BIT(ADCx->CTRL2, ADC_CTRL2_REGEXTTRGSEL);
+  uint32_t TriggerEnable = READ_BIT(ADCx->CTRL2, ADC_CTRL2_REGEXTTRGEN);
 
-  /* Value for shift of {0; 4; 8; 12} depending on value of bitfield          */
-  /* corresponding to ADC_CTRL2_REGEXTTRGEN {0; 1; 2; 3}.                             */
-  uint32_t ShiftExten = ((TriggerSource & ADC_CTRL2_REGEXTTRGEN) >> (ADC_REG_TRIG_EXTEN_BITOFFSET_POS - 2UL));
-
-  /* Set bitfield corresponding to ADC_CTRL2_REGEXTTRGEN and ADC_CTRL2_REGEXTTRGSEL           */
-  /* to match with triggers literals definition.                              */
-  return ((TriggerSource
-           & (ADC_REG_TRIG_SOURCE_MASK << ShiftExten) & ADC_CTRL2_REGEXTTRGSEL)
-          | ((ADC_REG_TRIG_EDGE_MASK << ShiftExten) & ADC_CTRL2_REGEXTTRGEN)
-         );
+  if (TriggerEnable == 0UL)
+  {
+    return DDL_ADC_REG_TRIG_SOFTWARE;
+  }
+  else
+  {
+    return TriggerSource | ADC_REG_TRIG_EXT_EDGE_DEFAULT;
+  }
 }
 
 /**
@@ -2643,9 +2644,9 @@ __STATIC_INLINE void DDL_ADC_REG_SetSequencerRanks(ADC_TypeDef *ADCx, uint32_t R
   *         @arg @ref ADC_CHANNEL_16_NUMBER
   *         @arg @ref ADC_CHANNEL_17_NUMBER
   *         @arg @ref ADC_CHANNEL_18_NUMBER
-  *         @arg @ref ADC_CHANNEL_17_NUMBER    (DDL_ADC_CHANNEL_VREFINT)    (1)
-  *         @arg @ref ADC_CHANNEL_18_NUMBER    (DDL_ADC_CHANNEL_TEMPSENSOR) (1)
-  *         @arg @ref ADC_CHANNEL_16_NUMBER    (DDL_ADC_CHANNEL_VBAT)       (1)
+  *         @arg @ref DDL_ADC_CHANNEL_VREFINT    (1)
+  *         @arg @ref DDL_ADC_CHANNEL_TEMPSENSOR (1)
+  *         @arg @ref DDL_ADC_CHANNEL_VBAT       (1)
   *
   *         (1) On G32F4, parameter available only on ADC instance: ADC1.\n
   *         (1) For ADC channel read back from ADC register,
@@ -2882,18 +2883,16 @@ __STATIC_INLINE void DDL_ADC_INJ_SetTriggerSource(ADC_TypeDef *ADCx, uint32_t Tr
   */
 __STATIC_INLINE uint32_t DDL_ADC_INJ_GetTriggerSource(ADC_TypeDef *ADCx)
 {
-  uint32_t TriggerSource = READ_BIT(ADCx->CTRL2, ADC_CTRL2_INJGEXTTRGSEL | ADC_CTRL2_INJEXTTRGEN);
-
-  /* Value for shift of {0; 4; 8; 12} depending on value of bitfield          */
-  /* corresponding to ADC_CTRL2_INJEXTTRGEN {0; 1; 2; 3}.                            */
-  uint32_t ShiftExten = ((TriggerSource & ADC_CTRL2_INJEXTTRGEN) >> (ADC_INJ_TRIG_EXTEN_BITOFFSET_POS - 2UL));
-
-  /* Set bitfield corresponding to ADC_CTRL2_INJEXTTRGEN and ADC_CTRL2_INJGEXTTRGSEL         */
-  /* to match with triggers literals definition.                              */
-  return ((TriggerSource
-           & (ADC_INJ_TRIG_SOURCE_MASK << ShiftExten) & ADC_CTRL2_INJGEXTTRGSEL)
-          | ((ADC_INJ_TRIG_EDGE_MASK << ShiftExten) & ADC_CTRL2_INJEXTTRGEN)
-         );
+  uint32_t TriggerSource = READ_BIT(ADCx->CTRL2, ADC_CTRL2_INJGEXTTRGSEL);
+  uint32_t TriggerEnable = READ_BIT(ADCx->CTRL2, ADC_CTRL2_INJEXTTRGEN);
+  if (TriggerEnable == 0UL)
+  {
+    return DDL_ADC_INJ_TRIG_SOFTWARE;
+  }
+  else
+  {
+    return TriggerSource | ADC_INJ_TRIG_EXT_EDGE_DEFAULT;
+  }
 }
 
 /**
@@ -3014,6 +3013,11 @@ __STATIC_INLINE uint32_t DDL_ADC_INJ_GetSequencerDiscont(ADC_TypeDef *ADCx)
   *         sequence rank.
   * @note   Depending on devices and packages, some channels may not be available.
   *         Refer to device datasheet for channels availability.
+  * @note   Rank position depends on injected sequence length configuration.
+  *         INJSEQLEN encodes sequence length N (1 to 4 ranks, N = INJSEQLEN + 1),
+  *         and Rank is the logical order inside this active sequence (1..N).
+  *         Therefore, the same Rank may map to different INJSEQ bitfields when
+  *         INJSEQLEN changes.
   * @note   On this G32 series, to measure internal channels (VrefInt,
   *         TempSensor, ...), measurement paths to internal channels must be
   *         enabled separately.
@@ -3054,14 +3058,25 @@ __STATIC_INLINE uint32_t DDL_ADC_INJ_GetSequencerDiscont(ADC_TypeDef *ADCx)
 __STATIC_INLINE void DDL_ADC_INJ_SetSequencerRanks(ADC_TypeDef *ADCx, uint32_t Rank, uint32_t Channel)
 {
   /* Set bits with content of parameter "Channel" with bits position          */
-  /* in register depending on parameter "Rank".                               */
+  /* in register depending on parameters "Rank" and "INJSEQLEN".            */
+  /*                                                                            */
+  /* INJSEQLEN encodes the injected sequence length N (from 1 to 4 ranks).     */
+  /* Rank is a logical order in the current sequence (rank 1..N), and does     */
+  /* not always map to a fixed INJSEQCx bitfield when N changes.               */
+  /*                                                                            */
+  /* If rank is out of current sequence length, request is ignored to avoid     */
+  /* writing outside injected channel bitfields.                                */
   /* Parameters "Rank" and "Channel" are used with masks because containing   */
   /* other bits reserved for other purpose.                                   */
   uint32_t tmpreg1 = (READ_BIT(ADCx->INJSEQ, ADC_INJSEQ_INJSEQLEN) >> ADC_INJSEQ_INJSEQLEN_Pos) + 1UL;
+  uint32_t tmpreg2 = (Rank & ADC_INJ_RANK_ID_JSQR_MASK);
 
-  MODIFY_REG(ADCx->INJSEQ,
-             ADC_CHANNEL_ID_NUMBER_MASK << (5UL * (uint8_t)(((Rank) + 3UL) - (tmpreg1))),
-             (Channel & ADC_CHANNEL_ID_NUMBER_MASK) << (5UL * (uint8_t)(((Rank) + 3UL) - (tmpreg1))));
+  if ((tmpreg2 >= 1UL) && (tmpreg2 <= tmpreg1))
+  {
+    MODIFY_REG(ADCx->INJSEQ,
+               ADC_CHANNEL_ID_NUMBER_MASK << (5UL * (uint8_t)(((tmpreg2) + 3UL) - (tmpreg1))),
+               (Channel & ADC_CHANNEL_ID_NUMBER_MASK) << (5UL * (uint8_t)(((tmpreg2) + 3UL) - (tmpreg1))));
+  }
 }
 
 /**
@@ -3069,6 +3084,11 @@ __STATIC_INLINE void DDL_ADC_INJ_SetSequencerRanks(ADC_TypeDef *ADCx, uint32_t R
   *         sequence rank.
   * @note   Depending on devices and packages, some channels may not be available.
   *         Refer to device datasheet for channels availability.
+  * @note   Rank position depends on injected sequence length configuration.
+  *         INJSEQLEN encodes sequence length N (1 to 4 ranks, N = INJSEQLEN + 1),
+  *         and Rank is the logical order inside this active sequence (1..N).
+  *         Therefore, the same Rank may map to different INJSEQ bitfields when
+  *         INJSEQLEN changes.
   * @note   Usage of the returned channel number:
   *         - To reinject this channel into another function DDL_ADC_xxx:
   *           the returned channel number is only partly formatted on definition
@@ -3106,9 +3126,9 @@ __STATIC_INLINE void DDL_ADC_INJ_SetSequencerRanks(ADC_TypeDef *ADCx, uint32_t R
   *         @arg @ref ADC_CHANNEL_16_NUMBER
   *         @arg @ref ADC_CHANNEL_17_NUMBER
   *         @arg @ref ADC_CHANNEL_18_NUMBER
-  *         @arg @ref ADC_CHANNEL_17_NUMBER    (DDL_ADC_CHANNEL_VREFINT)    (1)
-  *         @arg @ref ADC_CHANNEL_18_NUMBER    (DDL_ADC_CHANNEL_TEMPSENSOR) (1)
-  *         @arg @ref ADC_CHANNEL_16_NUMBER    (DDL_ADC_CHANNEL_VBAT)       (1)
+  *         @arg @ref DDL_ADC_CHANNEL_VREFINT    (1)
+  *         @arg @ref DDL_ADC_CHANNEL_TEMPSENSOR (1)
+  *         @arg @ref DDL_ADC_CHANNEL_VBAT       (1)
   *
   *         (1) On G32F4, parameter available only on ADC instance: ADC1.\n
   *         (1) For ADC channel read back from ADC register,
@@ -3117,12 +3137,17 @@ __STATIC_INLINE void DDL_ADC_INJ_SetSequencerRanks(ADC_TypeDef *ADCx, uint32_t R
   */
 __STATIC_INLINE uint32_t DDL_ADC_INJ_GetSequencerRanks(ADC_TypeDef *ADCx, uint32_t Rank)
 {
-  uint32_t tmpreg1 = (READ_BIT(ADCx->INJSEQ, ADC_INJSEQ_INJSEQLEN) >> ADC_INJSEQ_INJSEQLEN_Pos)  + 1UL;
+  uint32_t tmpreg1 = (READ_BIT(ADCx->INJSEQ, ADC_INJSEQ_INJSEQLEN) >> ADC_INJSEQ_INJSEQLEN_Pos) + 1UL;
+  uint32_t tmpreg2 = (Rank & ADC_INJ_RANK_ID_JSQR_MASK);
 
-  return (uint32_t)(READ_BIT(ADCx->INJSEQ,
-                             ADC_CHANNEL_ID_NUMBER_MASK << (5UL * (uint8_t)(((Rank) + 3UL) - (tmpreg1))))
-                    >> (5UL * (uint8_t)(((Rank) + 3UL) - (tmpreg1)))
-                   );
+  if ((tmpreg2 >= 1UL) && (tmpreg2 <= tmpreg1))
+  {
+    return (uint32_t)(READ_BIT(ADCx->INJSEQ,
+                               ADC_CHANNEL_ID_NUMBER_MASK << (5UL * (uint8_t)(((tmpreg2) + 3UL) - (tmpreg1))))
+                      >> (5UL * (uint8_t)(((tmpreg2) + 3UL) - (tmpreg1))));
+  }
+
+  return 0UL;
 }
 
 /**
@@ -3192,10 +3217,7 @@ __STATIC_INLINE uint32_t DDL_ADC_INJ_GetTrigAuto(ADC_TypeDef *ADCx)
 __STATIC_INLINE void DDL_ADC_INJ_SetOffset(ADC_TypeDef *ADCx, uint32_t Rank, uint32_t OffsetLevel)
 {
   __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->INJDOF1, __ADC_MASK_SHIFT(Rank, ADC_INJ_JOFRX_REGOFFSET_MASK));
-
-  MODIFY_REG(*preg,
-             ADC_INJDOF1_INJDOF1,
-             OffsetLevel);
+  MODIFY_REG(*preg, ADC_INJDOF1_INJDOF1, OffsetLevel);
 }
 
 /**
@@ -3215,10 +3237,7 @@ __STATIC_INLINE void DDL_ADC_INJ_SetOffset(ADC_TypeDef *ADCx, uint32_t Rank, uin
 __STATIC_INLINE uint32_t DDL_ADC_INJ_GetOffset(ADC_TypeDef *ADCx, uint32_t Rank)
 {
   __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->INJDOF1, __ADC_MASK_SHIFT(Rank, ADC_INJ_JOFRX_REGOFFSET_MASK));
-
-  return (uint32_t)(READ_BIT(*preg,
-                             ADC_INJDOF1_INJDOF1)
-                   );
+  return (uint32_t)(READ_BIT(*preg, ADC_INJDOF1_INJDOF1));
 }
 
 /**
@@ -3574,9 +3593,7 @@ __STATIC_INLINE void DDL_ADC_SetAnalogWDThresholds(ADC_TypeDef *ADCx, uint32_t A
 {
   __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->AWDHT, AWDThresholdsHighLow);
 
-  MODIFY_REG(*preg,
-             ADC_AWDHT_AWDHT,
-             AWDThresholdValue);
+  MODIFY_REG(*preg, ADC_AWDHT_AWDHT, AWDThresholdValue);
 }
 
 /**
@@ -3609,6 +3626,7 @@ __STATIC_INLINE uint32_t DDL_ADC_GetAnalogWDThresholds(ADC_TypeDef *ADCx, uint32
 
 /**
   * @brief  Enable ADC oversampling on the selected ADC instance.
+  * @note   Configure OVSEN only while ADCEN=0.
   * @param  ADCx ADC instance
   * @retval None
   */
@@ -3619,6 +3637,7 @@ __STATIC_INLINE void DDL_ADC_EnableOverSampling(ADC_TypeDef *ADCx)
 
 /**
   * @brief  Disable ADC oversampling on the selected ADC instance.
+  * @note   Configure OVSEN only while ADCEN=0.
   * @param  ADCx ADC instance
   * @retval None
   */
@@ -3628,19 +3647,20 @@ __STATIC_INLINE void DDL_ADC_DisableOverSampling(ADC_TypeDef *ADCx)
 }
 
 /**
- * @brief  Set ADC oversampling discontinuous mode (triggered mode)
- *         on the selected ADC group.
- * @note   Number of oversampled conversions are done either in:
- *         - continuous mode (all conversions of oversampling are
- *           done from 1 trigger)
- *         - discontinuous mode (each conversion of oversampling
- *           needs a trigger)
- * @param  ADCx ADC instance
- * @param  OverSamplingDiscont This parameter can be one of the following values:
- *         @arg @ref DDL_ADC_OVS_REG_CONT
- *         @arg @ref DDL_ADC_OVS_REG_DISCONT
- * @retval None
- */
+  * @brief  Set ADC oversampling discontinuous mode (triggered mode)
+  *         on the selected ADC group.
+  * @note   Configure TOS only while ADCEN=0.
+  * @note   Number of oversampled conversions are done either in:
+  *         - continuous mode (all conversions of oversampling are
+  *           done from 1 trigger)
+  *         - discontinuous mode (each conversion of oversampling
+  *           needs a trigger)
+  * @param  ADCx ADC instance
+  * @param  OverSamplingDiscont This parameter can be one of the following values:
+  *         @arg @ref DDL_ADC_OVS_REG_CONT
+  *         @arg @ref DDL_ADC_OVS_REG_DISCONT
+  * @retval None
+  */
 __STATIC_INLINE void DDL_ADC_SetOverSamplingDiscont(ADC_TypeDef *ADCx, uint32_t OverSamplingDiscont)
 {
   MODIFY_REG(ADCx->OSAMPCTRL, ADC_OSAMPCTRL_TOS, OverSamplingDiscont);
@@ -3649,16 +3669,17 @@ __STATIC_INLINE void DDL_ADC_SetOverSamplingDiscont(ADC_TypeDef *ADCx, uint32_t 
 /**
   * @brief  Get ADC oversampling discontinuous mode (triggered mode)
   *         on the selected ADC group.
- *  @note   Number of oversampled conversions are done either in:
- *         - continuous mode (all conversions of oversampling are
- *           done from 1 trigger)
- *         - discontinuous mode (each conversion of oversampling
- *           needs a trigger)
- * @param  ADCx ADC instance
- * @retval Returned value can be one of the following values:
- *         @arg @ref DDL_ADC_OVS_REG_CONT
- *         @arg @ref DDL_ADC_OVS_REG_DISCONT
- */
+  * @note   Configure TOS only while ADCEN=0.
+  * @note   Number of oversampled conversions are done either in:
+  *         - continuous mode (all conversions of oversampling are
+  *           done from 1 trigger)
+  *         - discontinuous mode (each conversion of oversampling
+  *           needs a trigger)
+  * @param  ADCx ADC instance
+  * @retval Returned value can be one of the following values:
+  *         @arg @ref DDL_ADC_OVS_REG_CONT
+  *         @arg @ref DDL_ADC_OVS_REG_DISCONT
+  */
 __STATIC_INLINE uint32_t DDL_ADC_GetOverSamplingDiscont(const ADC_TypeDef *ADCx)
 {
   return (uint32_t)(READ_BIT(ADCx->OSAMPCTRL, ADC_OSAMPCTRL_TOS));
@@ -3824,10 +3845,23 @@ __STATIC_INLINE void DDL_ADC_ConfigOverSamplingRatioShift_Add(ADC_TypeDef *ADCx,
   * @brief  Get ADC oversampling ratio with random value
  * @param  ADCx ADC instance
  * @retval Returned value can be one of the following values:
- *         @arg @ref DDL_ADC_OVS_DISCARDMODE_NONE
- *         @arg @ref DDL_ADC_OVS_DISCARDMODE_FIRST_DATA
- *         @arg @ref DDL_ADC_OVS_DISCARDMODE_MIN_DATA
- *         @arg @ref DDL_ADC_OVS_DISCARDMODE_MAX_DATA
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_2
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_3
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_4
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_5
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_6
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_7
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_8
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_9
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_10
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_11
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_12
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_13
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_14
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_15
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_16
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_17
+ *         @arg @ref DDL_ADC_OVS_RATIO_ADD_18
  */
 __STATIC_INLINE uint32_t DDL_ADC_GetOverSamplingRatio_Add(const ADC_TypeDef *ADCx)
 {
@@ -3855,13 +3889,12 @@ __STATIC_INLINE uint32_t DDL_ADC_GetOverSamplingRatio_Add(const ADC_TypeDef *ADC
   *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
   * @param  Multimode This parameter can be one of the following values:
   *         @arg @ref DDL_ADC_MULTI_INDEPENDENT
-  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_SIMULT
-  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_INTERL
-  *         @arg @ref DDL_ADC_MULTI_DUAL_INJ_SIMULT
-  *         @arg @ref DDL_ADC_MULTI_DUAL_INJ_ALTERN
   *         @arg @ref DDL_ADC_MULTI_DUAL_REG_SIM_INJ_SIM
   *         @arg @ref DDL_ADC_MULTI_DUAL_REG_SIM_INJ_ALT
-  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_INT_INJ_SIM
+  *         @arg @ref DDL_ADC_MULTI_DUAL_INJ_SIMULT
+  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_SIMULT
+  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_INTERL
+  *         @arg @ref DDL_ADC_MULTI_DUAL_INJ_ALTERN
   *         @arg @ref DDL_ADC_MULTI_TRIPLE_REG_SIM_INJ_SIM
   *         @arg @ref DDL_ADC_MULTI_TRIPLE_REG_SIM_INJ_ALT
   *         @arg @ref DDL_ADC_MULTI_TRIPLE_INJ_SIMULT
@@ -3885,13 +3918,12 @@ __STATIC_INLINE void DDL_ADC_SetMultimode(ADC_Common_TypeDef *ADCxy_COMMON, uint
   *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
   * @retval Returned value can be one of the following values:
   *         @arg @ref DDL_ADC_MULTI_INDEPENDENT
-  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_SIMULT
-  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_INTERL
-  *         @arg @ref DDL_ADC_MULTI_DUAL_INJ_SIMULT
-  *         @arg @ref DDL_ADC_MULTI_DUAL_INJ_ALTERN
   *         @arg @ref DDL_ADC_MULTI_DUAL_REG_SIM_INJ_SIM
   *         @arg @ref DDL_ADC_MULTI_DUAL_REG_SIM_INJ_ALT
-  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_INT_INJ_SIM
+  *         @arg @ref DDL_ADC_MULTI_DUAL_INJ_SIMULT
+  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_SIMULT
+  *         @arg @ref DDL_ADC_MULTI_DUAL_REG_INTERL
+  *         @arg @ref DDL_ADC_MULTI_DUAL_INJ_ALTERN
   *         @arg @ref DDL_ADC_MULTI_TRIPLE_REG_SIM_INJ_SIM
   *         @arg @ref DDL_ADC_MULTI_TRIPLE_REG_SIM_INJ_ALT
   *         @arg @ref DDL_ADC_MULTI_TRIPLE_INJ_SIMULT
@@ -3948,7 +3980,7 @@ __STATIC_INLINE uint32_t DDL_ADC_GetMultimode(ADC_Common_TypeDef *ADCxy_COMMON)
   */
 __STATIC_INLINE void DDL_ADC_SetMultiDMATransfer(ADC_Common_TypeDef *ADCxy_COMMON, uint32_t MultiDMATransfer)
 {
-  MODIFY_REG(ADCxy_COMMON->CCTRL, ADC_CCTRL_DMAMODE | ADC_CCTRL_DMAMODEDISSEL, MultiDMATransfer);
+  MODIFY_REG(ADCxy_COMMON->CCTRL, ADC_CCTRL_DMAMODE | ADC_CCTRL_DMADISSEL, MultiDMATransfer);
 }
 
 /**
@@ -3994,7 +4026,7 @@ __STATIC_INLINE void DDL_ADC_SetMultiDMATransfer(ADC_Common_TypeDef *ADCxy_COMMO
   */
 __STATIC_INLINE uint32_t DDL_ADC_GetMultiDMATransfer(ADC_Common_TypeDef *ADCxy_COMMON)
 {
-  return (uint32_t)(READ_BIT(ADCxy_COMMON->CCTRL, ADC_CCTRL_DMAMODE | ADC_CCTRL_DMAMODEDISSEL));
+  return (uint32_t)(READ_BIT(ADCxy_COMMON->CCTRL, ADC_CCTRL_DMAMODE | ADC_CCTRL_DMADISSEL));
 }
 
 /**
@@ -4174,7 +4206,7 @@ __STATIC_INLINE void DDL_ADC_REG_StopConversionExtTrig(ADC_TypeDef *ADCx)
   */
 __STATIC_INLINE uint32_t DDL_ADC_REG_ReadConversionData32(ADC_TypeDef *ADCx)
 {
-  return (uint16_t)(READ_BIT(ADCx->REGDATA, ADC_REGDATA_REGDATA));
+  return (uint32_t)(READ_BIT(ADCx->REGDATA, ADC_REGDATA_REGDATA));
 }
 
 /**
@@ -4233,34 +4265,22 @@ __STATIC_INLINE uint8_t DDL_ADC_REG_ReadConversionData6(ADC_TypeDef *ADCx)
   return (uint16_t)(READ_BIT(ADCx->REGDATA, ADC_REGDATA_REGDATA));
 }
 
-#if defined(ADC_MULTIMODE_SUPPORT)
 /**
-  * @brief  Get ADC multimode conversion data of ADC master, ADC slave
-  *         or raw data with ADC master and slave concatenated.
-  * @note   If raw data with ADC master and slave concatenated is retrieved,
-  *         a macro is available to get the conversion data of
-  *         ADC master or ADC slave: see helper macro
-  *         @ref __DDL_ADC_MULTI_CONV_DATA_MASTER_SLAVE().
-  *         (however this macro is mainly intended for multimode
-  *         transfer by DMA, because this function can do the same
-  *         by getting multimode conversion data of ADC master or ADC slave
-  *         separately).
+  * @brief  Get ADC group regular multi conversion data, range fit for
+  *         all ADC configurations: all ADC resolutions and
+  *         all oversampling increased data width (for devices
+  *         with feature oversampling).
   * @param  ADCxy_COMMON ADC common instance
-  *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
-  * @param  ConversionData This parameter can be one of the following values:
+  * @param  Multi This parameter can be one of the following values:
   *         @arg @ref DDL_ADC_MULTI_MASTER
   *         @arg @ref DDL_ADC_MULTI_SLAVE
   *         @arg @ref DDL_ADC_MULTI_MASTER_SLAVE
   * @retval Value between Min_Data=0x00000000 and Max_Data=0xFFFFFFFF
   */
-__STATIC_INLINE uint32_t DDL_ADC_REG_ReadMultiConversionData32(ADC_Common_TypeDef *ADCxy_COMMON, uint32_t ConversionData)
+__STATIC_INLINE uint32_t DDL_ADC_REG_ReadMultiConversionData32(ADC_Common_TypeDef *ADCxy_COMMON, uint32_t Multi)
 {
-  return (uint32_t)(READ_BIT(ADCxy_COMMON->CDATA,
-                             ADC_REGDATA_ADC2DATA)
-                    >> POSITION_VAL(ConversionData)
-                   );
+  return (uint32_t)(READ_BIT(ADCxy_COMMON->CDATA, Multi) >> POSITION_VAL(Multi));
 }
-#endif /* ADC_MULTIMODE_SUPPORT */
 
 /**
   * @}
@@ -4344,9 +4364,7 @@ __STATIC_INLINE uint32_t DDL_ADC_INJ_ReadConversionData32(ADC_TypeDef *ADCx, uin
 {
   __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->INJDATA1, __ADC_MASK_SHIFT(Rank, ADC_INJ_JDRX_REGOFFSET_MASK));
 
-  return (uint32_t)(READ_BIT(*preg,
-                             ADC_INJDATA1_INJDATA)
-                   );
+  return (uint32_t)(READ_BIT(*preg, ADC_INJDATA1_INJDATA));
 }
 
 /**
@@ -4367,9 +4385,7 @@ __STATIC_INLINE uint16_t DDL_ADC_INJ_ReadConversionData12(ADC_TypeDef *ADCx, uin
 {
   __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->INJDATA1, __ADC_MASK_SHIFT(Rank, ADC_INJ_JDRX_REGOFFSET_MASK));
 
-  return (uint16_t)(READ_BIT(*preg,
-                             ADC_INJDATA1_INJDATA)
-                   );
+  return (uint16_t)(READ_BIT(*preg, ADC_INJDATA1_INJDATA));
 }
 
 /**
@@ -4390,9 +4406,7 @@ __STATIC_INLINE uint16_t DDL_ADC_INJ_ReadConversionData10(ADC_TypeDef *ADCx, uin
 {
   __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->INJDATA1, __ADC_MASK_SHIFT(Rank, ADC_INJ_JDRX_REGOFFSET_MASK));
 
-  return (uint16_t)(READ_BIT(*preg,
-                             ADC_INJDATA1_INJDATA)
-                   );
+  return (uint16_t)(READ_BIT(*preg, ADC_INJDATA1_INJDATA));
 }
 
 /**
@@ -4413,9 +4427,7 @@ __STATIC_INLINE uint8_t DDL_ADC_INJ_ReadConversionData8(ADC_TypeDef *ADCx, uint3
 {
   __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->INJDATA1, __ADC_MASK_SHIFT(Rank, ADC_INJ_JDRX_REGOFFSET_MASK));
 
-  return (uint8_t)(READ_BIT(*preg,
-                            ADC_INJDATA1_INJDATA)
-                  );
+  return (uint8_t)(READ_BIT(*preg, ADC_INJDATA1_INJDATA));
 }
 
 /**
@@ -4436,9 +4448,7 @@ __STATIC_INLINE uint8_t DDL_ADC_INJ_ReadConversionData6(ADC_TypeDef *ADCx, uint3
 {
   __IO uint32_t *preg = __ADC_PTR_REG_OFFSET(ADCx->INJDATA1, __ADC_MASK_SHIFT(Rank, ADC_INJ_JDRX_REGOFFSET_MASK));
 
-  return (uint8_t)(READ_BIT(*preg,
-                            ADC_INJDATA1_INJDATA)
-                  );
+  return (uint8_t)(READ_BIT(*preg, ADC_INJDATA1_INJDATA));
 }
 
 /**
@@ -4448,6 +4458,26 @@ __STATIC_INLINE uint8_t DDL_ADC_INJ_ReadConversionData6(ADC_TypeDef *ADCx, uint3
 /** @defgroup ADC_DDL_EF_FLAG_Management ADC flag management
   * @{
   */
+
+/**
+  * @brief  Get flag ADC analog watchdog 1 flag
+  * @param  ADCx ADC instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_AWD1(ADC_TypeDef *ADCx)
+{
+  return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_AWD1) == (DDL_ADC_FLAG_AWD1));
+}
+
+/**
+  * @brief  Clear flag ADC analog watchdog 1.
+  * @param  ADCx ADC instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_ADC_ClearFlag_AWD1(ADC_TypeDef *ADCx)
+{
+  WRITE_REG(ADCx->STS, ~DDL_ADC_FLAG_AWD1);
+}
 
 /**
   * @brief  Get flag ADC group regular end of unitary conversion
@@ -4461,40 +4491,6 @@ __STATIC_INLINE uint8_t DDL_ADC_INJ_ReadConversionData6(ADC_TypeDef *ADCx, uint3
 __STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_EOCS(ADC_TypeDef *ADCx)
 {
   return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_EOCS) == (DDL_ADC_FLAG_EOCS));
-}
-
-/**
-  * @brief  Get flag ADC group regular overrun.
-  * @param  ADCx ADC instance
-  * @retval State of bit (1 or 0).
-  */
-__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_OVR(ADC_TypeDef *ADCx)
-{
-  return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_OVR) == (DDL_ADC_FLAG_OVR));
-}
-
-/**
-  * @brief  Get flag ADC group injected end of sequence conversions.
-  * @param  ADCx ADC instance
-  * @retval State of bit (1 or 0).
-  */
-__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_JEOS(ADC_TypeDef *ADCx)
-{
-  /* Note: on this G32 series, there is no flag ADC group injected          */
-  /*       end of unitary conversion.                                         */
-  /*       Flag noted as "JEOC" is corresponding to flag "JEOS"               */
-  /*       in other G32 families).                                          */
-  return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_JEOS) == (DDL_ADC_FLAG_JEOS));
-}
-
-/**
-  * @brief  Get flag ADC analog watchdog 1 flag
-  * @param  ADCx ADC instance
-  * @retval State of bit (1 or 0).
-  */
-__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_AWD1(ADC_TypeDef *ADCx)
-{
-  return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_AWD1) == (DDL_ADC_FLAG_AWD1));
 }
 
 /**
@@ -4512,13 +4508,17 @@ __STATIC_INLINE void DDL_ADC_ClearFlag_EOCS(ADC_TypeDef *ADCx)
 }
 
 /**
-  * @brief  Clear flag ADC group regular overrun.
+  * @brief  Get flag ADC group injected end of sequence conversions.
   * @param  ADCx ADC instance
-  * @retval None
+  * @retval State of bit (1 or 0).
   */
-__STATIC_INLINE void DDL_ADC_ClearFlag_OVR(ADC_TypeDef *ADCx)
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_JEOS(ADC_TypeDef *ADCx)
 {
-  WRITE_REG(ADCx->STS, ~DDL_ADC_FLAG_OVR);
+  /* Note: on this G32 series, there is no flag ADC group injected          */
+  /*       end of unitary conversion.                                         */
+  /*       Flag noted as "JEOC" is corresponding to flag "JEOS"               */
+  /*       in other G32 families).                                          */
+  return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_JEOS) == (DDL_ADC_FLAG_JEOS));
 }
 
 /**
@@ -4536,13 +4536,63 @@ __STATIC_INLINE void DDL_ADC_ClearFlag_JEOS(ADC_TypeDef *ADCx)
 }
 
 /**
-  * @brief  Clear flag ADC analog watchdog 1.
+  * @brief  Get flag ADC group injected channel conversion start flag.
+  * @param  ADCx ADC instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_JSTRT(ADC_TypeDef *ADCx)
+{
+  return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_JSTRT) == (DDL_ADC_FLAG_JSTRT));
+}
+
+/**
+  * @brief  Clear flag ADC group injected channel conversion start flag.
   * @param  ADCx ADC instance
   * @retval None
   */
-__STATIC_INLINE void DDL_ADC_ClearFlag_AWD1(ADC_TypeDef *ADCx)
+__STATIC_INLINE void DDL_ADC_ClearFlag_JSTRT(ADC_TypeDef *ADCx)
 {
-  WRITE_REG(ADCx->STS, ~DDL_ADC_FLAG_AWD1);
+  WRITE_REG(ADCx->STS, ~DDL_ADC_FLAG_JSTRT);
+}
+
+/**
+  * @brief  Get flag ADC group regular channel conversion start flag.
+  * @param  ADCx ADC instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_STRT(ADC_TypeDef *ADCx)
+{
+  return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_STRT) == (DDL_ADC_FLAG_STRT));
+}
+
+/**
+  * @brief  Clear flag ADC group regular channel conversion start flag.
+  * @param  ADCx ADC instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_ADC_ClearFlag_STRT(ADC_TypeDef *ADCx)
+{
+  WRITE_REG(ADCx->STS, ~DDL_ADC_FLAG_STRT);
+}
+
+/**
+  * @brief  Get flag ADC group regular overrun.
+  * @param  ADCx ADC instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_OVR(ADC_TypeDef *ADCx)
+{
+  return (READ_BIT(ADCx->STS, DDL_ADC_FLAG_OVR) == (DDL_ADC_FLAG_OVR));
+}
+
+/**
+  * @brief  Clear flag ADC group regular overrun.
+  * @param  ADCx ADC instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_ADC_ClearFlag_OVR(ADC_TypeDef *ADCx)
+{
+  WRITE_REG(ADCx->STS, ~DDL_ADC_FLAG_OVR);
 }
 
 #if defined(ADC_MULTIMODE_SUPPORT)
@@ -4700,6 +4750,72 @@ __STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_SLV1_AWD1(ADC_Common_TypeDef *ADCx
 __STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_SLV2_AWD1(ADC_Common_TypeDef *ADCxy_COMMON)
 {
     return (READ_BIT(ADCxy_COMMON->CSTS, DDL_ADC_FLAG_AWD1_SLV2) == (DDL_ADC_FLAG_AWD1_SLV2));
+}
+
+/**
+  * @brief  Get flag multimode ADC ground regular channel start of the ADC master.
+  * @param  ADCxy_COMMON ADC common instance
+  *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_MST_STRT(ADC_Common_TypeDef *ADCxy_COMMON)
+{
+    return (READ_BIT(ADCxy_COMMON->CSTS, DDL_ADC_FLAG_STRT_MST) == (DDL_ADC_FLAG_STRT_MST));
+}
+
+/**
+  * @brief  Get flag multimode ADC ground regular channel start of the ADC slave 1.
+  * @param  ADCxy_COMMON ADC common instance
+  *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_SLV1_STRT(ADC_Common_TypeDef *ADCxy_COMMON)
+{
+    return (READ_BIT(ADCxy_COMMON->CSTS, DDL_ADC_FLAG_STRT_SLV1) == (DDL_ADC_FLAG_STRT_SLV1));
+}
+
+/**
+  * @brief  Get flag multimode ADC ground regular channel start of the ADC slave 2.
+  * @param  ADCxy_COMMON ADC common instance
+  *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_SLV2_STRT(ADC_Common_TypeDef *ADCxy_COMMON)
+{
+    return (READ_BIT(ADCxy_COMMON->CSTS, DDL_ADC_FLAG_STRT_SLV2) == (DDL_ADC_FLAG_STRT_SLV2));
+}
+
+/**
+  * @brief  Get flag multimode ADC ground regular channel start of the ADC master.
+  * @param  ADCxy_COMMON ADC common instance
+  *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_MST_JSTRT(ADC_Common_TypeDef *ADCxy_COMMON)
+{
+    return (READ_BIT(ADCxy_COMMON->CSTS, DDL_ADC_FLAG_JSTRT_MST) == (DDL_ADC_FLAG_JSTRT_MST));
+}
+
+/**
+  * @brief  Get flag multimode ADC ground regular channel start of the ADC slave 1.
+  * @param  ADCxy_COMMON ADC common instance
+  *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_SLV1_JSTRT(ADC_Common_TypeDef *ADCxy_COMMON)
+{
+    return (READ_BIT(ADCxy_COMMON->CSTS, DDL_ADC_FLAG_JSTRT_SLV1) == (DDL_ADC_FLAG_JSTRT_SLV1));
+}
+
+/**
+  * @brief  Get flag multimode ADC ground regular channel start of the ADC slave 2.
+  * @param  ADCxy_COMMON ADC common instance
+  *         (can be set directly from CMSIS definition or by using helper macro @ref __DDL_ADC_COMMON_INSTANCE() )
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_ADC_IsActiveFlag_SLV2_JSTRT(ADC_Common_TypeDef *ADCxy_COMMON)
+{
+    return (READ_BIT(ADCxy_COMMON->CSTS, DDL_ADC_FLAG_JSTRT_SLV2) == (DDL_ADC_FLAG_JSTRT_SLV2));
 }
 
 #endif /* ADC_MULTIMODE_SUPPORT */
@@ -4864,8 +4980,7 @@ __STATIC_INLINE uint32_t DDL_ADC_IsEnabledIT_AWD1(ADC_TypeDef *ADCx)
   * @}
   */
 
-#if defined(USE_FULL_DDL_DRIVER)
-/** @defgroup ADC_DDL_EF_Configuration_Channels Configuration of ADC Dual Pulse Trigger
+/** @defgroup ADC_DDL_EF_Configuration_DualPulseTrigger Configuration of ADC Dual Pulse Trigger
   * @{
   */
 
@@ -4893,14 +5008,14 @@ __STATIC_INLINE void DDL_ADC_SetDualPulseTRGMode(ADC_TypeDef *ADCx, uint32_t Mod
   *         @arg @ref DDL_ADC_DUALTRG_MODE_INJECTED
             @arg @ref DDL_ADC_DUALTRG_MODE_REGULAR_INJECTED
   */
-__STATIC_INLINE uint32_t DDL_ADC_GetDualPulseTRG(ADC_TypeDef *ADCx)
+__STATIC_INLINE uint32_t DDL_ADC_GetDualPulseTRGMode(ADC_TypeDef *ADCx)
 {
     return (uint32_t)(READ_BIT(ADCx->CTRL2, (ADC_CTRL2_REGDPTRGEN | ADC_CTRL2_INJDPTRGEN)));
 }
 
 /**
   * @brief  Enable Double Pulse Trigger.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_ADC_EnableDualPulseTRG(ADC_Common_TypeDef *ADCxy_COMMON)
@@ -4910,7 +5025,7 @@ __STATIC_INLINE void DDL_ADC_EnableDualPulseTRG(ADC_Common_TypeDef *ADCxy_COMMON
 
 /**
   * @brief  Disable Double Pulse Trigger.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_ADC_DisableDualPulseTRG(ADC_Common_TypeDef *ADCxy_COMMON)
@@ -4920,7 +5035,7 @@ __STATIC_INLINE void DDL_ADC_DisableDualPulseTRG(ADC_Common_TypeDef *ADCxy_COMMO
 
 /**
   * @brief  Set Pulse Polarity Configuration for Output IO.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @param  polarity This parameter can be one of the following delays:
   *         @arg @ref DDL_ADC_DUALTRG_OUTPUT_POLARITY_HIGH
   *         @arg @ref DDL_ADC_DUALTRG_OUTPUT_POLARITY_LOW
@@ -4933,7 +5048,7 @@ __STATIC_INLINE void DDL_ADC_SetDualPulseOutputPolarity(ADC_Common_TypeDef *ADCx
 
 /**
   * @brief  Get Pulse Polarity Configuration for Output IO.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval Returned value can be one of the following values:
   *        @arg @ref DDL_ADC_DUALTRG_OUTPUT_POLARITY_HIGH
   *        @arg @ref DDL_ADC_DUALTRG_OUTPUT_POLARITY_LOW
@@ -4945,7 +5060,7 @@ __STATIC_INLINE uint32_t DDL_ADC_GetDualPulseOutputPolarity(ADC_Common_TypeDef *
 
 /**
   * @brief  Enable Double Pulse Trigger switching signal.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_ADC_EnableDualPulseTRGSwitch(ADC_Common_TypeDef *ADCxy_COMMON)
@@ -4955,7 +5070,7 @@ __STATIC_INLINE void DDL_ADC_EnableDualPulseTRGSwitch(ADC_Common_TypeDef *ADCxy_
 
 /**
   * @brief  Disable Double Pulse Trigger switching signal.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_ADC_DisableDualPulseTRGSwitch(ADC_Common_TypeDef *ADCxy_COMMON)
@@ -4964,29 +5079,28 @@ __STATIC_INLINE void DDL_ADC_DisableDualPulseTRGSwitch(ADC_Common_TypeDef *ADCxy
 }
 
 /**
-  * @brief  Enable dual-pulse signals output.
-  * @param  ADCx ADC Instance
+  * @brief  Enable dual-pulse signal output to I/O.
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval None
   */
 __STATIC_INLINE void DDL_ADC_EnableDualPulseOutput(ADC_Common_TypeDef *ADCxy_COMMON)
+{
+    CLEAR_BIT(ADCxy_COMMON->DUAL_TRG, ADC_DUAL_TRG_MASK);
+}
+
+/**
+  * @brief  Disable dual-pulse signal output to I/O.
+  * @param  ADCxy_COMMON ADC common Instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_ADC_DisableDualPulseOutput(ADC_Common_TypeDef *ADCxy_COMMON)
 {
     SET_BIT(ADCxy_COMMON->DUAL_TRG, ADC_DUAL_TRG_MASK);
 }
 
 /**
-  * @brief  Disable dual-pulse signals output.
-  * @param  ADCx ADC Instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_ADC_DisableDualPulseOutput(ADC_Common_TypeDef *ADCxy_COMMON)
-{
-    CLEAR_BIT(ADCxy_COMMON->DUAL_TRG, ADC_DUAL_TRG_MASK);
-}
-
-
-/**
   * @brief  Set dual-pulse Clock Division.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @param  clockDivision This parameter can be one of the following delays:
   *         @arg @ref DDL_ADC_DUALTRG_CLOCKDIV_4
   *         @arg @ref DDL_ADC_DUALTRG_CLOCKDIV_8
@@ -5005,7 +5119,7 @@ __STATIC_INLINE void DDL_ADC_SetDualPulseClockDiv(ADC_Common_TypeDef *ADCxy_COMM
 
 /**
   * @brief  Get dual-pulse Clock Division.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval Returned value can be one of the following values:
   *         @arg @ref DDL_ADC_DUALTRG_CLOCKDIV_4
   *         @arg @ref DDL_ADC_DUALTRG_CLOCKDIV_8
@@ -5023,9 +5137,10 @@ __STATIC_INLINE uint32_t DDL_ADC_GetDualPulseClockDiv(ADC_Common_TypeDef *ADCxy_
 
 /**
   * @brief  Set Window Counter for dual-pulse Signal Level Holding.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @param  Cnt This parameter can be one of the following delays:
-  *         between Min=0x00 and Max=0xFF
+  *         between Min=0x01 and Max=0xFF
+  * @warning delay must not be 0
   * @retval None
   */
 __STATIC_INLINE void DDL_ADC_SetDualPulseHoldingCNT(ADC_Common_TypeDef *ADCxy_COMMON, uint32_t Cnt)
@@ -5035,9 +5150,9 @@ __STATIC_INLINE void DDL_ADC_SetDualPulseHoldingCNT(ADC_Common_TypeDef *ADCxy_CO
 
 /**
   * @brief  Get Window Counter for dual-pulse Signal Level Holding.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval Returned value can be one of the following delays:
-  *         between Min=0x00 and Max=0xFF
+  *         between Min=0x01 and Max=0xFF
   */
 __STATIC_INLINE uint32_t DDL_ADC_GetDualPulseHoldingCNT(ADC_Common_TypeDef *ADCxy_COMMON)
 {
@@ -5046,9 +5161,10 @@ __STATIC_INLINE uint32_t DDL_ADC_GetDualPulseHoldingCNT(ADC_Common_TypeDef *ADCx
 
 /**
   * @brief  Set Delay Counter for triggling after signal already output.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @param  delay This parameter can be one of the following delays:
-  *         between Min=0x00 and Max=0xFF
+  *         between Min=0x01 and Max=0xFF
+  * @warning delay must not be 0
   * @retval None
   */
 __STATIC_INLINE void DDL_ADC_SetDualPulseTRGDelay(ADC_Common_TypeDef *ADCxy_COMMON, uint32_t delay)
@@ -5058,9 +5174,9 @@ __STATIC_INLINE void DDL_ADC_SetDualPulseTRGDelay(ADC_Common_TypeDef *ADCxy_COMM
 
 /**
   * @brief  Get Delay Counter for triggling after signal already output.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval Returned value can be one of the following delays:
-  *         between Min=0x00 and Max=0xFF
+  *         between Min=0x01 and Max=0xFF
   */
 __STATIC_INLINE uint32_t DDL_ADC_GetDualPulseTRGDelay(ADC_Common_TypeDef *ADCxy_COMMON)
 {
@@ -5069,9 +5185,10 @@ __STATIC_INLINE uint32_t DDL_ADC_GetDualPulseTRGDelay(ADC_Common_TypeDef *ADCxy_
 
 /**
   * @brief  Set Delay Counter for ADC_CHN signal after ADC_CH signal.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @param  delay This parameter can be one of the following delays:
-  *         between Min=0x00 and Max=0xFF
+  *         between Min=0x01 and Max=0xFF
+  * @warning delay must not be 0
   * @retval None
   */
 __STATIC_INLINE void DDL_ADC_SetDualPulseCHNDelay(ADC_Common_TypeDef *ADCxy_COMMON, uint32_t delay)
@@ -5081,9 +5198,9 @@ __STATIC_INLINE void DDL_ADC_SetDualPulseCHNDelay(ADC_Common_TypeDef *ADCxy_COMM
 
 /**
   * @brief  Get Delay Counter for ADC_CHN signal after ADC_CH signal.
-  * @param  ADCx ADC Instance
+  * @param  ADCxy_COMMON ADC common Instance
   * @retval Returned value can be one of the following delays:
-  *         between Min=0x00 and Max=0xFF
+  *         between Min=0x01 and Max=0xFF
   */
 __STATIC_INLINE uint32_t DDL_ADC_GetDualPulseCHNDelay(ADC_Common_TypeDef *ADCxy_COMMON)
 {
@@ -5123,8 +5240,6 @@ void        DDL_ADC_INJ_StructInit(DDL_ADC_INJ_InitTypeDef *ADC_INJ_InitStruct);
   * @}
   */
 
-#endif /* USE_FULL_DDL_DRIVER */
-
 /**
   * @}
   */
@@ -5144,4 +5259,3 @@ void        DDL_ADC_INJ_StructInit(DDL_ADC_INJ_InitTypeDef *ADC_INJ_InitStruct);
 #endif
 
 #endif /* G32F463_DDL_ADC_H */
-

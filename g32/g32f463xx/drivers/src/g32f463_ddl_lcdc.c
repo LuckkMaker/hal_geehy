@@ -4,7 +4,7 @@
   * @brief   LCDC DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -41,6 +41,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "g32f463_ddl_lcdc.h"
+#include "g32f463_ddl_bus.h"
 
 #ifdef USE_FULL_ASSERT
   #include "g32_assert.h"
@@ -50,13 +51,13 @@
 #endif
 #endif
 
-/** @addtogroup G32F463_DAL_Driver
+/** @addtogroup G32F463_DDL_Driver
   * @{
   */
 
 #if defined(LCDC)
 
-/** @defgroup LCDC_DDL
+/** @addtogroup LCDC_DDL
   * @{
   */
 
@@ -108,9 +109,8 @@ ErrorStatus DDL_LCDC_DeInit(LCDC_TypeDef *LCDCx)
 
   if (LCDCx == LCDC)
   {
-    LCDCx->CTRL = 0x000030D3U;
-    LCDCx->TIM = 0x0FFFFFFFU;
-    LCDCx->WRTTIM = 0x0FFFFFFFU;
+    DDL_AHB2_GRP1_ForceReset(DDL_AHB2_GRP1_PERIPH_LCDC);
+    DDL_AHB2_GRP1_ReleaseReset(DDL_AHB2_GRP1_PERIPH_LCDC);
   }
   else
   {

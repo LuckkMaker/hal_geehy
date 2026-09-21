@@ -4,7 +4,7 @@
   * @brief   Header file of SYSTEM DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -158,6 +158,20 @@ extern "C" {
   * @}
   */
 
+/** @defgroup SYSTEM_DDL_EC_VREFBUF_OUTPUT VREFBUF OUTPUT
+  * @{
+  */
+#define DDL_SYSCFG_VREFBUF_OUTPUT_0_8V        SYSCFG_VREFBUF_CTRL_VRS_0
+#define DDL_SYSCFG_VREFBUF_OUTPUT_1_2V        SYSCFG_VREFBUF_CTRL_VRS_1
+#define DDL_SYSCFG_VREFBUF_OUTPUT_1_6V        (SYSCFG_VREFBUF_CTRL_VRS_1 | SYSCFG_VREFBUF_CTRL_VRS_0)
+#define DDL_SYSCFG_VREFBUF_OUTPUT_2_0V        SYSCFG_VREFBUF_CTRL_VRS_2
+#define DDL_SYSCFG_VREFBUF_OUTPUT_2_4V        (SYSCFG_VREFBUF_CTRL_VRS_2 | SYSCFG_VREFBUF_CTRL_VRS_0)
+#define DDL_SYSCFG_VREFBUF_OUTPUT_2_8V        (SYSCFG_VREFBUF_CTRL_VRS_2 | SYSCFG_VREFBUF_CTRL_VRS_1)
+#define DDL_SYSCFG_VREFBUF_OUTPUT_3_2V        SYSCFG_VREFBUF_CTRL_VRS
+/**
+  * @}
+  */
+
 /** @defgroup SYSTEM_DDL_EC_CCM_EN CCM Enable
   * @{
   */
@@ -214,9 +228,9 @@ extern "C" {
 #define DDL_DBGMCU_APB1_GRP1_IWDT_STOP      DBGMCU_APB1F_IWDT_STS          /*!< Debug Independent Watchdog stopped when Core is halted */
 #define DDL_DBGMCU_APB1_GRP1_I2C1_STOP      DBGMCU_APB1F_I2C1_SMBUS_TIMEOUT_STS /*!< I2C1 SMBUS timeout mode stopped when Core is halted */
 #define DDL_DBGMCU_APB1_GRP1_I2C2_STOP      DBGMCU_APB1F_I2C2_SMBUS_TIMEOUT_STS /*!< I2C2 SMBUS timeout mode stopped when Core is halted */
-#if defined(DBGMCU_APB1F_CAN1_STS)
-#define DDL_DBGMCU_APB1_GRP1_CAN1_STOP      DBGMCU_APB1F_CAN1_STS          /*!< CAN1 debug stopped when Core is halted  */
-#endif /* DBGMCU_APB1F_CAN1_STS */
+#if defined(DBGMCU_APB1F_FDCAN_STS)
+#define DDL_DBGMCU_APB1_GRP1_FDCAN_STOP      DBGMCU_APB1F_FDCAN_STS          /*!< FDCAN debug stopped when Core is halted  */
+#endif /* DBGMCU_APB1F_FDCAN_STS */
 /**
   * @}
   */
@@ -236,17 +250,16 @@ extern "C" {
   * @{
   */
 #define DDL_SYSCFG_PIN_PA8  0U
-#define DDL_SYSCFG_PIN_PA9  1U
-#define DDL_SYSCFG_PIN_PB3  2U
-#define DDL_SYSCFG_PIN_PB4  3U
-#define DDL_SYSCFG_PIN_PB10 4U
-#define DDL_SYSCFG_PIN_PB11 5U
+#define DDL_SYSCFG_PIN_PA9  2U
+#define DDL_SYSCFG_PIN_PB3  4U
+#define DDL_SYSCFG_PIN_PB4  6U
+#define DDL_SYSCFG_PIN_PB10 8U
+#define DDL_SYSCFG_PIN_PB11 10U
 
-#define DDL_SYSCFG_I2C3_FILTER_130NS    0x00000000U
-#define DDL_SYSCFG_I2C3_FILTER_30NS     (SYSCFG_I2C3_FILTER_PA8_FILTER_0)
-#define DDL_SYSCFG_I2C3_FILTER_25NS     (SYSCFG_I2C3_FILTER_PA8_FILTER_1)
-#define DDL_SYSCFG_I2C3_FILTER_15NS     (SYSCFG_I2C3_FILTER_PA8_FILTER)
-
+#define DDL_SYSCFG_I2C3_FILTER_130NS 0U
+#define DDL_SYSCFG_I2C3_FILTER_30NS  1U
+#define DDL_SYSCFG_I2C3_FILTER_25NS  2U
+#define DDL_SYSCFG_I2C3_FILTER_15NS  3U
 /**
   * @}
   */
@@ -293,7 +306,7 @@ __STATIC_INLINE uint32_t DDL_SYSCFG_GetRemapMemory(void)
 }
 
 /**
-  * @brief  Enables the Compensation cell Power Down
+  * @brief  Enables the I/O compensation cell Power Down
   * @note   The I/O compensation cell can be used only when the device supply
   *         voltage ranges from 2.4 to 3.6 V
   * @retval None
@@ -304,7 +317,7 @@ __STATIC_INLINE void DDL_SYSCFG_EnableCompensationCell(void)
 }
 
 /**
-  * @brief  Disables the Compensation cell Power Down
+  * @brief  Disables the I/O compensation cell Power Down
   * @note   The I/O compensation cell can be used only when the device supply
   *         voltage ranges from 2.4 to 3.6 V
   * @retval None
@@ -417,30 +430,36 @@ __STATIC_INLINE uint32_t DDL_SYSCFG_IsEnabledVrefBuf(void)
 }
 
 /**
-  * @brief  Enable the Vref0V8
+  * @brief  Set voltage reference scale for the Vref buffer
+  * @param  Block This parameter can be one of the following values:
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_0_8V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_1_2V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_1_6V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_2_0V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_2_4V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_2_8V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_3_2V
   * @retval None
   */
-__STATIC_INLINE void DDL_SYSCFG_EnableVref0P8V(void)
+__STATIC_INLINE void DDL_SYSCFG_SetVrefBufScale(uint32_t Scale)
 {
-  SET_BIT(SYSCFG->VREFBUF_CTRL, SYSCFG_VREFBUF_CTRL_VREF0P8V_ON);
+  MODIFY_REG(SYSCFG->VREFBUF_CTRL, SYSCFG_VREFBUF_CTRL_VRS, Scale);
 }
 
 /**
-  * @brief  Disable the Vref0V8
-  * @retval None
+  * @brief  Get voltage reference scale for the Vref buffer
+  * @retval Returned value can be one of the following values:
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_0_8V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_1_2V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_1_6V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_2_0V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_2_4V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_2_8V
+  *         @arg @ref DDL_SYSCFG_VREFBUF_OUTPUT_3_2V
   */
-__STATIC_INLINE void DDL_SYSCFG_DisableVref0P8V(void)
+__STATIC_INLINE uint32_t DDL_SYSCFG_GetVrefBufScale(void)
 {
-  CLEAR_BIT(SYSCFG->VREFBUF_CTRL, SYSCFG_VREFBUF_CTRL_VREF0P8V_ON);
-}
-
-/**
-  * @brief  Check whether the Vref0V8 is enabled or not
-  * @retval State of bit (1 or 0).
-  */
-__STATIC_INLINE uint32_t DDL_SYSCFG_IsEnabledVref0P8V(void)
-{
-  return (READ_BIT(SYSCFG->VREFBUF_CTRL, SYSCFG_VREFBUF_CTRL_VREF0P8V_ON) == (SYSCFG_VREFBUF_CTRL_VREF0P8V_ON));
+  return (uint32_t)(READ_BIT(SYSCFG->VREFBUF_CTRL, SYSCFG_VREFBUF_CTRL_VRS));
 }
 
 /**
@@ -530,7 +549,7 @@ __STATIC_INLINE uint32_t DDL_SYSCFG_GetI2C3Filter(uint32_t Pin)
   return (uint32_t)(READ_BIT(SYSCFG->I2C3_FILTER, SYSCFG_I2C3_FILTER_PA8_FILTER << Pin) >> Pin);
 }
 
-  /**
+/**
   * @}
   */
 
@@ -538,10 +557,9 @@ __STATIC_INLINE uint32_t DDL_SYSCFG_GetI2C3Filter(uint32_t Pin)
   * @{
   */
 
-//TODO(linwei): Check the device ID and revision ID for G32F463
 /**
   * @brief  Return the device identifier
-  * @note For G32F463xx devices, the device ID is 0x419
+  * @note For G32F463xx devices, the device ID is 0x421
   * @retval Values between Min_Data=0x00 and Max_Data=0xFFF
   */
 __STATIC_INLINE uint32_t DDL_DBGMCU_GetDeviceID(void)
@@ -656,7 +674,7 @@ __STATIC_INLINE uint32_t DDL_DBGMCU_GetTracePinAssignment(void)
   *         @arg @ref DDL_DBGMCU_APB1_GRP1_IWDT_STOP
   *         @arg @ref DDL_DBGMCU_APB1_GRP1_I2C1_STOP
   *         @arg @ref DDL_DBGMCU_APB1_GRP1_I2C2_STOP
-  *         @arg @ref DDL_DBGMCU_APB1_GRP1_CAN1_STOP
+  *         @arg @ref DDL_DBGMCU_APB1_GRP1_FDCAN_STOP
   *
   *         (*) value not defined in all devices.
   * @retval None
@@ -680,7 +698,7 @@ __STATIC_INLINE void DDL_DBGMCU_APB1_GRP1_FreezePeriph(uint32_t Periphs)
   *         @arg @ref DDL_DBGMCU_APB1_GRP1_IWDT_STOP
   *         @arg @ref DDL_DBGMCU_APB1_GRP1_I2C1_STOP
   *         @arg @ref DDL_DBGMCU_APB1_GRP1_I2C2_STOP
-  *         @arg @ref DDL_DBGMCU_APB1_GRP1_CAN1_STOP
+  *         @arg @ref DDL_DBGMCU_APB1_GRP1_FDCAN_STOP
   *
   *         (*) value not defined in all devices.
   * @retval None

@@ -4,7 +4,7 @@
   * @brief   UTILS DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -167,12 +167,14 @@
 
 #define IS_DDL_UTILS_APB1_DIV(__VALUE__) (((__VALUE__) == DDL_RCM_APB1_DIV_1) \
                                       || ((__VALUE__) == DDL_RCM_APB1_DIV_2) \
+                                      || ((__VALUE__) == DDL_RCM_APB1_DIV_3) \
                                       || ((__VALUE__) == DDL_RCM_APB1_DIV_4) \
                                       || ((__VALUE__) == DDL_RCM_APB1_DIV_8) \
                                       || ((__VALUE__) == DDL_RCM_APB1_DIV_16))
 
 #define IS_DDL_UTILS_APB2_DIV(__VALUE__) (((__VALUE__) == DDL_RCM_APB2_DIV_1) \
                                       || ((__VALUE__) == DDL_RCM_APB2_DIV_2) \
+                                      || ((__VALUE__) == DDL_RCM_APB2_DIV_3) \
                                       || ((__VALUE__) == DDL_RCM_APB2_DIV_4) \
                                       || ((__VALUE__) == DDL_RCM_APB2_DIV_8) \
                                       || ((__VALUE__) == DDL_RCM_APB2_DIV_16))
@@ -358,7 +360,7 @@ void DDL_mDelay(uint32_t Delay)
     [..]
          System, AHB and APB buses clocks configuration
 
-         (+) The maximum frequency of the SYSCLK, HCLK, PCLK1 and PCLK2 is 180000000 Hz.
+         (+) The maximum frequency of the SYSCLK, HCLK, PCLK1 and PCLK2 is 192000000 Hz.
   @endverbatim
   @internal
              Depending on the device voltage range, the maximum frequency should be
@@ -392,7 +394,7 @@ ErrorStatus DDL_SetFlashLatency(uint32_t HCLK_Frequency)
 {
   uint32_t timeout;
   uint32_t getlatency;
-  uint32_t latency = DDL_FLASH_LATENCY_0;  /* default value 0WS */
+  uint32_t latency = DDL_FLASH_LATENCY_7;  /* default value 7WS */
   ErrorStatus status = SUCCESS;
 
 
@@ -536,7 +538,7 @@ ErrorStatus DDL_SetFlashLatency(uint32_t HCLK_Frequency)
   *         - PLL output frequency = (((HSI frequency / PLLB) * PLL1A) / PLL1C)
   *         - PLLB: ensure that the VCO input frequency ranges from @ref RCM_PLLVCO_INPUT_MIN to @ref RCM_PLLVCO_INPUT_MAX (PLLVCO_input = HSI frequency / PLLB)
   *         - PLL1A: ensure that the VCO output frequency is between @ref RCM_PLLVCO_OUTPUT_MIN and @ref RCM_PLLVCO_OUTPUT_MAX (PLLVCO_output = PLLVCO_input * PLL1A)
-  *         - PLL1C: ensure that max frequency at 180000000 Hz is reach (PLLVCO_output / PLL1C)
+  *         - PLL1C: ensure that max frequency at 192000000 Hz is reach (PLLVCO_output / PLL1C)
   * @param  UTILS_PLLInitStruct pointer to a @ref DDL_UTILS_PLLInitTypeDef structure that contains
   *                             the configuration information for the PLL.
   * @param  UTILS_ClkInitStruct pointer to a @ref DDL_UTILS_ClkInitTypeDef structure that contains
@@ -586,10 +588,10 @@ ErrorStatus DDL_PLL_ConfigSystemClock_HSI(DDL_UTILS_PLLInitTypeDef *UTILS_PLLIni
 /**
   * @brief  This function configures system clock with HSE as clock source of the PLL
   * @note   The application need to ensure that PLL is disabled.
-  *         - PLL output frequency = (((HSI frequency / PLLB) * PLL1A) / PLL1C)
-  *         - PLLB: ensure that the VCO input frequency ranges from @ref RCM_PLLVCO_INPUT_MIN to @ref RCM_PLLVCO_INPUT_MAX (PLLVCO_input = HSI frequency / PLLB)
+  *         - PLL output frequency = (((HSE frequency / PLLB) * PLL1A) / PLL1C)
+  *         - PLLB: ensure that the VCO input frequency ranges from @ref RCM_PLLVCO_INPUT_MIN to @ref RCM_PLLVCO_INPUT_MAX (PLLVCO_input = HSE frequency / PLLB)
   *         - PLL1A: ensure that the VCO output frequency is between @ref RCM_PLLVCO_OUTPUT_MIN and @ref RCM_PLLVCO_OUTPUT_MAX (PLLVCO_output = PLLVCO_input * PLL1A)
-  *         - PLL1C: ensure that max frequency at 180000000 Hz is reach (PLLVCO_output / PLL1C)
+  *         - PLL1C: ensure that max frequency at 192000000 Hz is reach (PLLVCO_output / PLL1C)
   * @param  HSEFrequency Value between Min_Data = UTILS_HSE_FREQUENCY_MIN and Max_Data = UTILS_HSE_FREQUENCY_MAX
   * @param  HSEBypass This parameter can be one of the following values:
   *         @arg @ref DDL_UTILS_HSEBYPASS_ON
@@ -684,7 +686,7 @@ static uint32_t UTILS_GetPLLOutputFrequency(uint32_t PLL_InputFrequency, DDL_UTI
 
   /* Check different PLL parameters according to RM                          */
   /*  - PLLB: ensure that the VCO input frequency ranges from @ref UTILS_PLLVCO_INPUT_MIN to @ref UTILS_PLLVCO_INPUT_MAX MHz.   */
-  pllfreq = PLL_InputFrequency / (UTILS_PLLInitStruct->PLLB & (RCM_PLL1CFG_PLLB >> RCM_PLL1CFG_PLLB_Pos));
+  pllfreq = PLL_InputFrequency / (UTILS_PLLInitStruct->PLLB & (RCM_PLL1CFG_PLL1B >> RCM_PLL1CFG_PLL1B_Pos));
   ASSERT_PARAM(IS_DDL_UTILS_PLLVCO_INPUT(pllfreq));
 
   /*  - PLL1A: ensure that the VCO output frequency is between @ref UTILS_PLLVCO_OUTPUT_MIN and @ref UTILS_PLLVCO_OUTPUT_MAX .*/
@@ -708,7 +710,7 @@ static ErrorStatus UTILS_PLL_IsBusy(void)
 {
   ErrorStatus status = SUCCESS;
 
-  /* Check if PLL is busy*/
+  /* Check if PLL is busy */
   if(DDL_RCM_PLL_IsReady() != 0U)
   {
     /* PLL configuration cannot be modified */

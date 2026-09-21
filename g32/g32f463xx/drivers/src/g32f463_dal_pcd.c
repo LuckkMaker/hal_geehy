@@ -110,12 +110,12 @@ static uint8_t USBD_TestPacket[USBD_TEST_PACKET_SIZE] =
   0xee, 0xee,
   0xee, 0xee,
   0xee, 0xee,
-  0xee, 0xfe, 
+  0xee, 0xfe,
   0xff, 0xff,
   0xff, 0xff,
   0xff, 0xff,
   0xff, 0xff,
-  0xff, 0xff, 
+  0xff, 0xff,
   0xff, 0x7f,
   0xbf, 0xdf,
   0xef, 0xf7,
@@ -1317,10 +1317,10 @@ void DAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
       DDL_USB_SetEpIndex(USBx, i & EP_ADDR_MSK);
 
 #if (USE_PCD_CUSTOM_FIFO_SETTING == 0U)
-      USBx->TXFIFO_SZ = 0U;
-      USBx->TXFIFO_ADD = 0U;
-      USBx->RXFIFO_SZ = 0U;
-      USBx->RXFIFO_ADD = 0U;
+      USBx->TXFIFOSZ = 0U;
+      USBx->TXFIFOADD = 0U;
+      USBx->RXFIFOSZ = 0U;
+      USBx->RXFIFOADD = 0U;
 #endif /* USE_PCD_CUSTOM_FIFO_SETTING */
     }
 
@@ -1349,7 +1349,7 @@ void DAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   }
 
   /* Endpoint 0 Interrupts */
-  usb_tx_int_status &= USBx->INTR_TXE;
+  usb_tx_int_status &= USBx->INTRTXE;
   if ((usb_tx_int_status & DDL_USB_IT_EP_0) != RESET)
   {
     /* Set the new endpoint index */
@@ -1417,7 +1417,7 @@ void DAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   }
 
   /* OUT Endpoint Interrupts */
-  usb_rx_int_status &= USBx->INTR_RXE;
+  usb_rx_int_status &= USBx->INTRRXE;
   ep_num = 1U;
   while (usb_rx_int_status != 0U)
   {
@@ -2257,15 +2257,18 @@ DAL_StatusTypeDef DAL_PCD_EP_Transmit(PCD_HandleTypeDef *hpcd, uint8_t ep_addr, 
   {
     if (ep->xfer_len == 0U)
     {
-      /* Send ZLP via hardware, then set state SETUP to receive next SETUP */
-      hpcd->EP0_State = DAL_PCD_EP0_SETUP;
+      if (hpcd->EP0_State != DAL_PCD_EP0_SETUP)
+      {
+        /* Send ZLP via hardware, then set state SETUP to receive next SETUP */
+        hpcd->EP0_State = DAL_PCD_EP0_SETUP;
+        (void)DDL_USB_EP0StartXfer(hpcd->Instance, ep, (uint8_t)hpcd->Init.dma_enable);
+      }
     }
     else
     {
       hpcd->EP0_State = DAL_PCD_EP0_DATA_IN;
+      (void)DDL_USB_EP0StartXfer(hpcd->Instance, ep, (uint8_t)hpcd->Init.dma_enable);
     }
-
-    (void)DDL_USB_EP0StartXfer(hpcd->Instance, ep, (uint8_t)hpcd->Init.dma_enable);
   }
   else
   {
@@ -2425,7 +2428,7 @@ DAL_StatusTypeDef DAL_PCD_EP_Abort(PCD_HandleTypeDef *hpcd, uint8_t ep_addr)
 
   /* Stop Xfer */
   // ret = USB_EPStopXfer(hpcd->Instance, ep);
-  //TODO(linwei): Add ISO abort support
+  //TODO: Add ISO abort support
 
   return DAL_OK;
 }
@@ -2495,8 +2498,6 @@ DAL_StatusTypeDef DAL_PCD_DeActivateRemoteWakeup(PCD_HandleTypeDef *hpcd)
 
   return DAL_OK;
 }
-
-//TODO(linwei):Add support for double buffer endpoints
 
 /**
   * @brief  Configure the Tx/Rx FIFO size and address
@@ -2725,9 +2726,17 @@ static DAL_StatusTypeDef PCD_EP0_State(PCD_HandleTypeDef *hpcd)
       break;
 
     case DAL_PCD_EP0_DATA_IN:
-      if (hpcd->IN_ep[0].xfer_len >= hpcd->IN_ep[0].maxpacket)
+      if (hpcd->IN_ep[0].xfer_len > hpcd->IN_ep[0].maxpacket)
       {
+        hpcd->IN_ep[0].xfer_len -= hpcd->IN_ep[0].maxpacket;
         hpcd->IN_ep[0].xfer_buff += hpcd->IN_ep[0].maxpacket;
+        hpcd->IN_ep[0].xfer_count += hpcd->IN_ep[0].maxpacket;
+      }
+      else
+      {
+        hpcd->IN_ep[0].xfer_buff += hpcd->IN_ep[0].xfer_len;
+        hpcd->IN_ep[0].xfer_count += hpcd->IN_ep[0].xfer_len;
+        hpcd->IN_ep[0].xfer_len = 0U;
       }
 
 #if (USE_DAL_PCD_REGISTER_CALLBACKS == 1U)
@@ -2735,6 +2744,11 @@ static DAL_StatusTypeDef PCD_EP0_State(PCD_HandleTypeDef *hpcd)
 #else
       DAL_PCD_DataInStageCallback(hpcd, 0U);
 #endif /* USE_DAL_PCD_REGISTER_CALLBACKS */
+
+      if (hpcd->IN_ep[0].xfer_len == 0U)
+      {
+        hpcd->EP0_State = DAL_PCD_EP0_SETUP;
+      }
       break;
 
     case DAL_PCD_EP0_DATA_OUT:

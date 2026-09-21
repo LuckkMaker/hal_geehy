@@ -1,10 +1,10 @@
 /**
   *
-  * @file    g32f463_ddl_gpio.c
+  * @file    g32f463_ddl_bztmr.c
   * @brief   BZTMR DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -69,12 +69,6 @@
 /** @addtogroup BZTMR_DDL_Private_Macros
   * @{
   */
-#define IS_DDL_BZTMR_PIN(__VALUE__)          (((0x00000000U) < (__VALUE__)) && ((__VALUE__) <= (DDL_BZTMR_PIN_ALL)))
-
-#define IS_DDL_BZTMR_MODE(__VALUE__)        (((__VALUE__) == DDL_BZTMR_MODE_INPUT)     ||\
-                                            ((__VALUE__) == DDL_BZTMR_MODE_OUTPUT)    ||\
-                                            ((__VALUE__) == DDL_BZTMR_MODE_ALTERNATE) ||\
-                                            ((__VALUE__) == DDL_BZTMR_MODE_ANALOG))
 #define IS_DDL_BZTMR_DIVISION(__VALUE__)        ((__VALUE__) <= (0xFFFFU))
 #define IS_DDL_BZTMR_DATAWIDTH(__VALUE__)       (((__VALUE__) == DDL_BZTMR_DATA_WIDTH_8)  ||\
                                                  ((__VALUE__) == DDL_BZTMR_DATA_WIDTH_16)  ||\
@@ -172,7 +166,7 @@ ErrorStatus DDL_BZTMR_Init(BZTMR_TypeDef *BZTMRx, DDL_BZTMR_InitTypeDef *BZTMR_I
   DDL_BZTMR_SetChannelPolarity(BZTMRx, BZTMR_InitStruct->ChannelPolarity);
 
   /* Set the output reversal */
-  MODIFY_REG(BZTMRx->CR, BZTMR_CR_OUTPUT_REVERSE, BZTMR_InitStruct->OutputReversal);
+  MODIFY_REG(BZTMRx->CR, BZTMR_CR_OUTPUT_REVERSAL, (BZTMR_InitStruct->OutputReversal) << BZTMR_CR_OUTPUT_REVERSAL_Pos);
 
   /* Set the number of transfers */
   DDL_BZTMR_SetTransmitSequenceNumber(BZTMRx, BZTMR_InitStruct->SequencerLength);
@@ -245,7 +239,7 @@ ErrorStatus DDL_BZTMR_CH_Init(BZTMR_TypeDef *BZTMRx, DDL_BZTMR_CH_InitTypeDef *B
 void DDL_BZTMR_CH_StructInit(DDL_BZTMR_CH_InitTypeDef *BZTMR_CHInitStruct)
 {
   /* Reset BZTMR channel init structure parameters values */
-  BZTMR_CHInitStruct->Channel    = DDL_BZTMR_CHANNEL_CH1;
+  BZTMR_CHInitStruct->Channel    = DDL_BZTMR_CHANNEL_CH0;
   BZTMR_CHInitStruct->Rank       = DDL_BZTMR_SEQ1;
   BZTMR_CHInitStruct->DataLength = 0U;
   BZTMR_CHInitStruct->EndLength  = 0U;

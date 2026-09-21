@@ -56,7 +56,7 @@
   * @{
   */
 
-#if defined (GPIOA) || defined (GPIOB) || defined (GPIOC) || defined (GPIOD)|| defined (GPIOH)
+#if defined (GPIOA) || defined (GPIOB) || defined (GPIOC) || defined (GPIOD) || defined (GPIOH)
 
 /** @addtogroup GPIO_DDL
   * @{
@@ -227,7 +227,7 @@ ErrorStatus DDL_GPIO_Init(GPIO_TypeDef *GPIOx, DDL_GPIO_InitTypeDef *GPIO_InitSt
         /* Check Alternate parameter */
         ASSERT_PARAM(IS_DDL_GPIO_ALTERNATE(GPIO_InitStruct->Alternate));
 
-        /* Speed mode configuration */
+        /* Alternate function configuration */
         if (POSITION_VAL(currentpin) < 0x00000008U)
         {
           DDL_GPIO_SetAFPin_0_7(GPIOx, currentpin, GPIO_InitStruct->Alternate);

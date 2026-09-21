@@ -4,7 +4,7 @@
   * @brief   I2C3 DDL module driver.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -83,6 +83,7 @@
 
 #define IS_DDL_I2C3_MODE(__VALUE__)              (((__VALUE__) == DDL_I2C3_MODE_STANDARD) || \
                                                  ((__VALUE__) == DDL_I2C3_MODE_FAST)      || \
+                                                 ((__VALUE__) == DDL_I2C3_MODE_FAST_PLUS) || \
                                                  ((__VALUE__) == DDL_I2C3_MODE_HIGHSPEED))
 
 #define CHECK_I2C3_SPEED(__SPEED__, __MODE__)    ((__SPEED__) = (((__SPEED__) > (__MODE__)) ? (__MODE__) : (__SPEED__)))
@@ -94,9 +95,9 @@
 #define IS_DDL_I2C3_TIMEOUT_CONFIG(__VALUE__)    (((__VALUE__) == DDL_I2C3_TIMEOUT_SCL) || \
                                                  ((__VALUE__) == DDL_I2C3_TIMEOUT_SCL_SDA))
 
-#define IS_DDL_I2C3_IDLE_TIMEOUT(__VALUE__)      ((__VALUE__) <= 0x0000000FU)
+#define IS_DDL_I2C3_IDLE_TIMEOUT(__VALUE__)      ((__VALUE__) <= 0x00000FFFU)
 
-#define IS_DDL_I2C3_PINLOW_TIMEOUT(__VALUE__)    ((__VALUE__) <= 0x0000000FU)
+#define IS_DDL_I2C3_PINLOW_TIMEOUT(__VALUE__)    ((__VALUE__) <= 0x00000FFFU)
 
 #define IS_DDL_I2C3_OWN_ADDRESS(__VALUE__)       ((__VALUE__) <= 0x000003FFU)
 
@@ -153,6 +154,7 @@ ErrorStatus DDL_I2C3_DeInit(I2C3_TypeDef *I2C3x)
   * @param  Mode I2C3 mode.
   *           @arg DDL_I2C3_MODE_STANDARD
   *           @arg DDL_I2C3_MODE_FAST
+  *           @arg DDL_I2C3_MODE_FAST_PLUS
   *           @arg DDL_I2C3_MODE_HIGHSPEED
   * @param  Baudrate I2C3 baudrate.
   * @retval An ErrorStatus enumeration value:
@@ -164,18 +166,22 @@ ErrorStatus I2C3_Master_SetBaudrate(I2C3_TypeDef *I2C3x, uint32_t Mode, uint32_t
   uint32_t InputClock   = 0U;
   uint32_t Prescaler    = 0U;
   uint32_t PrescalerMin = 0U;
-  uint32_t SCLTotal    = 0U;
-  uint32_t SCLHigh     = 0U;
-  uint32_t SCLLow      = 0U;
-  uint32_t SetHold     = 0U;
-  uint32_t DataVaild   = 0U;
+  uint32_t SCLTotal     = 0U;
+  uint32_t SCLHigh      = 0U;
+  uint32_t SCLLow       = 0U;
+  uint32_t SetHold      = 0U;
+  uint32_t DataVaild    = 0U;
 
   CHECK_I2C3_SPEED(Baudrate, Mode);
 
   /* Read the protocol clock frequency */
   InputClock = DDL_RCM_GetI2C3ClockFreq();
+  if (InputClock < 8000000U)
+  {
+    Baudrate = Baudrate < 4000000U ? Baudrate : 4000000U;
+  }
 
-  DDL_I2C3_Master_Disable(I2C3);
+  DDL_I2C3_Master_Disable(I2C3x);
 
   if (Baudrate == 0U)
   {
@@ -185,38 +191,51 @@ ErrorStatus I2C3_Master_SetBaudrate(I2C3_TypeDef *I2C3x, uint32_t Mode, uint32_t
   else
   {
     PrescalerMin = (InputClock / (Baudrate * SCL_TOTAL_MAX_VALUE));
-  }
 
-  for (Prescaler = 0U; Prescaler < 7U; Prescaler++)
-  {
-    if ((1U << Prescaler) >= PrescalerMin)
+    /* 2^prescaler >= PrescalerMin */
+    for (Prescaler = 0U; Prescaler < 7U; Prescaler++)
     {
+        if ((1U << Prescaler) >= PrescalerMin)
+        {
         break;
+        }
     }
-  }
 
-  SCLTotal = (InputClock + ((Baudrate * Prescaler) >> 1U)) / (Baudrate * Prescaler);
-  SCLTotal = (SCLTotal > SCL_TOTAL_MAX_VALUE) ? SCL_TOTAL_MAX_VALUE : SCLTotal;
+    SCLTotal = (InputClock) / (Baudrate * (1 << Prescaler));
+    SCLTotal = (SCLTotal > SCL_TOTAL_MAX_VALUE) ? SCL_TOTAL_MAX_VALUE : SCLTotal;
+  }
 
   if (SCLTotal > 2U)
   {
-    SCLHigh = (SCLTotal - 2U) / 2U;
-    SCLLow = SCLTotal - 2U - SCLHigh;
+    SCLHigh = (SCLTotal - 2U) * 2U / 5U;
+    SCLHigh = (SCLHigh > SCL_HIGH_MAX_VALUE) ? SCL_HIGH_MAX_VALUE : SCLHigh;
+    SCLLow = (SCLTotal - 2U) - SCLHigh;
+    SCLLow = (SCLLow > SCL_LOW_MAX_VALUE) ? SCL_LOW_MAX_VALUE : SCLLow;
   }
-  SCLLow = (SCLLow < SCL_LOW_MIN_VALUE) ? SCL_LOW_MIN_VALUE : SCLLow;
   SCLHigh = (SCLHigh < SCL_HIGH_MIN_VALUE) ? SCL_HIGH_MIN_VALUE : SCLHigh;
+  SCLLow = (SCLLow < SCL_LOW_MIN_VALUE) ? SCL_LOW_MIN_VALUE : SCLLow;
 
-  SetHold = SCLLow;
+  SetHold = SCLTotal >> 2U;
   SetHold = (SetHold < SCL_SETUP_TIME_MIN_VALUE) ? SCL_SETUP_TIME_MIN_VALUE : SetHold;
 
-  DataVaild = SCLLow >> 1U;
+  DataVaild = SCLTotal >> 2U;
   DataVaild = (DataVaild < SDA_HOLD_TIME_MIN_VALUE) ? SDA_HOLD_TIME_MIN_VALUE : DataVaild;
 
   DDL_I2C3_Master_SetPrescale(I2C3x, Prescaler);
-  DDL_I2C3_Master_SetSCLLowPeriod(I2C3x, SCLLow);
-  DDL_I2C3_Master_SetSCLHighPeriod(I2C3x, SCLHigh);
-  DDL_I2C3_Master_SetSetupHoldDelay(I2C3x, SetHold);
-  DDL_I2C3_Master_SetDataValidDelay(I2C3x, DataVaild);
+  if (Mode == DDL_I2C3_MODE_HIGHSPEED)
+  {
+    DDL_I2C3_Master_SetSCLLowPeriod_HS(I2C3x, SCLLow);
+    DDL_I2C3_Master_SetSCLHighPeriod_HS(I2C3x, SCLHigh);
+    DDL_I2C3_Master_SetSetupHoldDelay_HS(I2C3x, SetHold);
+    DDL_I2C3_Master_SetDataValidDelay_HS(I2C3x, DataVaild);
+  }
+  else
+  {
+    DDL_I2C3_Master_SetSCLLowPeriod(I2C3x, SCLLow);
+    DDL_I2C3_Master_SetSCLHighPeriod(I2C3x, SCLHigh);
+    DDL_I2C3_Master_SetSetupHoldDelay(I2C3x, SetHold);
+    DDL_I2C3_Master_SetDataValidDelay(I2C3x, DataVaild);
+  }
 
   DDL_I2C3_Master_SetPinMode(I2C3x, DDL_I2C3_PINMODE_2WIRE_OPEN_DRAIN);
   DDL_I2C3_Master_SetNACKMode(I2C3x, DDL_I2C3_NACKMODE_RECEIVED);
@@ -252,12 +271,21 @@ ErrorStatus DDL_I2C3_Master_Init(I2C3_TypeDef *I2C3x, DDL_I2C3_MasterInitTypeDef
   DDL_I2C3_Master_EnableSoftwareReset(I2C3x);
   I2C3x->MCR = 0x00000000U;
 
+  /* Set I2C3 baudrate */
+  if (I2C3_InitStruct->Mode == DDL_I2C3_MODE_HIGHSPEED)
+  {
+    I2C3_Master_SetBaudrate(I2C3x, DDL_I2C3_MODE_FAST, 400000U);
+  }
   I2C3_Master_SetBaudrate(I2C3x, I2C3_InitStruct->Mode, I2C3_InitStruct->Baudrate);
 
+  /* Set I2C3 filters */
   DDL_I2C3_Master_SetSCLFilter(I2C3x, I2C3_InitStruct->SCLFilter);
   DDL_I2C3_Master_SetSDAFilter(I2C3x, I2C3_InitStruct->SDAFilter);
 
-  DDL_I2C3_Master_Enable(I2C3);
+  /* Set I2C3 timeout configuration */
+  DDL_I2C3_Master_SetTimeoutConfig(I2C3x, I2C3_InitStruct->TimeoutConfig);
+  DDL_I2C3_Master_SetIdleTimeout(I2C3x, I2C3_InitStruct->IdleTimeout);
+  DDL_I2C3_Master_SetPinLowTimeout(I2C3x, I2C3_InitStruct->PinLowTimeout);
 
   return SUCCESS;
 }
@@ -276,7 +304,6 @@ ErrorStatus DDL_I2C3_Slave_Init(I2C3_TypeDef *I2C3x, DDL_I2C3_SlaveInitTypeDef *
   ASSERT_PARAM(IS_I2C3_ALL_INSTANCE(I2C3x));
 
   /* Check the I2C3 parameters from I2C3_InitStruct */
-  ASSERT_PARAM(IS_DDL_I2C3_MODE(I2C3_InitStruct->Mode));
   ASSERT_PARAM(IS_DDL_I2C3_SCL_FILTER(I2C3_InitStruct->SCLFilter));
   ASSERT_PARAM(IS_DDL_I2C3_SDA_FILTER(I2C3_InitStruct->SDAFilter));
 
@@ -293,8 +320,6 @@ ErrorStatus DDL_I2C3_Slave_Init(I2C3_TypeDef *I2C3x, DDL_I2C3_SlaveInitTypeDef *
   DDL_I2C3_Slave_SetAddrMatchConfig(I2C3x, I2C3_InitStruct->AddressMatch);
   DDL_I2C3_Slave_SetAddr0(I2C3x, I2C3_InitStruct->OwnAddress0);
   DDL_I2C3_Slave_SetAddr1(I2C3x, I2C3_InitStruct->OwnAddress1);
-
-  DDL_I2C3_Slave_Enable(I2C3);
 
   return SUCCESS;
 }
@@ -324,11 +349,11 @@ void DDL_I2C3_Master_StructInit(DDL_I2C3_MasterInitTypeDef *I2C3_InitStruct)
 void DDL_I2C3_Slave_StructInit(DDL_I2C3_SlaveInitTypeDef *I2C3_InitStruct)
 {
   /* Set DDL_I2C3_SlaveInitTypeDef fields to default values */
-  I2C3_InitStruct->Mode            = DDL_I2C3_MODE_STANDARD;
   I2C3_InitStruct->SCLFilter       = 0U;
   I2C3_InitStruct->SDAFilter       = 0U;
   I2C3_InitStruct->OwnAddress0     = 0U;
   I2C3_InitStruct->OwnAddress1     = 0U;
+  I2C3_InitStruct->AddressMatch    = DDL_I2C3_MATCH_ADDR0_7BIT;
 }
 
 /**

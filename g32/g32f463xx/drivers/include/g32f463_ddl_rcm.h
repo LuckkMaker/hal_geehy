@@ -4,7 +4,7 @@
   * @brief   Header file of RCM DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -365,17 +365,17 @@ typedef struct
 /** @defgroup RCM_DDL_EC_USB  Peripheral USB get clock source
   * @{
   */
-#define DDL_RCM_USB_CLKSOURCE               RCM_PLL1CFG_PLLD       /*!< USB Clock source selection */
+#define DDL_RCM_USB_CLKSOURCE               RCM_PLL1CFG_PLL1D       /*!< USB Clock source selection */
 /**
   * @}
   */
 #endif /* USB_OTG_HS */
 
-/** @defgroup RCM_DDL_EC_CAN1  Peripheral CAN1 clock source
+/** @defgroup RCM_DDL_EC_FDCAN  Peripheral FDCAN clock source
   * @{
   */
-#define DDL_RCM_CAN1_CLKSOURCE_HSE          0x00000000U             /*!< HSE clock used as CAN1 clock source */
-#define DDL_RCM_CAN1_CLKSOURCE_PCLK         RCM_CFG2_CAN1_CLKSRC   /*!< PCLK clock used as CAN1 clock source */
+#define DDL_RCM_FDCAN_CLKSOURCE_HSE          0x00000000U             /*!< HSE clock used as FDCAN clock source */
+#define DDL_RCM_FDCAN_CLKSOURCE_PCLK         RCM_CFG2_FDCAN_CLKSRC   /*!< PCLK clock used as FDCAN clock source */
   /**
   * @}
   */
@@ -427,22 +427,22 @@ typedef struct
   * @}
   */
 
-/** @defgroup RCM_DDL_EC_CAN1_HSE_PRESCALER  CAN1 HSE prescaler
+/** @defgroup RCM_DDL_EC_FDCAN_HSE_PRESCALER  FDCAN HSE prescaler
   * @{
   */
-#define DDL_RCM_CAN1_HSE_DIV_1              0x00000000U                                        /*!< HSE clock not divided */
-#define DDL_RCM_CAN1_HSE_DIV_2              RCM_CFG2_CAN1_HSEPSC_0                             /*!< HSE clock divided by 2 */
-#define DDL_RCM_CAN1_HSE_DIV_4              RCM_CFG2_CAN1_HSEPSC_1                             /*!< HSE clock divided by 3 */
-#define DDL_RCM_CAN1_HSE_DIV_8              (RCM_CFG2_CAN1_HSEPSC_1 | RCM_CFG2_CAN1_HSEPSC_0)  /*!< HSE clock divided by 4 */
+#define DDL_RCM_FDCAN_HSE_DIV_1              0x00000000U                                        /*!< HSE clock not divided */
+#define DDL_RCM_FDCAN_HSE_DIV_2              RCM_CFG2_FDCAN_HSEPSC_0                             /*!< HSE clock divided by 2 */
+#define DDL_RCM_FDCAN_HSE_DIV_4              RCM_CFG2_FDCAN_HSEPSC_1                             /*!< HSE clock divided by 4 */
+#define DDL_RCM_FDCAN_HSE_DIV_8              (RCM_CFG2_FDCAN_HSEPSC_1 | RCM_CFG2_FDCAN_HSEPSC_0)  /*!< HSE clock divided by 8 */
 /**
   * @}
   */
 
-/** @defgroup RCM_DDL_EC_CAN1_PCLK_PRESCALER  CAN1 PCLK prescaler
+/** @defgroup RCM_DDL_EC_FDCAN_PCLK_PRESCALER  FDCAN PCLK prescaler
   * @{
   */
-#define DDL_RCM_CAN1_PCLK_DIV_1            0x00000000U                                         /*!< PCLK clock not divided */
-#define DDL_RCM_CAN1_PCLK_DIV_2            RCM_CFG2_CAN1_PPSC                                  /*!< PCLK clock divided by 2 */
+#define DDL_RCM_FDCAN_PCLK_DIV_1            0x00000000U                                         /*!< PCLK clock not divided */
+#define DDL_RCM_FDCAN_PCLK_DIV_2            RCM_CFG2_FDCAN_PPSC                                  /*!< PCLK clock divided by 2 */
 /**
   * @}
   */
@@ -450,68 +450,68 @@ typedef struct
 /** @defgroup RCM_DDL_EC_PLLB_DIV  PLL division factor
   * @{
   */
-#define DDL_RCM_PLLB_DIV_2                  (RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 2 */
-#define DDL_RCM_PLLB_DIV_3                  (RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 3 */
-#define DDL_RCM_PLLB_DIV_4                  (RCM_PLL1CFG_PLLB_2) /*!< PLL, PLLI2S and PLLSAI division factor by 4 */
-#define DDL_RCM_PLLB_DIV_5                  (RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 5 */
-#define DDL_RCM_PLLB_DIV_6                  (RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 6 */
-#define DDL_RCM_PLLB_DIV_7                  (RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 7 */
-#define DDL_RCM_PLLB_DIV_8                  (RCM_PLL1CFG_PLLB_3) /*!< PLL, PLLI2S and PLLSAI division factor by 8 */
-#define DDL_RCM_PLLB_DIV_9                  (RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 9 */
-#define DDL_RCM_PLLB_DIV_10                 (RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 10 */
-#define DDL_RCM_PLLB_DIV_11                 (RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 11 */
-#define DDL_RCM_PLLB_DIV_12                 (RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2) /*!< PLL, PLLI2S and PLLSAI division factor by 12 */
-#define DDL_RCM_PLLB_DIV_13                 (RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 13 */
-#define DDL_RCM_PLLB_DIV_14                 (RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 14 */
-#define DDL_RCM_PLLB_DIV_15                 (RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 15 */
-#define DDL_RCM_PLLB_DIV_16                 (RCM_PLL1CFG_PLLB_4) /*!< PLL, PLLI2S and PLLSAI division factor by 16 */
-#define DDL_RCM_PLLB_DIV_17                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 17 */
-#define DDL_RCM_PLLB_DIV_18                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 18 */
-#define DDL_RCM_PLLB_DIV_19                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 19 */
-#define DDL_RCM_PLLB_DIV_20                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_2) /*!< PLL, PLLI2S and PLLSAI division factor by 20 */
-#define DDL_RCM_PLLB_DIV_21                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 21 */
-#define DDL_RCM_PLLB_DIV_22                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 22 */
-#define DDL_RCM_PLLB_DIV_23                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 23 */
-#define DDL_RCM_PLLB_DIV_24                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3) /*!< PLL, PLLI2S and PLLSAI division factor by 24 */
-#define DDL_RCM_PLLB_DIV_25                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 25 */
-#define DDL_RCM_PLLB_DIV_26                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 26 */
-#define DDL_RCM_PLLB_DIV_27                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 27 */
-#define DDL_RCM_PLLB_DIV_28                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2) /*!< PLL, PLLI2S and PLLSAI division factor by 28 */
-#define DDL_RCM_PLLB_DIV_29                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 29 */
-#define DDL_RCM_PLLB_DIV_30                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 30 */
-#define DDL_RCM_PLLB_DIV_31                 (RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 31 */
-#define DDL_RCM_PLLB_DIV_32                 (RCM_PLL1CFG_PLLB_5) /*!< PLL, PLLI2S and PLLSAI division factor by 32 */
-#define DDL_RCM_PLLB_DIV_33                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 33 */
-#define DDL_RCM_PLLB_DIV_34                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 34 */
-#define DDL_RCM_PLLB_DIV_35                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 35 */
-#define DDL_RCM_PLLB_DIV_36                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_2) /*!< PLL, PLLI2S and PLLSAI division factor by 36 */
-#define DDL_RCM_PLLB_DIV_37                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 37 */
-#define DDL_RCM_PLLB_DIV_38                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 38 */
-#define DDL_RCM_PLLB_DIV_39                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 39 */
-#define DDL_RCM_PLLB_DIV_40                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_3) /*!< PLL, PLLI2S and PLLSAI division factor by 40 */
-#define DDL_RCM_PLLB_DIV_41                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 41 */
-#define DDL_RCM_PLLB_DIV_42                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 42 */
-#define DDL_RCM_PLLB_DIV_43                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 43 */
-#define DDL_RCM_PLLB_DIV_44                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2) /*!< PLL, PLLI2S and PLLSAI division factor by 44 */
-#define DDL_RCM_PLLB_DIV_45                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 45 */
-#define DDL_RCM_PLLB_DIV_46                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 46 */
-#define DDL_RCM_PLLB_DIV_47                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 47 */
-#define DDL_RCM_PLLB_DIV_48                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4) /*!< PLL, PLLI2S and PLLSAI division factor by 48 */
-#define DDL_RCM_PLLB_DIV_49                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 49 */
-#define DDL_RCM_PLLB_DIV_50                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 50 */
-#define DDL_RCM_PLLB_DIV_51                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 51 */
-#define DDL_RCM_PLLB_DIV_52                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_2) /*!< PLL, PLLI2S and PLLSAI division factor by 52 */
-#define DDL_RCM_PLLB_DIV_53                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 53 */
-#define DDL_RCM_PLLB_DIV_54                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 54 */
-#define DDL_RCM_PLLB_DIV_55                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 55 */
-#define DDL_RCM_PLLB_DIV_56                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3) /*!< PLL, PLLI2S and PLLSAI division factor by 56 */
-#define DDL_RCM_PLLB_DIV_57                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 57 */
-#define DDL_RCM_PLLB_DIV_58                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 58 */
-#define DDL_RCM_PLLB_DIV_59                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 59 */
-#define DDL_RCM_PLLB_DIV_60                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2) /*!< PLL, PLLI2S and PLLSAI division factor by 60 */
-#define DDL_RCM_PLLB_DIV_61                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 61 */
-#define DDL_RCM_PLLB_DIV_62                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1) /*!< PLL, PLLI2S and PLLSAI division factor by 62 */
-#define DDL_RCM_PLLB_DIV_63                 (RCM_PLL1CFG_PLLB_5 | RCM_PLL1CFG_PLLB_4 | RCM_PLL1CFG_PLLB_3 | RCM_PLL1CFG_PLLB_2 | RCM_PLL1CFG_PLLB_1 | RCM_PLL1CFG_PLLB_0) /*!< PLL, PLLI2S and PLLSAI division factor by 63 */
+#define DDL_RCM_PLLB_DIV_2                  (RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 2 */
+#define DDL_RCM_PLLB_DIV_3                  (RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 3 */
+#define DDL_RCM_PLLB_DIV_4                  (RCM_PLL1CFG_PLL1B_2) /*!< PLL, PLLI2S and PLLSAI division factor by 4 */
+#define DDL_RCM_PLLB_DIV_5                  (RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 5 */
+#define DDL_RCM_PLLB_DIV_6                  (RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 6 */
+#define DDL_RCM_PLLB_DIV_7                  (RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 7 */
+#define DDL_RCM_PLLB_DIV_8                  (RCM_PLL1CFG_PLL1B_3) /*!< PLL, PLLI2S and PLLSAI division factor by 8 */
+#define DDL_RCM_PLLB_DIV_9                  (RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 9 */
+#define DDL_RCM_PLLB_DIV_10                 (RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 10 */
+#define DDL_RCM_PLLB_DIV_11                 (RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 11 */
+#define DDL_RCM_PLLB_DIV_12                 (RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2) /*!< PLL, PLLI2S and PLLSAI division factor by 12 */
+#define DDL_RCM_PLLB_DIV_13                 (RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 13 */
+#define DDL_RCM_PLLB_DIV_14                 (RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 14 */
+#define DDL_RCM_PLLB_DIV_15                 (RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 15 */
+#define DDL_RCM_PLLB_DIV_16                 (RCM_PLL1CFG_PLL1B_4) /*!< PLL, PLLI2S and PLLSAI division factor by 16 */
+#define DDL_RCM_PLLB_DIV_17                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 17 */
+#define DDL_RCM_PLLB_DIV_18                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 18 */
+#define DDL_RCM_PLLB_DIV_19                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 19 */
+#define DDL_RCM_PLLB_DIV_20                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_2) /*!< PLL, PLLI2S and PLLSAI division factor by 20 */
+#define DDL_RCM_PLLB_DIV_21                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 21 */
+#define DDL_RCM_PLLB_DIV_22                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 22 */
+#define DDL_RCM_PLLB_DIV_23                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 23 */
+#define DDL_RCM_PLLB_DIV_24                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3) /*!< PLL, PLLI2S and PLLSAI division factor by 24 */
+#define DDL_RCM_PLLB_DIV_25                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 25 */
+#define DDL_RCM_PLLB_DIV_26                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 26 */
+#define DDL_RCM_PLLB_DIV_27                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 27 */
+#define DDL_RCM_PLLB_DIV_28                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2) /*!< PLL, PLLI2S and PLLSAI division factor by 28 */
+#define DDL_RCM_PLLB_DIV_29                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 29 */
+#define DDL_RCM_PLLB_DIV_30                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 30 */
+#define DDL_RCM_PLLB_DIV_31                 (RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 31 */
+#define DDL_RCM_PLLB_DIV_32                 (RCM_PLL1CFG_PLL1B_5) /*!< PLL, PLLI2S and PLLSAI division factor by 32 */
+#define DDL_RCM_PLLB_DIV_33                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 33 */
+#define DDL_RCM_PLLB_DIV_34                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 34 */
+#define DDL_RCM_PLLB_DIV_35                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 35 */
+#define DDL_RCM_PLLB_DIV_36                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_2) /*!< PLL, PLLI2S and PLLSAI division factor by 36 */
+#define DDL_RCM_PLLB_DIV_37                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 37 */
+#define DDL_RCM_PLLB_DIV_38                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 38 */
+#define DDL_RCM_PLLB_DIV_39                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 39 */
+#define DDL_RCM_PLLB_DIV_40                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_3) /*!< PLL, PLLI2S and PLLSAI division factor by 40 */
+#define DDL_RCM_PLLB_DIV_41                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 41 */
+#define DDL_RCM_PLLB_DIV_42                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 42 */
+#define DDL_RCM_PLLB_DIV_43                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 43 */
+#define DDL_RCM_PLLB_DIV_44                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2) /*!< PLL, PLLI2S and PLLSAI division factor by 44 */
+#define DDL_RCM_PLLB_DIV_45                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 45 */
+#define DDL_RCM_PLLB_DIV_46                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 46 */
+#define DDL_RCM_PLLB_DIV_47                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 47 */
+#define DDL_RCM_PLLB_DIV_48                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4) /*!< PLL, PLLI2S and PLLSAI division factor by 48 */
+#define DDL_RCM_PLLB_DIV_49                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 49 */
+#define DDL_RCM_PLLB_DIV_50                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 50 */
+#define DDL_RCM_PLLB_DIV_51                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 51 */
+#define DDL_RCM_PLLB_DIV_52                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_2) /*!< PLL, PLLI2S and PLLSAI division factor by 52 */
+#define DDL_RCM_PLLB_DIV_53                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 53 */
+#define DDL_RCM_PLLB_DIV_54                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 54 */
+#define DDL_RCM_PLLB_DIV_55                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 55 */
+#define DDL_RCM_PLLB_DIV_56                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3) /*!< PLL, PLLI2S and PLLSAI division factor by 56 */
+#define DDL_RCM_PLLB_DIV_57                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 57 */
+#define DDL_RCM_PLLB_DIV_58                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 58 */
+#define DDL_RCM_PLLB_DIV_59                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 59 */
+#define DDL_RCM_PLLB_DIV_60                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2) /*!< PLL, PLLI2S and PLLSAI division factor by 60 */
+#define DDL_RCM_PLLB_DIV_61                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 61 */
+#define DDL_RCM_PLLB_DIV_62                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1) /*!< PLL, PLLI2S and PLLSAI division factor by 62 */
+#define DDL_RCM_PLLB_DIV_63                 (RCM_PLL1CFG_PLL1B_5 | RCM_PLL1CFG_PLL1B_4 | RCM_PLL1CFG_PLL1B_3 | RCM_PLL1CFG_PLL1B_2 | RCM_PLL1CFG_PLL1B_1 | RCM_PLL1CFG_PLL1B_0) /*!< PLL, PLLI2S and PLLSAI division factor by 63 */
 /**
   * @}
   */
@@ -519,7 +519,7 @@ typedef struct
 /** @defgroup RCM_DDL_EC_PLL1C_DIV  PLL division factor (PLL1C)
   * @{
   */
-#define DDL_RCM_PLL1C_DIV_2                  0x00000000U            /*!< Main PLL division factor for PLL1C output by 2 */
+#define DDL_RCM_PLL1C_DIV_2                  0x00000000U             /*!< Main PLL division factor for PLL1C output by 2 */
 #define DDL_RCM_PLL1C_DIV_4                  RCM_PLL1CFG_PLL1C_0     /*!< Main PLL division factor for PLL1C output by 4 */
 #define DDL_RCM_PLL1C_DIV_6                  RCM_PLL1CFG_PLL1C_1     /*!< Main PLL division factor for PLL1C output by 6 */
 #define DDL_RCM_PLL1C_DIV_8                  (RCM_PLL1CFG_PLL1C_1 | RCM_PLL1CFG_PLL1C_0)   /*!< Main PLL division factor for PLL1C output by 8 */
@@ -530,20 +530,20 @@ typedef struct
 /** @defgroup RCM_DDL_EC_PLLD_DIV  PLL division factor (PLLD)
   * @{
   */
-#define DDL_RCM_PLLD_DIV_2                  RCM_PLL1CFG_PLLD_1                      /*!< Main PLL division factor for PLLD output by 2 */
-#define DDL_RCM_PLLD_DIV_3                  (RCM_PLL1CFG_PLLD_1|RCM_PLL1CFG_PLLD_0) /*!< Main PLL division factor for PLLD output by 3 */
-#define DDL_RCM_PLLD_DIV_4                  RCM_PLL1CFG_PLLD_2                      /*!< Main PLL division factor for PLLD output by 4 */
-#define DDL_RCM_PLLD_DIV_5                  (RCM_PLL1CFG_PLLD_2|RCM_PLL1CFG_PLLD_0) /*!< Main PLL division factor for PLLD output by 5 */
-#define DDL_RCM_PLLD_DIV_6                  (RCM_PLL1CFG_PLLD_2|RCM_PLL1CFG_PLLD_1) /*!< Main PLL division factor for PLLD output by 6 */
-#define DDL_RCM_PLLD_DIV_7                  (RCM_PLL1CFG_PLLD_2|RCM_PLL1CFG_PLLD_1|RCM_PLL1CFG_PLLD_0) /*!< Main PLL division factor for PLLD output by 7 */
-#define DDL_RCM_PLLD_DIV_8                  RCM_PLL1CFG_PLLD_3                      /*!< Main PLL division factor for PLLD output by 8 */
-#define DDL_RCM_PLLD_DIV_9                  (RCM_PLL1CFG_PLLD_3|RCM_PLL1CFG_PLLD_0) /*!< Main PLL division factor for PLLD output by 9 */
-#define DDL_RCM_PLLD_DIV_10                 (RCM_PLL1CFG_PLLD_3|RCM_PLL1CFG_PLLD_1) /*!< Main PLL division factor for PLLD output by 10 */
-#define DDL_RCM_PLLD_DIV_11                 (RCM_PLL1CFG_PLLD_3|RCM_PLL1CFG_PLLD_1|RCM_PLL1CFG_PLLD_0) /*!< Main PLL division factor for PLLD output by 11 */
-#define DDL_RCM_PLLD_DIV_12                 (RCM_PLL1CFG_PLLD_3|RCM_PLL1CFG_PLLD_2) /*!< Main PLL division factor for PLLD output by 12 */
-#define DDL_RCM_PLLD_DIV_13                 (RCM_PLL1CFG_PLLD_3|RCM_PLL1CFG_PLLD_2|RCM_PLL1CFG_PLLD_0) /*!< Main PLL division factor for PLLD output by 13 */
-#define DDL_RCM_PLLD_DIV_14                 (RCM_PLL1CFG_PLLD_3|RCM_PLL1CFG_PLLD_2|RCM_PLL1CFG_PLLD_1) /*!< Main PLL division factor for PLLD output by 14 */
-#define DDL_RCM_PLLD_DIV_15                 (RCM_PLL1CFG_PLLD_3|RCM_PLL1CFG_PLLD_2|RCM_PLL1CFG_PLLD_1|RCM_PLL1CFG_PLLD_0) /*!< Main PLL division factor for PLLD output by 15 */
+#define DDL_RCM_PLLD_DIV_2                  RCM_PLL1CFG_PLL1D_1                      /*!< Main PLL division factor for PLLD output by 2 */
+#define DDL_RCM_PLLD_DIV_3                  (RCM_PLL1CFG_PLL1D_1|RCM_PLL1CFG_PLL1D_0) /*!< Main PLL division factor for PLLD output by 3 */
+#define DDL_RCM_PLLD_DIV_4                  RCM_PLL1CFG_PLL1D_2                      /*!< Main PLL division factor for PLLD output by 4 */
+#define DDL_RCM_PLLD_DIV_5                  (RCM_PLL1CFG_PLL1D_2|RCM_PLL1CFG_PLL1D_0) /*!< Main PLL division factor for PLLD output by 5 */
+#define DDL_RCM_PLLD_DIV_6                  (RCM_PLL1CFG_PLL1D_2|RCM_PLL1CFG_PLL1D_1) /*!< Main PLL division factor for PLLD output by 6 */
+#define DDL_RCM_PLLD_DIV_7                  (RCM_PLL1CFG_PLL1D_2|RCM_PLL1CFG_PLL1D_1|RCM_PLL1CFG_PLL1D_0) /*!< Main PLL division factor for PLLD output by 7 */
+#define DDL_RCM_PLLD_DIV_8                  RCM_PLL1CFG_PLL1D_3                      /*!< Main PLL division factor for PLLD output by 8 */
+#define DDL_RCM_PLLD_DIV_9                  (RCM_PLL1CFG_PLL1D_3|RCM_PLL1CFG_PLL1D_0) /*!< Main PLL division factor for PLLD output by 9 */
+#define DDL_RCM_PLLD_DIV_10                 (RCM_PLL1CFG_PLL1D_3|RCM_PLL1CFG_PLL1D_1) /*!< Main PLL division factor for PLLD output by 10 */
+#define DDL_RCM_PLLD_DIV_11                 (RCM_PLL1CFG_PLL1D_3|RCM_PLL1CFG_PLL1D_1|RCM_PLL1CFG_PLL1D_0) /*!< Main PLL division factor for PLLD output by 11 */
+#define DDL_RCM_PLLD_DIV_12                 (RCM_PLL1CFG_PLL1D_3|RCM_PLL1CFG_PLL1D_2) /*!< Main PLL division factor for PLLD output by 12 */
+#define DDL_RCM_PLLD_DIV_13                 (RCM_PLL1CFG_PLL1D_3|RCM_PLL1CFG_PLL1D_2|RCM_PLL1CFG_PLL1D_0) /*!< Main PLL division factor for PLLD output by 13 */
+#define DDL_RCM_PLLD_DIV_14                 (RCM_PLL1CFG_PLL1D_3|RCM_PLL1CFG_PLL1D_2|RCM_PLL1CFG_PLL1D_1) /*!< Main PLL division factor for PLLD output by 14 */
+#define DDL_RCM_PLLD_DIV_15                 (RCM_PLL1CFG_PLL1D_3|RCM_PLL1CFG_PLL1D_2|RCM_PLL1CFG_PLL1D_1|RCM_PLL1CFG_PLL1D_0) /*!< Main PLL division factor for PLLD output by 15 */
 /**
   * @}
   */
@@ -551,12 +551,12 @@ typedef struct
 /** @defgroup RCM_DDL_EC_PLLE_DIV  PLL division factor (PLLE)
   * @{
   */
-#define DDL_RCM_PLLE_DIV_2                  RCM_PLL1CFG_PLLE_1                      /*!< Main PLL division factor for PLLE output by 2 */
-#define DDL_RCM_PLLE_DIV_3                  (RCM_PLL1CFG_PLLE_1|RCM_PLL1CFG_PLLE_0) /*!< Main PLL division factor for PLLE output by 3 */
-#define DDL_RCM_PLLE_DIV_4                  RCM_PLL1CFG_PLLE_2                      /*!< Main PLL division factor for PLLE output by 4 */
-#define DDL_RCM_PLLE_DIV_5                  (RCM_PLL1CFG_PLLE_2|RCM_PLL1CFG_PLLE_0) /*!< Main PLL division factor for PLLE output by 5 */
-#define DDL_RCM_PLLE_DIV_6                  (RCM_PLL1CFG_PLLE_2|RCM_PLL1CFG_PLLE_1) /*!< Main PLL division factor for PLLE output by 6 */
-#define DDL_RCM_PLLE_DIV_7                  (RCM_PLL1CFG_PLLE_2|RCM_PLL1CFG_PLLE_1|RCM_PLL1CFG_PLLE_0) /*!< Main PLL division factor for PLLE output by 7 */
+#define DDL_RCM_PLLE_DIV_2                  RCM_PLL1CFG_PLL1E_1                      /*!< Main PLL division factor for PLLE output by 2 */
+#define DDL_RCM_PLLE_DIV_3                  (RCM_PLL1CFG_PLL1E_1|RCM_PLL1CFG_PLL1E_0) /*!< Main PLL division factor for PLLE output by 3 */
+#define DDL_RCM_PLLE_DIV_4                  RCM_PLL1CFG_PLL1E_2                      /*!< Main PLL division factor for PLLE output by 4 */
+#define DDL_RCM_PLLE_DIV_5                  (RCM_PLL1CFG_PLL1E_2|RCM_PLL1CFG_PLL1E_0) /*!< Main PLL division factor for PLLE output by 5 */
+#define DDL_RCM_PLLE_DIV_6                  (RCM_PLL1CFG_PLL1E_2|RCM_PLL1CFG_PLL1E_1) /*!< Main PLL division factor for PLLE output by 6 */
+#define DDL_RCM_PLLE_DIV_7                  (RCM_PLL1CFG_PLL1E_2|RCM_PLL1CFG_PLL1E_1|RCM_PLL1CFG_PLL1E_0) /*!< Main PLL division factor for PLLE output by 7 */
 /**
   * @}
   */
@@ -792,7 +792,7 @@ typedef struct
   * @retval PLL clock frequency (in Hz)
   */
 #define __DDL_RCM_CALC_PLLCLK_48M_FREQ(__INPUTFREQ__, __PLLB__, __PLL1A__, __PLLD__) ((__INPUTFREQ__) / (__PLLB__) * (__PLL1A__) / \
-                   ((__PLLD__) >> RCM_PLL1CFG_PLLD_Pos ))
+                   ((__PLLD__) >> RCM_PLL1CFG_PLL1D_Pos ))
 
 /**
   * @brief  Helper macro to calculate the PLLCLK frequency used on I2S domain
@@ -873,7 +873,7 @@ typedef struct
   * @retval PLL clock frequency (in Hz)
   */
 #define __DDL_RCM_CALC_PLLCLK_I2S_FREQ(__INPUTFREQ__, __PLLB__, __PLL1A__, __PLLE__) ((__INPUTFREQ__) / (__PLLB__) * (__PLL1A__) / \
-                   ((__PLLE__) >> RCM_PLL1CFG_PLLE_Pos ))
+                   ((__PLLE__) >> RCM_PLL1CFG_PLL1E_Pos ))
 
 /**
   * @brief  Helper macro to calculate the HCLK frequency
@@ -1394,25 +1394,25 @@ __STATIC_INLINE void DDL_RCM_ConfigMCO(uint32_t MCOxSource, uint32_t MCOxPrescal
   */
 
 /**
-  * @brief  Set CAN1 Clock Source
+  * @brief  Set FDCAN Clock Source
   * @param  Source This parameter can be one of the following values:
-  *         @arg @ref DDL_RCM_CAN1_CLKSOURCE_HSE
-  *         @arg @ref DDL_RCM_CAN1_CLKSOURCE_PCLK
+  *         @arg @ref DDL_RCM_FDCAN_CLKSOURCE_HSE
+  *         @arg @ref DDL_RCM_FDCAN_CLKSOURCE_PCLK
   */
-__STATIC_INLINE void DDL_RCM_SetCAN1ClockSource(uint32_t Source)
+__STATIC_INLINE void DDL_RCM_SetFDCANClockSource(uint32_t Source)
 {
-  MODIFY_REG(RCM->CFG2, RCM_CFG2_CAN1_CLKSRC, Source);
+  MODIFY_REG(RCM->CFG2, RCM_CFG2_FDCAN_CLKSRC, Source);
 }
 
 /**
-  * @brief  Get CAN1 Clock Source
+  * @brief  Get FDCAN Clock Source
   * @retval Returned value can be one of the following values:
-  *         @arg @ref DDL_RCM_CAN1_CLKSOURCE_HSE
-  *         @arg @ref DDL_RCM_CAN1_CLKSOURCE_PCLK
+  *         @arg @ref DDL_RCM_FDCAN_CLKSOURCE_HSE
+  *         @arg @ref DDL_RCM_FDCAN_CLKSOURCE_PCLK
   */
-__STATIC_INLINE uint32_t DDL_RCM_GetCAN1ClockSource(void)
+__STATIC_INLINE uint32_t DDL_RCM_GetFDCANClockSource(void)
 {
-  return (uint32_t)(READ_BIT(RCM->CFG2, RCM_CFG2_CAN1_CLKSRC));
+  return (uint32_t)(READ_BIT(RCM->CFG2, RCM_CFG2_FDCAN_CLKSRC));
 }
 
 /**
@@ -1541,51 +1541,51 @@ __STATIC_INLINE uint32_t DDL_RCM_GetI2SClockSource(uint32_t I2Sx)
 }
 
 /**
- * @brief  Set HSE Prescaler for CAN1
+ * @brief  Set HSE Prescaler for FDCAN
  * @param  Prescaler This parameter can be one of the following values:
- *         @arg @ref DDL_RCM_CAN1_HSE_DIV_1
- *         @arg @ref DDL_RCM_CAN1_HSE_DIV_2
- *         @arg @ref DDL_RCM_CAN1_HSE_DIV_4
- *         @arg @ref DDL_RCM_CAN1_HSE_DIV_8
+ *         @arg @ref DDL_RCM_FDCAN_HSE_DIV_1
+ *         @arg @ref DDL_RCM_FDCAN_HSE_DIV_2
+ *         @arg @ref DDL_RCM_FDCAN_HSE_DIV_4
+ *         @arg @ref DDL_RCM_FDCAN_HSE_DIV_8
  */
-__STATIC_INLINE void DDL_RCM_SetCAN1_HSEPrescaler(uint32_t Prescaler)
+__STATIC_INLINE void DDL_RCM_SetFDCAN_HSEPrescaler(uint32_t Prescaler)
 {
-  MODIFY_REG(RCM->CFG2, RCM_CFG2_CAN1_HSEPSC, Prescaler);
+  MODIFY_REG(RCM->CFG2, RCM_CFG2_FDCAN_HSEPSC, Prescaler);
 }
 
 /**
- * @brief  Get HSE Prescaler for CAN1
+ * @brief  Get HSE Prescaler for FDCAN
  * @retval Returned value can be one of the following values:
- *         @arg @ref DDL_RCM_CAN1_HSE_DIV_1
- *         @arg @ref DDL_RCM_CAN1_HSE_DIV_2
- *         @arg @ref DDL_RCM_CAN1_HSE_DIV_4
- *         @arg @ref DDL_RCM_CAN1_HSE_DIV_8
+ *         @arg @ref DDL_RCM_FDCAN_HSE_DIV_1
+ *         @arg @ref DDL_RCM_FDCAN_HSE_DIV_2
+ *         @arg @ref DDL_RCM_FDCAN_HSE_DIV_4
+ *         @arg @ref DDL_RCM_FDCAN_HSE_DIV_8
  */
-__STATIC_INLINE uint32_t DDL_RCM_GetCAN1_HSEPrescaler(void)
+__STATIC_INLINE uint32_t DDL_RCM_GetFDCAN_HSEPrescaler(void)
 {
-  return (uint32_t)(READ_BIT(RCM->CFG2, RCM_CFG2_CAN1_HSEPSC));
+  return (uint32_t)(READ_BIT(RCM->CFG2, RCM_CFG2_FDCAN_HSEPSC));
 }
 
 /**
- * @brief  Set PCLK Prescaler for CAN1
+ * @brief  Set PCLK Prescaler for FDCAN
  * @param  Prescaler This parameter can be one of the following values:
- *         @arg @ref DDL_RCM_CAN1_PCLK_DIV_1
- *         @arg @ref DDL_RCM_CAN1_PCLK_DIV_2
+ *         @arg @ref DDL_RCM_FDCAN_PCLK_DIV_1
+ *         @arg @ref DDL_RCM_FDCAN_PCLK_DIV_2
  */
-__STATIC_INLINE void DDL_RCM_SetCAN1_PCLKPrescaler(uint32_t Prescaler)
+__STATIC_INLINE void DDL_RCM_SetFDCAN_PCLKPrescaler(uint32_t Prescaler)
 {
-  MODIFY_REG(RCM->CFG2, RCM_CFG2_CAN1_PPSC, Prescaler);
+  MODIFY_REG(RCM->CFG2, RCM_CFG2_FDCAN_PPSC, Prescaler);
 }
 
 /**
- * @brief  Get PCLK Prescaler for CAN1
+ * @brief  Get PCLK Prescaler for FDCAN
  * @retval Returned value can be one of the following values:
- *         @arg @ref DDL_RCM_CAN1_PCLK_DIV_1
- *         @arg @ref DDL_RCM_CAN1_PCLK_DIV_2
+ *         @arg @ref DDL_RCM_FDCAN_PCLK_DIV_1
+ *         @arg @ref DDL_RCM_FDCAN_PCLK_DIV_2
  */
-__STATIC_INLINE uint32_t DDL_RCM_GetCAN1_PCLKPrescaler(void)
+__STATIC_INLINE uint32_t DDL_RCM_GetFDCAN_PCLKPrescaler(void)
 {
-  return (uint32_t)(READ_BIT(RCM->CFG2, RCM_CFG2_CAN1_PPSC));
+  return (uint32_t)(READ_BIT(RCM->CFG2, RCM_CFG2_FDCAN_PPSC));
 }
 
 /**
@@ -1669,6 +1669,71 @@ __STATIC_INLINE void DDL_RCM_ForceBackupDomainReset(void)
 __STATIC_INLINE void DDL_RCM_ReleaseBackupDomainReset(void)
 {
   CLEAR_BIT(RCM->BDCTRL, RCM_BDCTRL_BDRST);
+}
+
+/**
+  * @brief  Enable leakage detection
+  * @retval None
+  */
+__STATIC_INLINE void DDL_RCM_EnableLeakageDetection(void)
+{
+  SET_BIT(RCM->BDCTRL, RCM_BDCTRL_LEAKDET_EN);
+}
+
+/**
+  * @brief  Disable leakage detection
+  * @retval None
+  */
+__STATIC_INLINE void DDL_RCM_DisableLeakageDetection(void)
+{
+  CLEAR_BIT(RCM->BDCTRL, RCM_BDCTRL_LEAKDET_EN);
+}
+
+/**
+  * @brief  Check if leakage detection has been enabled or not
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t DDL_RCM_IsActiveFlag_LEAKDET(void)
+{
+  return (READ_BIT(RCM->BDCTRL, RCM_BDCTRL_LEAKDET_FLG) == (RCM_BDCTRL_LEAKDET_FLG));
+}
+
+/**
+  * @brief  Set leakage detection TRIM
+  * @param  Trim This parameter can between 0x0 to 0xF.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_RCM_SetLeakageDetectionTRIM(uint32_t Trim)
+{
+  MODIFY_REG(RCM->BDCTRL, RCM_BDCTRL_LEAKAGE_TRIM, (Trim << RCM_BDCTRL_LEAKAGE_TRIM_Pos));
+}
+
+/**
+  * @brief  Get leakage detection TRIM
+  * @retval Returned value can between 0x0 to 0xF.
+  */
+__STATIC_INLINE uint32_t DDL_RCM_GetLeakageDetectionTRIM(void)
+{
+  return (uint32_t)(READ_BIT(RCM->BDCTRL, RCM_BDCTRL_LEAKAGE_TRIM) >> RCM_BDCTRL_LEAKAGE_TRIM_Pos);
+}
+
+/**
+  * @brief  Set GM TRIM
+  * @param  Trim This parameter can between 0x0 to 0xF.
+  * @retval None
+  */
+__STATIC_INLINE void DDL_RCM_SetGMTRIM(uint32_t Trim)
+{
+  MODIFY_REG(RCM->BDCTRL, RCM_BDCTRL_GM_TRIM, (Trim << RCM_BDCTRL_GM_TRIM_Pos));
+}
+
+/**
+  * @brief  Get GM TRIM
+  * @retval Returned value can between 0x0 to 0xF.
+  */
+__STATIC_INLINE uint32_t DDL_RCM_GetGMTRIM(void)
+{
+  return (uint32_t)(READ_BIT(RCM->BDCTRL, RCM_BDCTRL_GM_TRIM) >> RCM_BDCTRL_GM_TRIM_Pos);
 }
 
 /**
@@ -1873,7 +1938,7 @@ __STATIC_INLINE uint32_t DDL_RCM_PLL_IsReady(void)
   */
 __STATIC_INLINE void DDL_RCM_PLL_ConfigDomain_SYS(uint32_t Source, uint32_t PLLB, uint32_t PLL1A, uint32_t PLL1C_R)
 {
-  MODIFY_REG(RCM->PLL1CFG, RCM_PLL1CFG_PLL1CLKS | RCM_PLL1CFG_PLLB | RCM_PLL1CFG_PLL1A,
+  MODIFY_REG(RCM->PLL1CFG, RCM_PLL1CFG_PLL1CLKS | RCM_PLL1CFG_PLL1B | RCM_PLL1CFG_PLL1A,
              Source | PLLB | PLL1A << RCM_PLL1CFG_PLL1A_Pos);
   MODIFY_REG(RCM->PLL1CFG, RCM_PLL1CFG_PLL1C, PLL1C_R);
 }
@@ -1972,8 +2037,98 @@ __STATIC_INLINE void DDL_RCM_PLL_ConfigDomain_SYS(uint32_t Source, uint32_t PLLB
   */
 __STATIC_INLINE void DDL_RCM_PLL_ConfigDomain_48M(uint32_t Source, uint32_t PLLB, uint32_t PLL1A, uint32_t PLLD)
 {
-  MODIFY_REG(RCM->PLL1CFG, RCM_PLL1CFG_PLL1CLKS | RCM_PLL1CFG_PLLB | RCM_PLL1CFG_PLL1A | RCM_PLL1CFG_PLLD,
+  MODIFY_REG(RCM->PLL1CFG, RCM_PLL1CFG_PLL1CLKS | RCM_PLL1CFG_PLL1B | RCM_PLL1CFG_PLL1A | RCM_PLL1CFG_PLL1D,
              Source | PLLB | PLL1A << RCM_PLL1CFG_PLL1A_Pos | PLLD);
+}
+
+/**
+  * @brief  Configure PLL used for I2S domain clock
+  * @note PLL Source and PLLB Divider can be written only when PLL,
+  *       PLLI2S and PLLSAI(*) are disabled
+  * @note PLL1A/PLLD can be written only when PLL is disabled
+  * @note This  can be selected for USB, RNG, SDIO
+  * @param  Source This parameter can be one of the following values:
+  *         @arg @ref DDL_RCM_PLLSOURCE_HSI
+  *         @arg @ref DDL_RCM_PLLSOURCE_HSE
+  * @param  PLLB This parameter can be one of the following values:
+  *         @arg @ref DDL_RCM_PLLB_DIV_2
+  *         @arg @ref DDL_RCM_PLLB_DIV_3
+  *         @arg @ref DDL_RCM_PLLB_DIV_4
+  *         @arg @ref DDL_RCM_PLLB_DIV_5
+  *         @arg @ref DDL_RCM_PLLB_DIV_6
+  *         @arg @ref DDL_RCM_PLLB_DIV_7
+  *         @arg @ref DDL_RCM_PLLB_DIV_8
+  *         @arg @ref DDL_RCM_PLLB_DIV_9
+  *         @arg @ref DDL_RCM_PLLB_DIV_10
+  *         @arg @ref DDL_RCM_PLLB_DIV_11
+  *         @arg @ref DDL_RCM_PLLB_DIV_12
+  *         @arg @ref DDL_RCM_PLLB_DIV_13
+  *         @arg @ref DDL_RCM_PLLB_DIV_14
+  *         @arg @ref DDL_RCM_PLLB_DIV_15
+  *         @arg @ref DDL_RCM_PLLB_DIV_16
+  *         @arg @ref DDL_RCM_PLLB_DIV_17
+  *         @arg @ref DDL_RCM_PLLB_DIV_18
+  *         @arg @ref DDL_RCM_PLLB_DIV_19
+  *         @arg @ref DDL_RCM_PLLB_DIV_20
+  *         @arg @ref DDL_RCM_PLLB_DIV_21
+  *         @arg @ref DDL_RCM_PLLB_DIV_22
+  *         @arg @ref DDL_RCM_PLLB_DIV_23
+  *         @arg @ref DDL_RCM_PLLB_DIV_24
+  *         @arg @ref DDL_RCM_PLLB_DIV_25
+  *         @arg @ref DDL_RCM_PLLB_DIV_26
+  *         @arg @ref DDL_RCM_PLLB_DIV_27
+  *         @arg @ref DDL_RCM_PLLB_DIV_28
+  *         @arg @ref DDL_RCM_PLLB_DIV_29
+  *         @arg @ref DDL_RCM_PLLB_DIV_30
+  *         @arg @ref DDL_RCM_PLLB_DIV_31
+  *         @arg @ref DDL_RCM_PLLB_DIV_32
+  *         @arg @ref DDL_RCM_PLLB_DIV_33
+  *         @arg @ref DDL_RCM_PLLB_DIV_34
+  *         @arg @ref DDL_RCM_PLLB_DIV_35
+  *         @arg @ref DDL_RCM_PLLB_DIV_36
+  *         @arg @ref DDL_RCM_PLLB_DIV_37
+  *         @arg @ref DDL_RCM_PLLB_DIV_38
+  *         @arg @ref DDL_RCM_PLLB_DIV_39
+  *         @arg @ref DDL_RCM_PLLB_DIV_40
+  *         @arg @ref DDL_RCM_PLLB_DIV_41
+  *         @arg @ref DDL_RCM_PLLB_DIV_42
+  *         @arg @ref DDL_RCM_PLLB_DIV_43
+  *         @arg @ref DDL_RCM_PLLB_DIV_44
+  *         @arg @ref DDL_RCM_PLLB_DIV_45
+  *         @arg @ref DDL_RCM_PLLB_DIV_46
+  *         @arg @ref DDL_RCM_PLLB_DIV_47
+  *         @arg @ref DDL_RCM_PLLB_DIV_48
+  *         @arg @ref DDL_RCM_PLLB_DIV_49
+  *         @arg @ref DDL_RCM_PLLB_DIV_50
+  *         @arg @ref DDL_RCM_PLLB_DIV_51
+  *         @arg @ref DDL_RCM_PLLB_DIV_52
+  *         @arg @ref DDL_RCM_PLLB_DIV_53
+  *         @arg @ref DDL_RCM_PLLB_DIV_54
+  *         @arg @ref DDL_RCM_PLLB_DIV_55
+  *         @arg @ref DDL_RCM_PLLB_DIV_56
+  *         @arg @ref DDL_RCM_PLLB_DIV_57
+  *         @arg @ref DDL_RCM_PLLB_DIV_58
+  *         @arg @ref DDL_RCM_PLLB_DIV_59
+  *         @arg @ref DDL_RCM_PLLB_DIV_60
+  *         @arg @ref DDL_RCM_PLLB_DIV_61
+  *         @arg @ref DDL_RCM_PLLB_DIV_62
+  *         @arg @ref DDL_RCM_PLLB_DIV_63
+  * @param  PLL1A Between 50/192(*) and 432
+  *
+  *         (*) value not defined in all devices.
+  * @param  PLLE This parameter can be one of the following values:
+  *         @arg @ref DDL_RCM_PLLE_DIV_2
+  *         @arg @ref DDL_RCM_PLLE_DIV_3
+  *         @arg @ref DDL_RCM_PLLE_DIV_4
+  *         @arg @ref DDL_RCM_PLLE_DIV_5
+  *         @arg @ref DDL_RCM_PLLE_DIV_6
+  *         @arg @ref DDL_RCM_PLLE_DIV_7
+  * @retval None
+  */
+__STATIC_INLINE void DDL_RCM_PLL_ConfigDomain_I2S(uint32_t Source, uint32_t PLLB, uint32_t PLL1A, uint32_t PLLE)
+{
+  MODIFY_REG(RCM->PLL1CFG, RCM_PLL1CFG_PLL1CLKS | RCM_PLL1CFG_PLL1B | RCM_PLL1CFG_PLL1A | RCM_PLL1CFG_PLL1E,
+             Source | PLLB | PLL1A << RCM_PLL1CFG_PLL1A_Pos | PLLE << RCM_PLL1CFG_PLL1E_Pos);
 }
 
 /**
@@ -2022,7 +2177,7 @@ __STATIC_INLINE uint32_t DDL_RCM_PLL_GetN(void)
   */
 __STATIC_INLINE uint32_t DDL_RCM_PLL_GetE(void)
 {
-  return (uint32_t)(READ_BIT(RCM->PLL1CFG, RCM_PLL1CFG_PLLE));
+  return (uint32_t)(READ_BIT(RCM->PLL1CFG, RCM_PLL1CFG_PLL1E));
 }
 
 /**
@@ -2059,7 +2214,7 @@ __STATIC_INLINE uint32_t DDL_RCM_PLL_GetP(void)
   */
 __STATIC_INLINE uint32_t DDL_RCM_PLL_GetQ(void)
 {
-  return (uint32_t)(READ_BIT(RCM->PLL1CFG, RCM_PLL1CFG_PLLD));
+  return (uint32_t)(READ_BIT(RCM->PLL1CFG, RCM_PLL1CFG_PLL1D));
 }
 
 /**
@@ -2130,7 +2285,7 @@ __STATIC_INLINE uint32_t DDL_RCM_PLL_GetQ(void)
   */
 __STATIC_INLINE uint32_t DDL_RCM_PLL_GetDivider(void)
 {
-  return (uint32_t)(READ_BIT(RCM->PLL1CFG, RCM_PLL1CFG_PLLB));
+  return (uint32_t)(READ_BIT(RCM->PLL1CFG, RCM_PLL1CFG_PLL1B));
 }
 
 /**

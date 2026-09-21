@@ -4,7 +4,7 @@
   * @brief   Header file of FDCAN DDL module.
   * @version V1.0.0
   * @date    2025-08-08
-  * 
+  *
   * @attention
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -53,7 +53,7 @@ extern "C" {
   * @{
   */
 
-#if defined (FDCAN1)
+#if defined (FDCAN)
 
 /** @defgroup FDCAN_DDL FDCAN
   * @{
@@ -61,14 +61,13 @@ extern "C" {
 
 /* Private types -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-/** @defgroup TIM_LL_Private_Variables TIM Private Variables
+/** @defgroup FDCAN_DDL_Private_Variables FDCAN Private Variables
   * @{
   */
 static const uint8_t OFFSET_TAB_RXFIFOx[] =
 {
   0x00U,   /* 0: RXFIFO0  */
   0x10U,   /* 1: RXFIFO0 */
-
 };
 
 /**
@@ -85,8 +84,8 @@ static const uint8_t OFFSET_TAB_RXFIFOx[] =
   * @param  FDCAN Instance
   * @retval SRAM_ADDRESS in register 32 bits
   */
-#if defined(FDCAN1)
-#define __DDL_FDCAN_GET_SRAM_ADDRESS(__FDCANx__)   ((uint32_t)(FDCAN1_RAM_BASE))
+#if defined(FDCAN)
+#define __DDL_FDCAN_GET_SRAM_ADDRESS(__FDCANx__)   ((uint32_t)(FDCAN_RAM_BASE))
 #endif
 /**
   * @}
@@ -553,6 +552,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_ID_TYPE  ID_TYPE
+  * @{
   */
 #define DDL_FDCAN_STANDARD_ID           (0x00000000U)
 #define DDL_FDCAN_EXTENDED_ID           (0x40000000U)
@@ -561,6 +561,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_FILTER_TYPE  FILTER_TYPE
+  * @{
   */
 #define DDL_FDCAN_FILTER_TYPE_RANGE           (0x00000000U)   /* Range filter from ID1 to ID2 (ID2 ≥ ID1) */
 #define DDL_FDCAN_FILTER_TYPE_DUAL            (0x00000001U)   /* Dual ID filter for ID1 or ID2 */
@@ -572,6 +573,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_FILTER_CONFIG  FILTER_CONFIG
+  * @{
   */
 #define DDL_FDCAN_FILTER_CONFIG_DISABLE           (0x00000000U)   /* Disable filter element */
 #define DDL_FDCAN_FILTER_CONFIG_TO_FIFO0          (0x00000001U)   /* Store in Rx FIFO 0 if filter matches */
@@ -586,6 +588,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_ESI_TYPE  Error State Indicator
+  * @{
   */
 #define DDL_FDCAN_ESI_ACTIVE            (0x00000000U)
 #define DDL_FDCAN_ESI_PASSIVE           (0x80000000U)
@@ -594,6 +597,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_FRAME_TYPE  FRAME_TYPE
+  * @{
   */
 #define DDL_FDCAN_FRAME_NORMAL           (0x00000000U)
 #define DDL_FDCAN_FRAME_REMOTE           (0x20000000U)
@@ -602,6 +606,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_DATALENGTH_BYTES  DATALENGTH_BYTES
+  * @{
   */
 #define DDL_FDCAN_DATALENGTH_BYTES_0       (0x00000000U)   /* 0 bytes data field */
 #define DDL_FDCAN_DATALENGTH_BYTES_1       (0x00000001U)   /* 1 bytes data field */
@@ -624,6 +629,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_EFC  Event FIFO Control
+  * @{
   */
 #define DDL_FDCAN_EFC_DISABLE           (0x00000000U)      /* Don’t store Tx events */
 #define DDL_FDCAN_EFC_STORE_TXEVENT     (0x00800000U)      /* Store Tx events */
@@ -632,6 +638,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_FDFRAME  FDFRAME
+  * @{
   */
 #define DDL_FDCAN_FDFRAME_CLASSIC           (0x00000000U)      /* Frame transmitted in Classic CAN format */
 #define DDL_FDCAN_FDFRAME_FD                (0x00200000U)      /* Frame transmitted in FD CAN format */
@@ -640,6 +647,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_FRAME_MATCH  FRAME_MATCH
+  * @{
   */
 #define DDL_FDCAN_FRAME_MATCH              (0x00000000U)      /* Received frame matching filter index FIDX */
 #define DDL_FDCAN_FRAME_NOMATCH            (0x80000000U)      /* Received frame did not match any Rx filter element */
@@ -648,6 +656,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_BITRATE_SWITCH  BITRATE_SWITCH
+  * @{
   */
 #define DDL_FDCAN_BRW_DISABLE           (0x00000000U)      /* CAN FD frames transmitted without bit rate switching */
 #define DDL_FDCAN_BRW_ENABLE            (0x00100000U)      /* CAN FD frames transmitted with bit rate switching */
@@ -656,6 +665,7 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_RXPIN_STATUS  RXPIN STATUS
+  * @{
   */
 #define DDL_FDCAN_RXPIN_DOMINANT           (0x00000000U)      /* Receive pin of CAN bus is dominant */
 #define DDL_FDCAN_RXPIN_RECESSIVE          FDCAN_TEST_RX      /* Receive pin of CAN bus is recessive*/
@@ -664,16 +674,18 @@ typedef struct
   */
 
 /** @defgroup FDCAN_DDL_EC_TXPIN_MODE TXPIN MODE
+  * @{
   */
 #define DDL_FDCAN_TXPIN_RESET             (0x00000000U)                         /* Transmit pin of CAN bus is controlled by the CAN Core */
 #define DDL_FDCAN_TXPIN_SAMPLING          FDCAN_TEST_TX_0                       /* Sample Point can be monitored at transmit pin of CAN bus */
-#define DDL_FDCAN_TXPIN_DOMINANT          FDCAN_TEST_TX_0                       /* Transmit pin of CAN bus is dominant */
+#define DDL_FDCAN_TXPIN_DOMINANT          FDCAN_TEST_TX_1                       /* Transmit pin of CAN bus is dominant */
 #define DDL_FDCAN_TXPIN_RECESSIVE         (FDCAN_TEST_TX_1 | FDCAN_TEST_TX_0)   /* Transmit pin of CAN bus is recessive*/
 /**
   * @}
   */
 
 /** @defgroup FDCAN_DDL_EC_FIFO_MESSAGE_STORED FIFO MESSAGE STORED
+  * @{
   */
 #define DDL_FDCAN_FIFO_MESSAGE_NO_FIFO          (0x00000000U)                            /* FIFO message stored */
 #define DDL_FDCAN_FIFO_MESSAGE_LOST             (FDCAN_HPMS_MSI_0)                       /* FIFO message not stored */
@@ -682,7 +694,6 @@ typedef struct
 /**
   * @}
   */
-
 
 /**
   * @}
@@ -744,16 +755,6 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetCoreRelease(FDCAN_TypeDef *FDCANx)
 }
 
 /**
-  * @brief  Get Endianness Test Value.
-  * @param  FDCANx FDCAN instance
-  * @retval A 32-bit value.
-  */
-__STATIC_INLINE uint32_t DDL_FDCAN_GetEndian(FDCAN_TypeDef *FDCANx)
-{
-  return (uint32_t)(READ_REG(FDCANx->ENDN));
-}
-
-/**
   * @brief  Get time stamp.
   * @param  FDCANx FDCAN instance
   * @retval A 32-bit value in the format 0x000XYYZZ:
@@ -764,6 +765,16 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetEndian(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTimeStamp(FDCAN_TypeDef *FDCANx)
 {
   return (uint32_t)(READ_BIT(FDCANx->CREL, FDCAN_CREL_YEAR | FDCAN_CREL_MON | FDCAN_CREL_DAY));
+}
+
+/**
+  * @brief  Get Endianness Test Value.
+  * @param  FDCANx FDCAN instance
+  * @retval A 32-bit value.
+  */
+__STATIC_INLINE uint32_t DDL_FDCAN_GetEndian(FDCAN_TypeDef *FDCANx)
+{
+  return (uint32_t)(READ_REG(FDCANx->ENDN));
 }
 
 /**
@@ -812,7 +823,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledInitMode(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE void DDL_FDCAN_EnableWriteAccess(FDCAN_TypeDef *FDCANx)
 {
-  CLEAR_BIT(FDCANx->CCCR, FDCAN_CCCR_CCE);
+  SET_BIT(FDCANx->CCCR, FDCAN_CCCR_CCE);
 }
 
 /**
@@ -822,7 +833,7 @@ __STATIC_INLINE void DDL_FDCAN_EnableWriteAccess(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE void DDL_FDCAN_DisableWriteAccess(FDCAN_TypeDef *FDCANx)
 {
-  SET_BIT(FDCANx->CCCR, FDCAN_CCCR_CCE);
+  CLEAR_BIT(FDCANx->CCCR, FDCAN_CCCR_CCE);
 }
 
 /**
@@ -832,7 +843,7 @@ __STATIC_INLINE void DDL_FDCAN_DisableWriteAccess(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledWriteAccess(FDCAN_TypeDef *FDCANx)
 {
-  return (uint32_t)(READ_BIT(FDCANx->CCCR, FDCAN_CCCR_CCE) != FDCAN_CCCR_CCE);
+  return (uint32_t)(READ_BIT(FDCANx->CCCR, FDCAN_CCCR_CCE) == FDCAN_CCCR_CCE);
 }
 
 /**
@@ -1278,9 +1289,9 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetDataSyncJumpWidth(FDCAN_TypeDef *FDCANx)
   * @brief  Configure nominal bit timing and prescaler.
   * @param  FDCANx FDCAN instance
   * @param  Prescaler between Min_Data=1 and Max_Data=512
-  * @param  Segment1 between Min_Data=1 and Max_Data=128
-  * @param  Segment2 between Min_Data=2 and Max_Data=256
-  * @param  Width between Min_Data=2 and Max_Data=128
+  * @param  Segment1 between Min_Data=2 and Max_Data=256
+  * @param  Segment2 between Min_Data=2 and Max_Data=128
+  * @param  Width between Min_Data=1 and Max_Data=128
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_NBTPConfig(FDCAN_TypeDef *FDCANx, uint32_t Prescaler, uint32_t Segment1, uint32_t Segment2, uint32_t Width)
@@ -1446,7 +1457,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTDCFilterWindowLength(FDCAN_TypeDef *FDCAN
 /**
   * @brief  Set FDCAN Watchdog counter start value.
   * @param  FDCANx FDCAN instance
-  * @param  Count between Min_Data=0 and Max_Data=256.
+  * @param  Count between Min_Data=0 and Max_Data=255.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetWatchdogCounter(FDCAN_TypeDef *FDCANx, uint32_t Count)
@@ -1457,7 +1468,7 @@ __STATIC_INLINE void DDL_FDCAN_SetWatchdogCounter(FDCAN_TypeDef *FDCANx, uint32_
 /**
   * @brief  Get FDCAN Watchdog counter start value.
   * @param  FDCANx FDCAN instance
-  * @retval Count (between Min_Data=0 and Max_Data=256).
+  * @retval Count (between Min_Data=0 and Max_Data=255).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetWatchdogCounter(FDCAN_TypeDef *FDCANx)
 {
@@ -1467,7 +1478,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetWatchdogCounter(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Get FDCAN Watchdog counter value.
   * @param  FDCANx FDCAN instance
-  * @retval Count (between Min_Data=0 and Max_Data=256).
+  * @retval Count (between Min_Data=0 and Max_Data=255).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetWatchdogValue(FDCAN_TypeDef *FDCANx)
 {
@@ -1661,7 +1672,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTimeoutCntValue(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetErrorLog(FDCAN_TypeDef *FDCANx)
 {
-  return READ_BIT(FDCANx->ECR, FDCAN_ECR_CEL);
+  return READ_BIT(FDCANx->ECR, FDCAN_ECR_CEL) >> FDCAN_ECR_CEL_Pos;
 }
 
 /**
@@ -1681,7 +1692,7 @@ __STATIC_INLINE void DDL_FDCAN_ClearErrorLog(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxErrorCnt(FDCAN_TypeDef *FDCANx)
 {
-  return READ_BIT(FDCANx->ECR, FDCAN_ECR_REC);
+  return READ_BIT(FDCANx->ECR, FDCAN_ECR_REC) >> FDCAN_ECR_REC_Pos;
 }
 
 /**
@@ -1691,7 +1702,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxErrorCnt(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxErrorCnt(FDCAN_TypeDef *FDCANx)
 {
-  return READ_BIT(FDCANx->ECR, FDCAN_ECR_TEC);
+  return READ_BIT(FDCANx->ECR, FDCAN_ECR_TEC) >> FDCAN_ECR_TEC_Pos;
 }
 
 /**
@@ -1701,7 +1712,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxErrorCnt(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_RP(FDCAN_TypeDef *FDCANx)
 {
-  return READ_BIT(FDCANx->ECR, FDCAN_ECR_RP);
+  return (READ_BIT(FDCANx->ECR, FDCAN_ECR_RP) == FDCAN_ECR_RP ? 1UL : 0UL);
 }
 
 /**
@@ -1833,7 +1844,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetExtFilterAddress(FDCAN_TypeDef *FDCANx)
 
 /**
   * @brief  Set extended message filter start address.
-  * @param  Mask between Min_Data=0x0 and Max_Data=0x1FFFFFFF.
+  * @param  Mask between Min_Data=0 and Max_Data=0x1FFFFFFF.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetExtFilterMask(FDCAN_TypeDef *FDCANx, uint32_t Mask)
@@ -1844,7 +1855,7 @@ __STATIC_INLINE void DDL_FDCAN_SetExtFilterMask(FDCAN_TypeDef *FDCANx, uint32_t 
 /**
   * @brief  Get extended message filter start address.
   * @param  FDCANx FDCAN instance
-  * @retval Mask (between Min_Data=0x0 and Max_Data=0x1FFFFFFF).
+  * @retval Mask (between Min_Data=0 and Max_Data=0x1FFFFFFF).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetExtFilterMask(FDCAN_TypeDef *FDCANx)
 {
@@ -1874,7 +1885,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsExtFilterList(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Get high priority message filter index.
   * @param  FDCANx FDCAN instance
-  * @retval Index (between Min_Data=0x0 and Max_Data= (SIDFC.LSS - 1)or(XIDFC.LSE - 1)).
+  * @retval Index (between Min_Data=0 and Max_Data=(SIDFC.LSS - 1)or(XIDFC.LSE - 1)).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetFilterIndex(FDCAN_TypeDef *FDCANx)
 {
@@ -1898,7 +1909,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetMsgFIFOIndex(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Get high priority message buffer index.
   * @param  FDCANx FDCAN instance
-  * @retval Index (between Min_Data=0x0 and Max_Data= 63).
+  * @retval Index (between Min_Data=0 and Max_Data=63).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOIndex(FDCAN_TypeDef *FDCANx)
 {
@@ -1911,7 +1922,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOIndex(FDCAN_TypeDef *FDCANx)
   * @param  BufferIndex between Min_Data=0 and Max_Data=63
   * @retval State of bit (1 or 0).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_NewRxDate(FDCAN_TypeDef *FDCANx, uint32_t BufferIndex)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_NRD(FDCAN_TypeDef *FDCANx, uint32_t BufferIndex)
 {
   __IO uint32_t *pReg = (__IO uint32_t *)((uint32_t)&(FDCANx->NDAT1) + (BufferIndex < 32 ? 0 : 4));
   return READ_BIT(*pReg, 1U << (BufferIndex % 32)) == (1U << (BufferIndex % 32));
@@ -1923,7 +1934,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_NewRxDate(FDCAN_TypeDef *FDCANx,
   * @param  BufferIndex between Min_Data=0 and Max_Data=63
   * @retval None.
   */
-__STATIC_INLINE void DDL_FDCAN_ClearFlag_NewRxDate(FDCAN_TypeDef *FDCANx, uint32_t BufferIndex)
+__STATIC_INLINE void DDL_FDCAN_ClearFlag_NRD(FDCAN_TypeDef *FDCANx, uint32_t BufferIndex)
 {
   __IO uint32_t *pReg = (__IO uint32_t *)((uint32_t)&(FDCANx->NDAT1) + (BufferIndex < 32 ? 0 : 4));
   SET_BIT(*pReg, 1U << (BufferIndex % 32));
@@ -1934,9 +1945,9 @@ __STATIC_INLINE void DDL_FDCAN_ClearFlag_NewRxDate(FDCAN_TypeDef *FDCANx, uint32
   * @param  FDCANx FDCAN instance
   * @retval state of bit (1 or 0).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsAnyActiveFlag_NewRxDate(FDCAN_TypeDef *FDCANx)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsAnyActiveFlag_NRD(FDCAN_TypeDef *FDCANx)
 {
-  return READ_REG(FDCANx->NDAT1) == 0 ? 0 : 1;
+  return (READ_REG(FDCANx->NDAT1) | READ_REG(FDCANx->NDAT2)) == 0 ? 0 : 1;
 }
 
 /**
@@ -1975,7 +1986,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxMode(FDCAN_TypeDef *FDCANx, uint32_
 /**
   * @brief  Set FIFOx(0/1) watermark.
   * @param  FDCANx FDCAN instance
-  * @param  Watermark between Min_Data=0x0 and Max_Data= 64.
+  * @param  Watermark between Min_Data=0 and Max_Data=64.
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
@@ -1993,7 +2004,7 @@ __STATIC_INLINE void DDL_FDCAN_SetRxFIFOxWatermark(FDCAN_TypeDef *FDCANx, uint32
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
-  * @retval Watermark (between Min_Data=0x0 and Max_Data= 64).
+  * @retval Watermark (between Min_Data=0 and Max_Data=64).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxWatermark(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
@@ -2005,7 +2016,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxWatermark(FDCAN_TypeDef *FDCANx, ui
   * @brief  Set FIFOx(0/1) watermark.
   * @note   The Rx FIFOx elements are indexed from 0 to F0S-1.
   * @param  FDCANx FDCAN instance
-  * @param  Size between Min_Data=0x0 and Max_Data= 64.
+  * @param  Size between Min_Data=0 and Max_Data=64.
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
@@ -2024,7 +2035,7 @@ __STATIC_INLINE void DDL_FDCAN_SetRxFIFOxSize(FDCAN_TypeDef *FDCANx, uint32_t Si
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
-  * @retval Size (between Min_Data=0x0 and Max_Data= 64).
+  * @retval Size (between Min_Data=0 and Max_Data=64).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxSize(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
@@ -2038,7 +2049,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxSize(FDCAN_TypeDef *FDCANx, uint32_
   *         the configurable start address is a 16-bit word address. In other words,
   *         only bit positions 2 to 15 of the address will be evaluated, and the lowest two bits will be ignored.
   * @param  FDCANx FDCAN instance
-  * @param  Address between Min_Data=0x0 and Max_Data= 0xFFFF.
+  * @param  Address between Min_Data=0 and Max_Data=0xFFFF.
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
@@ -2056,7 +2067,7 @@ __STATIC_INLINE void DDL_FDCAN_SetRxFIFOxAddress(FDCAN_TypeDef *FDCANx, uint32_t
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
-  * @retval Address (between Min_Data=0x0 and Max_Data= 0xFFFF).
+  * @retval Address (between Min_Data=0 and Max_Data=0xFFFF).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxAddress(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
@@ -2073,7 +2084,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxAddress(FDCAN_TypeDef *FDCANx, uint
   *         @arg @ref DDL_FDCAN_RXFIFO_1
   * @retval State of bit(0 or 1).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_RxFIFOxLostMsg(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_RFLM(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
   __IO uint32_t *pReg = (__IO uint32_t *)((uint32_t)((uint32_t)&(FDCANx->RXF0S) + OFFSET_TAB_RXFIFOx[Fifo]));
   return (READ_BIT(*pReg, FDCAN_RXF0S_RF0L) == FDCAN_RXF0S_RF0L);
@@ -2087,7 +2098,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_RxFIFOxLostMsg(FDCAN_TypeDef *FD
   *         @arg @ref DDL_FDCAN_RXFIFO_1
   * @retval State of bit(0 or 1).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_RxFIFOxFull(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_RFF(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
   __IO uint32_t *pReg = (__IO uint32_t *)((uint32_t)((uint32_t)&(FDCANx->RXF0S) + OFFSET_TAB_RXFIFOx[Fifo]));
   return (READ_BIT(*pReg, FDCAN_RXF0S_F0F) == FDCAN_RXF0S_F0F);
@@ -2099,7 +2110,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_RxFIFOxFull(FDCAN_TypeDef *FDCAN
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
-  * @retval Index (between Min_Data=0x0 and Max_Data= 63).
+  * @retval Index (between Min_Data=0 and Max_Data=63).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxPutIndex(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
@@ -2113,7 +2124,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxPutIndex(FDCAN_TypeDef *FDCANx, uin
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
-  * @retval Index (between Min_Data=0x0 and Max_Data= 63).
+  * @retval Index (between Min_Data=0 and Max_Data=63).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxGetIndex(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
@@ -2127,7 +2138,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxGetIndex(FDCAN_TypeDef *FDCANx, uin
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
-  * @retval Index (between Min_Data=0x0 and Max_Data= 64).
+  * @retval Index (between Min_Data=0 and Max_Data=64).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxFullLevel(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
@@ -2138,7 +2149,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxFullLevel(FDCAN_TypeDef *FDCANx, ui
 /**
   * @brief  Set FIFOx(0/1) acknowledge index.
   * @param  FDCANx FDCAN instance
-  * @param  Index between Min_Data=0x0 and Max_Data= 63.
+  * @param  Index between Min_Data=0 and Max_Data=63.
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
@@ -2147,7 +2158,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxFullLevel(FDCAN_TypeDef *FDCANx, ui
 __STATIC_INLINE void DDL_FDCAN_SetRxFIFOxAckIndex(FDCAN_TypeDef *FDCANx, uint32_t Index, uint32_t Fifo)
 {
   __IO uint32_t *pReg = (__IO uint32_t *)((uint32_t)((uint32_t)&(FDCANx->RXF0A) + OFFSET_TAB_RXFIFOx[Fifo]));
-  MODIFY_REG(*pReg, FDCAN_RXF0A_F0AI, Index);
+  MODIFY_REG(*pReg, FDCAN_RXF0A_F0AI, Index << FDCAN_RXF0A_F0AI_Pos);
 }
 
 /**
@@ -2156,7 +2167,7 @@ __STATIC_INLINE void DDL_FDCAN_SetRxFIFOxAckIndex(FDCAN_TypeDef *FDCANx, uint32_
   * @param  Fifo This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
-  * @retval Index (between Min_Data=0x0 and Max_Data= 63).
+  * @retval Index (between Min_Data=0 and Max_Data=63).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxAckIndex(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
 {
@@ -2170,7 +2181,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFOxAckIndex(FDCAN_TypeDef *FDCANx, uin
   *         the configurable start address is a 16-bit word address. In other words,
   *         only bit positions 2 to 15 of the address will be evaluated, and the lowest two bits will be ignored.
   * @param  FDCANx FDCAN instance
-  * @param  Address between Min_Data=0x0 and Max_Data= 0xFFFF.
+  * @param  Address between Min_Data=0 and Max_Data=0xFFFF.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetRxBufferAddress(FDCAN_TypeDef *FDCANx, uint32_t Address)
@@ -2184,7 +2195,7 @@ __STATIC_INLINE void DDL_FDCAN_SetRxBufferAddress(FDCAN_TypeDef *FDCANx, uint32_
   *         the configurable start address is a 16-bit word address. In other words,
   *         only bit positions 2 to 15 of the address will be evaluated, and the lowest two bits will be ignored.
   * @param  FDCANx FDCAN instance
-  * @retval Address (between Min_Data=0x0 and Max_Data= 0xFFFF).
+  * @retval Address (between Min_Data=0 and Max_Data=0xFFFF).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxBufferAddress(FDCAN_TypeDef *FDCANx)
 {
@@ -2330,7 +2341,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxOperationMode(FDCAN_TypeDef *FDCANx, uint32_
   *         @arg @ref DDL_FDCAN_TXMODE_FIFO
   *         @arg @ref DDL_FDCAN_TXMODE_QUEUE
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_GetTxOperationMode(FDCAN_TypeDef *FDCANx, uint32_t Fifo)
+__STATIC_INLINE uint32_t DDL_FDCAN_GetTxOperationMode(FDCAN_TypeDef *FDCANx)
 {
   return READ_BIT(FDCANx->TXBC, FDCAN_TXBC_TFQM);
 }
@@ -2339,7 +2350,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxOperationMode(FDCAN_TypeDef *FDCANx, uin
   * @brief  Set Transmit FIFO/Queue Size.
   * @note   Values greater than 32 are interpreted as 32
   * @param  FDCANx FDCAN instance
-  * @param  Size between Min_Data=0x0 and Max_Data= 32.
+  * @param  Size between Min_Data=0 and Max_Data=32.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxFifoQueueSize(FDCAN_TypeDef *FDCANx, uint32_t Size)
@@ -2351,7 +2362,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxFifoQueueSize(FDCAN_TypeDef *FDCANx, uint32_
   * @brief  Get Transmit FIFO/Queue Size.
   * @note   Values greater than 32 are interpreted as 32
   * @param  FDCANx FDCAN instance
-  * @retval Size (between Min_Data=0x0 and Max_Data= 32).
+  * @retval Size (between Min_Data=0 and Max_Data=32).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxFifoQueueSize(FDCAN_TypeDef *FDCANx)
 {
@@ -2362,7 +2373,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxFifoQueueSize(FDCAN_TypeDef *FDCANx)
   * @brief  Set Transmit Dedicated Buffer Size.
   * @note   Values greater than 32 are interpreted as 32
   * @param  FDCANx FDCAN instance
-  * @param  Size between Min_Data=0x0 and Max_Data= 32.
+  * @param  Size between Min_Data=0 and Max_Data=32.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxDBufferSize(FDCAN_TypeDef *FDCANx, uint32_t Size)
@@ -2374,7 +2385,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxDBufferSize(FDCAN_TypeDef *FDCANx, uint32_t 
   * @brief  Get Transmit Dedicated Buffer Size.
   * @note   Values greater than 32 are interpreted as 32
   * @param  FDCANx FDCAN instance
-  * @retval Size (between Min_Data=0x0 and Max_Data= 32).
+  * @retval Size (between Min_Data=0 and Max_Data=32).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxDBufferSize(FDCAN_TypeDef *FDCANx)
 {
@@ -2387,7 +2398,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxDBufferSize(FDCAN_TypeDef *FDCANx)
   *         the configurable start address is a 16-bit word address. In other words,
   *         only bit positions 2 to 15 of the address will be evaluated, and the lowest two bits will be ignored.
   * @param  FDCANx FDCAN instance
-  * @param  Address between Min_Data=0x0 and Max_Data= 0xFFFF.
+  * @param  Address between Min_Data=0 and Max_Data=0xFFFF.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxBufferAddress(FDCAN_TypeDef *FDCANx, uint32_t Address)
@@ -2398,7 +2409,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxBufferAddress(FDCAN_TypeDef *FDCANx, uint32_
 /**
   * @brief  Get Tx Buffers Start Address.
   * @param  FDCANx FDCAN instance
-  * @retval Size (between Min_Data=0x0 and Max_Data= 0xFFFF).
+  * @retval Size (between Min_Data=0 and Max_Data=0xFFFF).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxBufferAddress(FDCAN_TypeDef *FDCANx)
 {
@@ -2410,7 +2421,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxBufferAddress(FDCAN_TypeDef *FDCANx)
   * @param  FDCANx FDCAN instance
   * @retval State of bit(0 or 1).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TxFifoQueueFull(FDCAN_TypeDef *FDCANx)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TFQF(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->TXFQS, FDCAN_TXFQS_TFQF) == FDCAN_TXFQS_TFQF);
 }
@@ -2418,7 +2429,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TxFifoQueueFull(FDCAN_TypeDef *F
 /**
   * @brief  Get Tx FIFO Put Index.
   * @param  FDCANx FDCAN instance
-  * @retval Size (between Min_Data=0x0 and Max_Data= 31).
+  * @retval Size (between Min_Data=0 and Max_Data=31).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxFIFOPutIndex(FDCAN_TypeDef *FDCANx)
 {
@@ -2428,7 +2439,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxFIFOPutIndex(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Get Tx FIFO Get Index.
   * @param  FDCANx FDCAN instance
-  * @retval Size (between Min_Data=0x0 and Max_Data= 31).
+  * @retval Size (between Min_Data=0 and Max_Data=31).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxFIFOGetIndex(FDCAN_TypeDef *FDCANx)
 {
@@ -2438,7 +2449,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxFIFOGetIndex(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Get Tx FIFO Free Level.
   * @param  FDCANx FDCAN instance
-  * @retval FreeLevel (between Min_Data=0x0 and Max_Data= 32).
+  * @retval FreeLevel (between Min_Data=0 and Max_Data=32).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxFIFOFreeLevel(FDCAN_TypeDef *FDCANx)
 {
@@ -2520,7 +2531,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxBufferFiledSize(FDCAN_TypeDef *FDCANx)
   *         @arg @ref DDL_FDCAN_BIT_MASK_BIT31
   * @retval State of bit(0 or 1).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TxReqPending(FDCAN_TypeDef *FDCANx, uint32_t PendingBit)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TRP(FDCAN_TypeDef *FDCANx, uint32_t PendingBit)
 {
   return READ_BIT(FDCANx->TXBRP, PendingBit) == (PendingBit);
 }
@@ -2528,10 +2539,10 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TxReqPending(FDCAN_TypeDef *FDCA
 /**
   * @brief  Get Any Transmission Request Pending.
   * @param  FDCANx FDCAN instance
-  * @param  PendingBit between Min_Data=0 and Max_Data= 31.
+  * @param  PendingBit between Min_Data=0 and Max_Data=31.
   * @retval State of bit(0 or 1).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsAnyActiveFlag_TxReqPending(FDCAN_TypeDef *FDCANx)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsAnyActiveFlag_TRP(FDCAN_TypeDef *FDCANx)
 {
   return READ_REG(FDCANx->TXBRP) == 0 ? 0 : 1;
 }
@@ -2660,7 +2671,7 @@ __STATIC_INLINE void DDL_FDCAN_EnableTxCancelRequest(FDCAN_TypeDef *FDCANx, uint
   *         @arg @ref DDL_FDCAN_BIT_MASK_BIT31
   * @retval State of bit(0 or 1).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TxOccurred(FDCAN_TypeDef *FDCANx, uint32_t OccurredBit)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TO(FDCAN_TypeDef *FDCANx, uint32_t OccurredBit)
 {
   return READ_BIT(FDCANx->TXBTO, OccurredBit) == (OccurredBit);
 }
@@ -2703,7 +2714,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TxOccurred(FDCAN_TypeDef *FDCANx
   *         @arg @ref DDL_FDCAN_BIT_MASK_BIT31
   * @retval State of bit(0 or 1).
   */
-__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TxCancelFinished(FDCAN_TypeDef *FDCANx, uint32_t CancelFinishBit)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TXBCF(FDCAN_TypeDef *FDCANx, uint32_t CancelFinishBit)
 {
   return READ_BIT(FDCANx->TXBCF, CancelFinishBit) == (CancelFinishBit);
 }
@@ -2711,7 +2722,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_TxCancelFinished(FDCAN_TypeDef *
 /**
   * @brief  Enable Tx Buffer Transmission Interrupt.
   * @param  FDCANx FDCAN instance
-  * @param  buffer between Min_Data=0x0 and Max_Data= 0xFFFFFFFF.
+  * @param  buffer between Min_Data=0 and Max_Data=0xFFFFFFFF.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_EnableIT_TXBT(FDCAN_TypeDef *FDCANx, uint32_t buffer)
@@ -2722,7 +2733,7 @@ __STATIC_INLINE void DDL_FDCAN_EnableIT_TXBT(FDCAN_TypeDef *FDCANx, uint32_t buf
 /**
   * @brief  Disable Tx Buffer Transmission Interrupt.
   * @param  FDCANx FDCAN instance
-  * @param  buffer between Min_Data=0x0 and Max_Data= 0xFFFFFFFF.
+  * @param  buffer between Min_Data=0 and Max_Data=0xFFFFFFFF.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_DisableIT_TXBT(FDCAN_TypeDef *FDCANx, uint32_t buffer)
@@ -2733,7 +2744,7 @@ __STATIC_INLINE void DDL_FDCAN_DisableIT_TXBT(FDCAN_TypeDef *FDCANx, uint32_t bu
 /**
   * @brief  Check Tx Buffer Transmission Interrupt is enabled or disabled.
   * @param  FDCANx FDCAN instance
-  * @param  buffer between Min_Data=0x0 and Max_Data= 0xFFFFFFFF.
+  * @param  buffer between Min_Data=0 and Max_Data=0xFFFFFFFF.
   * @retval State of bit (1 or 0).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TXBT(FDCAN_TypeDef *FDCANx, uint32_t buffer)
@@ -2744,7 +2755,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TXBT(FDCAN_TypeDef *FDCANx, uint3
 /**
   * @brief  Enable Tx Buffer Cancellation Finished Interrupt.
   * @param  FDCANx FDCAN instance
-  * @param  buffer between Min_Data=0x0 and Max_Data= 0xFFFFFFFF.
+  * @param  buffer between Min_Data=0 and Max_Data=0xFFFFFFFF.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_EnableIT_TXBC(FDCAN_TypeDef *FDCANx, uint32_t buffer)
@@ -2755,7 +2766,7 @@ __STATIC_INLINE void DDL_FDCAN_EnableIT_TXBC(FDCAN_TypeDef *FDCANx, uint32_t buf
 /**
   * @brief  Disable Tx Buffer Cancellation Finished Interrupt.
   * @param  FDCANx FDCAN instance
-  * @param  buffer between Min_Data=0x0 and Max_Data= 0xFFFFFFFF.
+  * @param  buffer between Min_Data=0 and Max_Data=0xFFFFFFFF.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_DisableIT_TXBC(FDCAN_TypeDef *FDCANx, uint32_t buffer)
@@ -2766,7 +2777,7 @@ __STATIC_INLINE void DDL_FDCAN_DisableIT_TXBC(FDCAN_TypeDef *FDCANx, uint32_t bu
 /**
   * @brief  Check Tx Buffer Cancellation Finished Interrupt is enabled or disabled.
   * @param  FDCANx FDCAN instance
-  * @param  buffer between Min_Data=0x0 and Max_Data= 0xFFFFFFFF.
+  * @param  buffer between Min_Data=0 and Max_Data=0xFFFFFFFF.
   * @retval State of bit (1 or 0).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TXBC(FDCAN_TypeDef *FDCANx, uint32_t buffer)
@@ -2777,7 +2788,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TXBC(FDCAN_TypeDef *FDCANx, uint3
 /**
   * @brief  Set Tx Event FIFO Watermark.
   * @param  FDCANx FDCAN instance
-  * @param  Watermark between Min_Data=0x0 and Max_Data= 32.
+  * @param  Watermark between Min_Data=0 and Max_Data=32.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOWatermark(FDCAN_TypeDef *FDCANx, uint32_t Watermark)
@@ -2788,7 +2799,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOWatermark(FDCAN_TypeDef *FDCANx, ui
 /**
   * @brief  Get Tx Event FIFO Watermark.
   * @param  FDCANx FDCAN instance
-  * @retval Size (between Min_Data=0x0 and Max_Data= 32).
+  * @retval Size (between Min_Data=0 and Max_Data=32).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOWatermark(FDCAN_TypeDef *FDCANx)
 {
@@ -2798,7 +2809,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOWatermark(FDCAN_TypeDef *FDCANx
 /**
   * @brief  Set Tx Event FIFO Size.
   * @param  FDCANx FDCAN instance
-  * @param  Size between Min_Data=0x0 and Max_Data= 32.
+  * @param  Size between Min_Data=0 and Max_Data=32.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOSize(FDCAN_TypeDef *FDCANx, uint32_t Size)
@@ -2809,7 +2820,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOSize(FDCAN_TypeDef *FDCANx, uint32_
 /**
   * @brief  Get Tx Event FIFO Size.
   * @param  FDCANx FDCAN instance
-  * @retval Size (between Min_Data=0x0 and Max_Data= 32).
+  * @retval Size (between Min_Data=0 and Max_Data=32).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOSize(FDCAN_TypeDef *FDCANx)
 {
@@ -2822,7 +2833,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOSize(FDCAN_TypeDef *FDCANx)
   *         the configurable start address is a 16-bit word address. In other words,
   *         only bit positions 2 to 15 of the address will be evaluated, and the lowest two bits will be ignored.
   * @param  FDCANx FDCAN instance
-  * @param  Address between Min_Data=0x0 and Max_Data= 0xFFFF.
+  * @param  Address between Min_Data=0 and Max_Data=0xFFFF.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOAddress(FDCAN_TypeDef *FDCANx, uint32_t Address)
@@ -2833,7 +2844,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOAddress(FDCAN_TypeDef *FDCANx, uint
 /**
   * @brief  Get Tx Event FIFO Address.
   * @param  FDCANx FDCAN instance
-  * @retval Address (between Min_Data=0x0 and Max_Data= 0xFFFF).
+  * @retval Address (between Min_Data=0 and Max_Data=0xFFFF).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOAddress(FDCAN_TypeDef *FDCANx)
 {
@@ -2864,7 +2875,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_EFF(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Set Tx Event FIFO Put Index.
   * @param  FDCANx FDCAN instance
-  * @param  PutIndex between Min_Data=0x0 and Max_Data= 31.
+  * @param  PutIndex between Min_Data=0 and Max_Data=31.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOPutIndex(FDCAN_TypeDef *FDCANx, uint32_t PutIndex)
@@ -2875,7 +2886,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOPutIndex(FDCAN_TypeDef *FDCANx, uin
 /**
   * @brief  Get Tx Event FIFO Put Index.
   * @param  FDCANx FDCAN instance
-  * @retval PutIndex (between Min_Data=0x0 and Max_Data= 31).
+  * @retval PutIndex (between Min_Data=0 and Max_Data=31).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOPutIndex(FDCAN_TypeDef *FDCANx)
 {
@@ -2885,7 +2896,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOPutIndex(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Set Tx Event FIFO Get Index.
   * @param  FDCANx FDCAN instance
-  * @param  GetIndex between Min_Data=0x0 and Max_Data= 31.
+  * @param  GetIndex between Min_Data=0 and Max_Data=31.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOGetIndex(FDCAN_TypeDef *FDCANx, uint32_t GetIndex)
@@ -2896,7 +2907,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOGetIndex(FDCAN_TypeDef *FDCANx, uin
 /**
   * @brief  Get Tx Event FIFO Get Index.
   * @param  FDCANx FDCAN instance
-  * @retval GetIndex (between Min_Data=0x0 and Max_Data= 31).
+  * @retval GetIndex (between Min_Data=0 and Max_Data=31).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOGetIndex(FDCAN_TypeDef *FDCANx)
 {
@@ -2906,7 +2917,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOGetIndex(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Set Tx Event FIFO Fill Level.
   * @param  FDCANx FDCAN instance
-  * @param  FillLevel between Min_Data=0x0 and Max_Data= 32.
+  * @param  FillLevel between Min_Data=0 and Max_Data=32.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOFillLevel(FDCAN_TypeDef *FDCANx, uint32_t FillLevel)
@@ -2917,7 +2928,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOFillLevel(FDCAN_TypeDef *FDCANx, ui
 /**
   * @brief  Get Tx Event FIFO Fill Level.
   * @param  FDCANx FDCAN instance
-  * @retval FillLevel (between Min_Data=0x0 and Max_Data= 32).
+  * @retval FillLevel (between Min_Data=0 and Max_Data=32).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOFillLevel(FDCAN_TypeDef *FDCANx)
 {
@@ -2927,7 +2938,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOFillLevel(FDCAN_TypeDef *FDCANx
 /**
   * @brief  Set Tx Event FIFO Acknowledge Index.
   * @param  FDCANx FDCAN instance
-  * @param  AckIndex between Min_Data=0x0 and Max_Data= 31.
+  * @param  AckIndex between Min_Data=0 and Max_Data=31.
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOAckIndex(FDCAN_TypeDef *FDCANx, uint32_t AckIndex)
@@ -2938,7 +2949,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxEventFIFOAckIndex(FDCAN_TypeDef *FDCANx, uin
 /**
   * @brief  Get Tx Event FIFO Acknowledge Index.
   * @param  FDCANx FDCAN instance
-  * @retval AckIndex (between Min_Data=0x0 and Max_Data= 31).
+  * @retval AckIndex (between Min_Data=0 and Max_Data=31).
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxEventFIFOAckIndex(FDCAN_TypeDef *FDCANx)
 {
@@ -3674,276 +3685,6 @@ __STATIC_INLINE void DDL_FDCAN_EnableIT_ARAE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
-  * @brief  Enable Protocol Error in Data Phase Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_PEDE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_PEDE);
-}
-
-/**
-  * @brief  Enable Protocol Error in Arbitration Phase Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_PEAE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_PEAE);
-}
-
-/**
-  * @brief  Enable Watchdog Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_WDIE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_WDIE);
-}
-
-/**
-  * @brief  Enable Bus_Off Status Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_BOE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_BOE);
-}
-
-/**
-  * @brief  Enable Warning Status Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_EWE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_EWE);
-}
-
-/**
-  * @brief  Enable Error Passive Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_EPE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_EPE);
-}
-
-/**
-  * @brief  Enable Error Logging Overflow Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_ELOE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_ELOE);
-}
-
-/**
-  * @brief  Enable Message stored to Dedicated Rx Buffer Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_DRXE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_DRXE);
-}
-
-/**
-  * @brief  Enable Timeout Occurred Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TOOE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TOOE);
-}
-
-/**
-  * @brief  Enable Message RAM Access Failure Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_MRAFE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_MRAFE);
-}
-
-/**
-  * @brief  Enable Timestamp Wraparound Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TSWE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TSWE);
-}
-
-/**
-  * @brief  Enable Tx Event FIFO Event Lost Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TEFLE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TEFLE);
-}
-
-/**
-  * @brief  Enable Tx Event FIFO Full Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TEFFE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TEFFE);
-}
-
-/**
-  * @brief  Enable Tx Event FIFO Watermark Reached Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TEFWE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TEFWE);
-}
-
-/**
-  * @brief  Enable Tx Event FIFO New Entry Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TEFNE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TEFNE);
-}
-
-/**
-  * @brief  Enable Tx FIFO Empty Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TFEE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TFEE);
-}
-
-/**
-  * @brief  Enable Transmission Cancellation Finished Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TCFE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TCFE);
-}
-
-/**
-  * @brief  Enable Transmission Completed Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_TCE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_TCE);
-}
-
-/**
-  * @brief  Enable High Priority Message Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_HPME(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_HPME);
-}
-
-/**
-  * @brief  Enable Rx FIFO 1 Message Lost Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_RF1LE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_RF1LE);
-}
-
-/**
-  * @brief  Enable Rx FIFO 1 Full Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_RF1FE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_RF1FE);
-}
-
-/**
-  * @brief  Enable Rx FIFO 1 Watermark Reached Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_RE1WE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_RF1WE);
-}
-
-/**
-  * @brief  Enable Rx FIFO 1 New Message Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_RF1NE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_RF1NE);
-}
-
-/**
-  * @brief  Enable Rx FIFO 0 Message Lost Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_RF0LE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_RF0LE);
-}
-
-/**
-  * @brief  Enable Rx FIFO 0 Full Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_RF0FE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_RF0FE);
-}
-
-/**
-  * @brief  Enable Rx FIFO 0 Watermark Reached Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_RE0WE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_RF0WE);
-}
-
-/**
-  * @brief  Enable Rx FIFO 0 New Message Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_EnableIT_RF0NE(FDCAN_TypeDef *FDCANx)
-{
-  SET_BIT(FDCANx->IE, FDCAN_IE_RF0NE);
-}
-
-/**
   * @brief  Disable Access to Reserved Address Interrupt
   * @param  FDCANx FDCAN instance
   * @retval None
@@ -3951,276 +3692,6 @@ __STATIC_INLINE void DDL_FDCAN_EnableIT_RF0NE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE void DDL_FDCAN_DisableIT_ARAE(FDCAN_TypeDef *FDCANx)
 {
   CLEAR_BIT(FDCANx->IE, FDCAN_IE_ARAE);
-}
-
-/**
-  * @brief  Disable Protocol Error in Data Phase Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_PEDE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_PEDE);
-}
-
-/**
-  * @brief  Disable Protocol Error in Arbitration Phase Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_PEAE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_PEAE);
-}
-
-/**
-  * @brief  Disable Watchdog Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_WDIE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_WDIE);
-}
-
-/**
-  * @brief  Disable Bus_Off Status Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_BOE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_BOE);
-}
-
-/**
-  * @brief  Disable Warning Status Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_EWE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_EWE);
-}
-
-/**
-  * @brief  Disable Error Passive Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_EPE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_EPE);
-}
-
-/**
-  * @brief  Disable Error Logging Overflow Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_ELOE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_ELOE);
-}
-
-/**
-  * @brief  Disable Message stored to Dedicated Rx Buffer Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_DRXE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_DRXE);
-}
-
-/**
-  * @brief  Disable Timeout Occurred Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TOOE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TOOE);
-}
-
-/**
-  * @brief  Disable Message RAM Access Failure Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_MRAFE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_MRAFE);
-}
-
-/**
-  * @brief  Disable Timestamp Wraparound Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TSWE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TSWE);
-}
-
-/**
-  * @brief  Disable Tx Event FIFO Event Lost Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TEFLE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TEFLE);
-}
-
-/**
-  * @brief  Disable Tx Event FIFO Full Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TEFFE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TEFFE);
-}
-
-/**
-  * @brief  Disable Tx Event FIFO Watermark Reached Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TEFWE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TEFWE);
-}
-
-/**
-  * @brief  Disable Tx Event FIFO New Entry Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TEFNE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TEFNE);
-}
-
-/**
-  * @brief  Disable Tx FIFO Empty Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TFEE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TFEE);
-}
-
-/**
-  * @brief  Disable Transmission Cancellation Finished Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TCFE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TCFE);
-}
-
-/**
-  * @brief  Disable Transmission Completed Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_TCE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TCE);
-}
-
-/**
-  * @brief  Disable High Priority Message Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_HPME(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_HPME);
-}
-
-/**
-  * @brief  Disable Rx FIFO 1 Message Lost Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_RF1LE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF1LE);
-}
-
-/**
-  * @brief  Disable Rx FIFO 1 Full Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_RF1FE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF1FE);
-}
-
-/**
-  * @brief  Disable Rx FIFO 1 Watermark Reached Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_RE1WE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF1WE);
-}
-
-/**
-  * @brief  Disable Rx FIFO 1 New Message Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_RF1NE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF1NE);
-}
-
-/**
-  * @brief  Disable Rx FIFO 0 Message Lost Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_RF0LE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF0LE);
-}
-
-/**
-  * @brief  Disable Rx FIFO 0 Full Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_RF0FE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF0FE);
-}
-
-/**
-  * @brief  Disable Rx FIFO 0 Watermark Reached Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_RE0WE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF0WE);
-}
-
-/**
-  * @brief  Disable Rx FIFO 0 New Message Interrupt
-  * @param  FDCANx FDCAN instance
-  * @retval None
-  */
-__STATIC_INLINE void DDL_FDCAN_DisableIT_RF0NE(FDCAN_TypeDef *FDCANx)
-{
-  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF0NE);
 }
 
 /**
@@ -4234,6 +3705,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_ARAE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Protocol Error in Data Phase Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_PEDE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_PEDE);
+}
+
+/**
+  * @brief  Disable Protocol Error in Data Phase Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_PEDE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_PEDE);
+}
+
+/**
   * @brief  Check if the Protocol Error in Data Phase Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4241,6 +3732,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_ARAE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_PEDE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_PEDE) == FDCAN_IE_PEDE);
+}
+
+/**
+  * @brief  Enable Protocol Error in Arbitration Phase Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_PEAE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_PEAE);
+}
+
+/**
+  * @brief  Disable Protocol Error in Arbitration Phase Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_PEAE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_PEAE);
 }
 
 /**
@@ -4254,6 +3765,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_PEAE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Watchdog Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_WDIE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_WDIE);
+}
+
+/**
+  * @brief  Disable Watchdog Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_WDIE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_WDIE);
+}
+
+/**
   * @brief  Check if the Watchdog Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4261,6 +3792,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_PEAE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_WDIE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_WDIE) == FDCAN_IE_WDIE);
+}
+
+/**
+  * @brief  Enable Bus_Off Status Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_BOE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_BOE);
+}
+
+/**
+  * @brief  Disable Bus_Off Status Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_BOE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_BOE);
 }
 
 /**
@@ -4274,6 +3825,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_BOE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Warning Status Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_EWE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_EWE);
+}
+
+/**
+  * @brief  Disable Warning Status Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_EWE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_EWE);
+}
+
+/**
   * @brief  Check if the Warning Status Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4281,6 +3852,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_BOE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_EWE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_EWE) == FDCAN_IE_EWE);
+}
+
+/**
+  * @brief  Enable Error Passive Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_EPE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_EPE);
+}
+
+/**
+  * @brief  Disable Error Passive Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_EPE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_EPE);
 }
 
 /**
@@ -4294,6 +3885,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_EPE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Error Logging Overflow Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_ELOE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_ELOE);
+}
+
+/**
+  * @brief  Disable Error Logging Overflow Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_ELOE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_ELOE);
+}
+
+/**
   * @brief  Check if the Error Logging Overflow Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4301,6 +3912,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_EPE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_ELOE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_ELOE) == FDCAN_IE_ELOE);
+}
+
+/**
+  * @brief  Enable Message stored to Dedicated Rx Buffer Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_DRXE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_DRXE);
+}
+
+/**
+  * @brief  Disable Message stored to Dedicated Rx Buffer Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_DRXE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_DRXE);
 }
 
 /**
@@ -4314,6 +3945,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_DRXE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Timeout Occurred Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TOOE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TOOE);
+}
+
+/**
+  * @brief  Disable Timeout Occurred Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TOOE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TOOE);
+}
+
+/**
   * @brief  Check if the Timeout Occurred Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4321,6 +3972,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_DRXE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TOOE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_TOOE) == FDCAN_IE_TOOE);
+}
+
+/**
+  * @brief  Enable Message RAM Access Failure Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_MRAFE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_MRAFE);
+}
+
+/**
+  * @brief  Disable Message RAM Access Failure Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_MRAFE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_MRAFE);
 }
 
 /**
@@ -4334,6 +4005,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_MRAFE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Timestamp Wraparound Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TSWE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TSWE);
+}
+
+/**
+  * @brief  Disable Timestamp Wraparound Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TSWE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TSWE);
+}
+
+/**
   * @brief  Check if the Timestamp Wraparound Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4341,6 +4032,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_MRAFE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TSWE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_TSWE) == FDCAN_IE_TSWE);
+}
+
+/**
+  * @brief  Enable Tx Event FIFO Event Lost Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TEFLE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TEFLE);
+}
+
+/**
+  * @brief  Disable Tx Event FIFO Event Lost Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TEFLE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TEFLE);
 }
 
 /**
@@ -4354,6 +4065,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TEFLE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Tx Event FIFO Full Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TEFFE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TEFFE);
+}
+
+/**
+  * @brief  Disable Tx Event FIFO Full Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TEFFE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TEFFE);
+}
+
+/**
   * @brief  Check if the Tx Event FIFO Full Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4361,6 +4092,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TEFLE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TEFFE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_TEFFE) == FDCAN_IE_TEFFE);
+}
+
+/**
+  * @brief  Enable Tx Event FIFO Watermark Reached Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TEFWE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TEFWE);
+}
+
+/**
+  * @brief  Disable Tx Event FIFO Watermark Reached Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TEFWE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TEFWE);
 }
 
 /**
@@ -4374,6 +4125,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TEFWE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Tx Event FIFO New Entry Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TEFNE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TEFNE);
+}
+
+/**
+  * @brief  Disable Tx Event FIFO New Entry Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TEFNE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TEFNE);
+}
+
+/**
   * @brief  Check if the Tx Event FIFO New Entry Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4381,6 +4152,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TEFWE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TEFNE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_TEFNE) == FDCAN_IE_TEFNE);
+}
+
+/**
+  * @brief  Enable Tx FIFO Empty Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TFEE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TFEE);
+}
+
+/**
+  * @brief  Disable Tx FIFO Empty Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TFEE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TFEE);
 }
 
 /**
@@ -4394,6 +4185,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TFEE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Transmission Cancellation Finished Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TCFE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TCFE);
+}
+
+/**
+  * @brief  Disable Transmission Cancellation Finished Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TCFE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TCFE);
+}
+
+/**
   * @brief  Check if the Transmission Cancellation Finished Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4401,6 +4212,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TFEE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TCFE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_TCFE) == FDCAN_IE_TCFE);
+}
+
+/**
+  * @brief  Enable Transmission Completed Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_TCE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_TCE);
+}
+
+/**
+  * @brief  Disable Transmission Completed Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_TCE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_TCE);
 }
 
 /**
@@ -4414,6 +4245,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TCE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable High Priority Message Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_HPME(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_HPME);
+}
+
+/**
+  * @brief  Disable High Priority Message Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_HPME(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_HPME);
+}
+
+/**
   * @brief  Check if the High Priority Message Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4421,6 +4272,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_TCE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_HPME(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_HPME) == FDCAN_IE_HPME);
+}
+
+/**
+  * @brief  Enable Rx FIFO 1 Message Lost Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_RF1LE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_RF1LE);
+}
+
+/**
+  * @brief  Disable Rx FIFO 1 Message Lost Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_RF1LE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF1LE);
 }
 
 /**
@@ -4434,6 +4305,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RF1LE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Rx FIFO 1 Full Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_RF1FE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_RF1FE);
+}
+
+/**
+  * @brief  Disable Rx FIFO 1 Full Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_RF1FE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF1FE);
+}
+
+/**
   * @brief  Check if the Rx FIFO 1 Full Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4441,6 +4332,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RF1LE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RF1FE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_RF1FE) == FDCAN_IE_RF1FE);
+}
+
+/**
+  * @brief  Enable Rx FIFO 1 Watermark Reached Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_RE1WE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_RF1WE);
+}
+
+/**
+  * @brief  Disable Rx FIFO 1 Watermark Reached Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_RE1WE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF1WE);
 }
 
 /**
@@ -4454,6 +4365,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RE1WE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Rx FIFO 1 New Message Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_RF1NE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_RF1NE);
+}
+
+/**
+  * @brief  Disable Rx FIFO 1 New Message Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_RF1NE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF1NE);
+}
+
+/**
   * @brief  Check if the Rx FIFO 1 New Message Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4461,6 +4392,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RE1WE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RF1NE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_RF1NE) == FDCAN_IE_RF1NE);
+}
+
+/**
+  * @brief  Enable Rx FIFO 0 Message Lost Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_RF0LE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_RF0LE);
+}
+
+/**
+  * @brief  Disable Rx FIFO 0 Message Lost Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_RF0LE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF0LE);
 }
 
 /**
@@ -4474,6 +4425,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RF0LE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Rx FIFO 0 Full Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_RF0FE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_RF0FE);
+}
+
+/**
+  * @brief  Disable Rx FIFO 0 Full Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_RF0FE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF0FE);
+}
+
+/**
   * @brief  Check if the Rx FIFO 0 Full Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4484,6 +4455,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RF0FE(FDCAN_TypeDef *FDCANx)
 }
 
 /**
+  * @brief  Enable Rx FIFO 0 Watermark Reached Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_RE0WE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_RF0WE);
+}
+
+/**
+  * @brief  Disable Rx FIFO 0 Watermark Reached Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_RE0WE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF0WE);
+}
+
+/**
   * @brief  Check if the Rx FIFO 0 Watermark Reached Interrupt is enabled or disabled
   * @param  FDCANx FDCAN instance
   * @retval State of bit (1 or 0).
@@ -4491,6 +4482,26 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RF0FE(FDCAN_TypeDef *FDCANx)
 __STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledIT_RE0WE(FDCAN_TypeDef *FDCANx)
 {
   return (READ_BIT(FDCANx->IE, FDCAN_IE_RF0WE) == FDCAN_IE_RF0WE);
+}
+
+/**
+  * @brief  Enable Rx FIFO 0 New Message Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_EnableIT_RF0NE(FDCAN_TypeDef *FDCANx)
+{
+  SET_BIT(FDCANx->IE, FDCAN_IE_RF0NE);
+}
+
+/**
+  * @brief  Disable Rx FIFO 0 New Message Interrupt
+  * @param  FDCANx FDCAN instance
+  * @retval None
+  */
+__STATIC_INLINE void DDL_FDCAN_DisableIT_RF0NE(FDCAN_TypeDef *FDCANx)
+{
+  CLEAR_BIT(FDCANx->IE, FDCAN_IE_RF0NE);
 }
 
 /**

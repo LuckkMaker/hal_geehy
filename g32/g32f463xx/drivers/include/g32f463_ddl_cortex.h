@@ -111,8 +111,8 @@ extern "C" {
 /** @defgroup CORTEX_DDL_EC_CTRL_HFNMI_PRIVDEF MPU Control
   * @{
   */
-#define DDL_MPU_CTRL_HFNMI_PRIVDEF_NONE     0x00000000U                                       /*!< Disable NMI and privileged SW access */
-#define DDL_MPU_CTRL_HARDFAULT_NMI          MPU_CTRL_HFNMIENA_Msk                             /*!< Enables the operation of MPU during hard fault, NMI, and FAULTMASK handlers */
+#define DDL_MPU_CTRL_HFNMI_PRIVDEF_NONE     0x00000000U                                       /*!< Clear NMI and privileged SW access */
+#define DDL_MPU_CTRL_HARDFAULT_NMI          MPU_CTRL_HFNMIENA_Msk                             /*!< Enable the operation of MPU during hard fault, NMI, and FAULTMASK handlers */
 #define DDL_MPU_CTRL_PRIVILEGED_DEFAULT     MPU_CTRL_PRIVDEFENA_Msk                           /*!< Enable privileged software access to default memory map */
 #define DDL_MPU_CTRL_HFNMI_PRIVDEF          (MPU_CTRL_HFNMIENA_Msk | MPU_CTRL_PRIVDEFENA_Msk) /*!< Enable NMI and privileged SW access */
 /**
@@ -368,7 +368,7 @@ __STATIC_INLINE void DDL_LPM_DisableSleepOnExit(void)
   */
 __STATIC_INLINE void DDL_LPM_EnableEventOnPend(void)
 {
-  /* Set SEVEONPEND bit of Cortex System Control Register */
+  /* Set SEVONPEND bit of Cortex System Control Register */
   SET_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SEVONPEND_Msk));
 }
 
