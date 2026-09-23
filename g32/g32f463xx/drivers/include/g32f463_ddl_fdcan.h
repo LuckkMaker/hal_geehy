@@ -164,12 +164,51 @@ typedef struct
                                               This feature can be modified afterwards using unitary function @ref DDL_FDCAN_SetDataTimeSegment1().*/
 
   uint32_t DataTimeSeg2;                 /*!< Specifies the number of time quanta in Data Bit Segment 2.
-                                              This parameter must be a number between 2 and 16
+                                              This parameter must be a number between 1 and 16
 
                                               This feature can be modified afterwards using unitary function @ref DDL_FDCAN_SetDataTimeSegment2().*/
 
+  uint32_t MessageRAMOffset;             /*!< Specifies the message RAM start address.
+                                              This parameter must be a number between 0 and 512 (unit: word)           */
+
+  uint32_t StdFiltersNbr;                /*!< Specifies the number of standard Message ID filters.
+                                              This parameter must be a number between 0 and 128            */
+
+  uint32_t ExtFiltersNbr;                /*!< Specifies the number of extended Message ID filters.
+                                              This parameter must be a number between 0 and 64             */
+
+  uint32_t RxFifo0ElmtsNbr;              /*!< Specifies the number of Rx FIFO0 Elements.
+                                              This parameter must be a number between 0 and 64             */
+
+  uint32_t RxFifo0ElmtSize;              /*!< Specifies the Data Field Size in an Rx FIFO 0 element.
+                                              This parameter can be a value of @ref FDCAN_DDL_EC_FILEDSIZE  */
+
+  uint32_t RxFifo1ElmtsNbr;              /*!< Specifies the number of Rx FIFO 1 Elements.
+                                              This parameter must be a number between 0 and 64             */
+
+  uint32_t RxFifo1ElmtSize;              /*!< Specifies the Data Field Size in an Rx FIFO 1 element.
+                                              This parameter can be a value of @ref FDCAN_DDL_EC_FILEDSIZE  */
+
+  uint32_t RxBuffersNbr;                 /*!< Specifies the number of Dedicated Rx Buffer elements.
+                                              This parameter must be a number between 0 and 64             */
+
+  uint32_t RxBufferSize;                 /*!< Specifies the Data Field Size in an Rx Buffer element.
+                                              This parameter can be a value of @ref FDCAN_DDL_EC_FILEDSIZE  */
+
+  uint32_t TxEventsNbr;                  /*!< Specifies the number of Tx Event FIFO elements.
+                                              This parameter must be a number between 0 and 32             */
+
+  uint32_t TxBuffersNbr;                 /*!< Specifies the number of Dedicated Tx Buffers.
+                                              This parameter must be a number between 0 and 32             */
+
+  uint32_t TxFifoQueueElmtsNbr;          /*!< Specifies the number of Tx Buffers used for Tx FIFO/Queue.
+                                              This parameter must be a number between 0 and 32             */
+
   uint32_t TxFifoQueueMode;              /*!< Tx FIFO/Queue Mode selection.
                                               This parameter can be a value of @ref FDCAN_DDL_EC_TX_MODE */
+
+  uint32_t TxElmtSize;                   /*!< Specifies the Data Field Size in a Tx Element.
+                                              This parameter can be a value of @ref FDCAN_DDL_EC_FILEDSIZE  */
 
 } DDL_FDCAN_InitTypeDef;
 
@@ -286,6 +325,43 @@ typedef struct
 } DDL_FDCAN_RxMessageTypeDef;
 
 /**
+  * @brief  FDCAN Message RAM blocks
+  */
+typedef struct
+{
+  uint32_t StandardFilterSA; /*!< Specifies the Standard Filter List Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t ExtendedFilterSA; /*!< Specifies the Extended Filter List Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t RxFIFO0SA;        /*!< Specifies the Rx FIFO 0 Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t RxFIFO1SA;        /*!< Specifies the Rx FIFO 1 Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t RxBufferSA;       /*!< Specifies the Rx Buffer Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t TxEventFIFOSA;    /*!< Specifies the Tx Event FIFO Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t TxBufferSA;       /*!< Specifies the Tx Buffers Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t TxFIFOQSA;        /*!< Specifies the Tx FIFO/Queue Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t TTMemorySA;       /*!< Specifies the Trigger Memory Start Address.
+                                  This parameter must be a 32-bit word address      */
+
+  uint32_t EndAddress;       /*!< Specifies the End Address of the allocated RAM.
+                                  This parameter must be a 32-bit word address      */
+
+} DDL_FDCAN_MsgRamAddressTypeDef;
+
+/**
   * @}
   */
 #endif /* USE_FULL_DDL_DRIVER */
@@ -356,24 +432,11 @@ typedef struct
 /** @defgroup FDCAN_DDL_EC_OPERATION_MODE OPERATION MODE
   * @{
   */
-#define DDL_FDCAN_MODE_NORMAL                               (0x00000000U)                                          /* Normal mode */
-#define DDL_FDCAN_MODE_BUS_MONITOR                          FDCAN_CCCR_MON                                         /* Bus monitoring mode */
-#define DDL_FDCAN_MODE_RESTRICTED                           FDCAN_CCCR_ASM                                         /* Restrictrd operation mode */
-#define DDL_FDCAN_MODE_TEST                                 FDCAN_CCCR_TEST                                        /* Test mode */
-#define DDL_FDCAN_MODE_BUS_MONITOR_RESTRICTED               (FDCAN_CCCR_MON | FDCAN_CCCR_ASM)                      /* Bus monitoring mode, Restrictrd operation mode */
-#define DDL_FDCAN_MODE_BUS_MONITOR_TEST                     (FDCAN_CCCR_MON | FDCAN_CCCR_TEST)                     /* Bus monitoring mode, Test mode */
-#define DDL_FDCAN_MODE_RESTRICTED_TEST                      (FDCAN_CCCR_ASM | FDCAN_CCCR_TEST)                     /* Restricted operation mode, Test mode */
-#define DDL_FDCAN_MODE_BUS_MONITOR_RESTRICTED_TEST          (FDCAN_CCCR_MON | FDCAN_CCCR_ASM | FDCAN_CCCR_TEST)    /* Bus monitoring mode, Restricted operation mode, Test mode */
-
-/**
-  * @}
-  */
-
-/** @defgroup FDCAN_DDL_EC_LOOPBACK_MODE LOOPBACK MODE
-  * @{
-  */
-#define DDL_FDCAN_LOOPBACK_EXTERNAL          FDCAN_TEST_LBCK                       /* External loop back */
-#define DDL_FDCAN_LOOPBACK_INTERNAL          (FDCAN_TEST_LBCK | FDCAN_CCCR_MON)    /* Internal loop back */
+#define DDL_FDCAN_MODE_NORMAL                               (0x00000000U)     /* Normal mode */
+#define DDL_FDCAN_MODE_BUS_MONITOR                          (0x00000001U)     /* Bus monitoring mode */
+#define DDL_FDCAN_MODE_RESTRICTED                           (0x00000002U)     /* Restrictrd operation mode */
+#define DDL_FDCAN_MODE_LOOPBACK_INTERNAL                    (0x00000003U)     /* Internal loop back mode */
+#define DDL_FDCAN_MODE_LOOPBACK_EXTERNAL                    (0x00000004U)     /* External loop back mode */
 /**
   * @}
   */
@@ -539,19 +602,19 @@ typedef struct
 /** @defgroup FDCAN_DDL_EC_FILEDSIZE FILEDSIZE
   * @{
   */
-#define DDL_FDCAN_FILEDSIZE_8BYTE                (0x00000000U)        /* 8 byte data field */
-#define DDL_FDCAN_FILEDSIZE_12BYTE               (0x00000001U)        /* 12 byte data field */
-#define DDL_FDCAN_FILEDSIZE_16BYTE               (0x00000002U)        /* 16 byte data field */
-#define DDL_FDCAN_FILEDSIZE_20BYTE               (0x00000003U)        /* 20 byte data field */
-#define DDL_FDCAN_FILEDSIZE_24BYTE               (0x00000004U)        /* 24 byte data field */
-#define DDL_FDCAN_FILEDSIZE_32BYTE               (0x00000005U)        /* 32 byte data field */
-#define DDL_FDCAN_FILEDSIZE_48BYTE               (0x00000006U)        /* 48 byte data field */
-#define DDL_FDCAN_FILEDSIZE_64BYTE               (0x00000007U)        /* 64 byte data field */
+#define DDL_FDCAN_FILEDSIZE_8BYTE                (0x00000004U)        /* 8 bytes data field */
+#define DDL_FDCAN_FILEDSIZE_12BYTE               (0x00000005U)        /* 12 bytes data field */
+#define DDL_FDCAN_FILEDSIZE_16BYTE               (0x00000006U)        /* 16 bytes data field */
+#define DDL_FDCAN_FILEDSIZE_20BYTE               (0x00000007U)        /* 20 bytes data field */
+#define DDL_FDCAN_FILEDSIZE_24BYTE               (0x00000008U)        /* 24 bytes data field */
+#define DDL_FDCAN_FILEDSIZE_32BYTE               (0x0000000AU)        /* 32 bytes data field */
+#define DDL_FDCAN_FILEDSIZE_48BYTE               (0x0000000EU)        /* 48 bytes data field */
+#define DDL_FDCAN_FILEDSIZE_64BYTE               (0x00000012U)        /* 64 bytes data field */
 /**
   * @}
   */
 
-/** @defgroup FDCAN_DDL_EC_ID_TYPE  ID_TYPE
+/** @defgroup FDCAN_DDL_EC_ID_TYPE ID_TYPE
   * @{
   */
 #define DDL_FDCAN_STANDARD_ID           (0x00000000U)
@@ -728,6 +791,14 @@ typedef struct
   * @}
   */
 
+/* Words (4/5/../18) -> ESC(0..7) */
+#define DDL_FDCAN_ELTSIZE_TO_ESC(__WORDS__) \
+  ((uint32_t)((const uint8_t[]){0, 0, 0, 0, 0, 1, 2, 3, 4, 0, 5, 0, 0, 0, 6, 0, 0, 0, 7})[(__WORDS__)])
+
+/* ESC(0..7) -> Words */
+#define DDL_FDCAN_ESC_TO_ELTSIZE(__ESC__) \
+  ((uint32_t)((const uint8_t[]){4, 5, 6, 7, 8, 10, 14, 18})[((__ESC__) & 0x7U)])
+
 /**
   * @}
   */
@@ -880,16 +951,33 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetFrameFormat(FDCAN_TypeDef *FDCANx)
   *         @arg @ref DDL_FDCAN_MODE_NORMAL
   *         @arg @ref DDL_FDCAN_MODE_BUS_MONITOR
   *         @arg @ref DDL_FDCAN_MODE_RESTRICTED
-  *         @arg @ref DDL_FDCAN_MODE_TEST
-  *         @arg @ref DDL_FDCAN_MODE_BUS_MONITOR_RESTRICTED
-  *         @arg @ref DDL_FDCAN_MODE_BUS_MONITOR_TEST
-  *         @arg @ref DDL_FDCAN_MODE_RESTRICTED_TEST
-  *         @arg @ref DDL_FDCAN_MODE_BUS_MONITOR_RESTRICTED_TEST
+  *         @arg @ref DDL_FDCAN_MODE_LOOPBACK_INTERNAL
+  *         @arg @ref DDL_FDCAN_MODE_LOOPBACK_EXTERNAL
   * @retval None.
   */
 __STATIC_INLINE void DDL_FDCAN_SetOperationMode(FDCAN_TypeDef *FDCANx, uint32_t Mode)
 {
-  MODIFY_REG(FDCANx->CCCR, (FDCAN_CCCR_MON | FDCAN_CCCR_ASM | FDCAN_CCCR_TEST), Mode);
+  CLEAR_BIT(FDCANx->CCCR, (FDCAN_CCCR_MON | FDCAN_CCCR_ASM | FDCAN_CCCR_TEST));
+  CLEAR_BIT(FDCANx->TEST, FDCAN_TEST_LBCK);
+
+  if (Mode == DDL_FDCAN_MODE_BUS_MONITOR)
+  {
+    SET_BIT(FDCANx->CCCR, FDCAN_CCCR_MON);
+  }
+  else if (Mode == DDL_FDCAN_MODE_RESTRICTED)
+  {
+    SET_BIT(FDCANx->CCCR, FDCAN_CCCR_ASM);
+  }
+  else if (Mode == DDL_FDCAN_MODE_LOOPBACK_INTERNAL)
+  {
+    SET_BIT(FDCANx->CCCR, FDCAN_CCCR_TEST | FDCAN_CCCR_MON);
+    SET_BIT(FDCANx->TEST, FDCAN_TEST_LBCK);
+  }
+  else if (Mode == DDL_FDCAN_MODE_LOOPBACK_EXTERNAL)
+  {
+    SET_BIT(FDCANx->CCCR, FDCAN_CCCR_TEST);
+    SET_BIT(FDCANx->TEST, FDCAN_TEST_LBCK);
+  }
 }
 
 /**
@@ -899,41 +987,41 @@ __STATIC_INLINE void DDL_FDCAN_SetOperationMode(FDCAN_TypeDef *FDCANx, uint32_t 
   *         @arg @ref DDL_FDCAN_MODE_NORMAL
   *         @arg @ref DDL_FDCAN_MODE_BUS_MONITOR
   *         @arg @ref DDL_FDCAN_MODE_RESTRICTED
-  *         @arg @ref DDL_FDCAN_MODE_TEST
-  *         @arg @ref DDL_FDCAN_MODE_BUS_MONITOR_RESTRICTED
-  *         @arg @ref DDL_FDCAN_MODE_BUS_MONITOR_TEST
-  *         @arg @ref DDL_FDCAN_MODE_RESTRICTED_TEST
-  *         @arg @ref DDL_FDCAN_MODE_BUS_MONITOR_RESTRICTED_TEST
+  *         @arg @ref DDL_FDCAN_MODE_LOOPBACK_INTERNAL
+  *         @arg @ref DDL_FDCAN_MODE_LOOPBACK_EXTERNAL
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetOperationMode(FDCAN_TypeDef *FDCANx)
 {
-  return READ_BIT(FDCANx->CCCR, (FDCAN_CCCR_MON | FDCAN_CCCR_ASM | FDCAN_CCCR_TEST));
+  uint32_t cccr = READ_BIT(FDCANx->CCCR, (FDCAN_CCCR_MON | FDCAN_CCCR_ASM | FDCAN_CCCR_TEST));
+  uint32_t lbck = READ_BIT(FDCANx->TEST, FDCAN_TEST_LBCK);
+
+  if ((cccr & FDCAN_CCCR_ASM) != 0U)
+  {
+    return DDL_FDCAN_MODE_RESTRICTED;
+  }
+
+  if (lbck != 0U)
+  {
+    return ((cccr & FDCAN_CCCR_MON) != 0U) ? DDL_FDCAN_MODE_LOOPBACK_INTERNAL 
+                                           : DDL_FDCAN_MODE_LOOPBACK_EXTERNAL;
+  }
+
+  if ((cccr & FDCAN_CCCR_MON) != 0U)
+  {
+    return DDL_FDCAN_MODE_BUS_MONITOR;
+  }
+  
+  return DDL_FDCAN_MODE_NORMAL;
 }
 
 /**
-  * @brief  Set loop back mode.
+  * @brief  Check loop back mode is enabled or not.
   * @param  FDCANx FDCAN instance
-  * @param  Mode This parameter can be one of the following values:
-  *         @arg @ref DDL_FDCAN_LOOPBACK_EXTERNAL
-  *         @arg @ref DDL_FDCAN_LOOPBACK_INTERNAL
-  * @retval None.
+  * @retval State of bit (1 or 0).
   */
-__STATIC_INLINE void DDL_FDCAN_SetLoopBackMode(FDCAN_TypeDef *FDCANx, uint32_t Mode)
+__STATIC_INLINE uint32_t DDL_FDCAN_IsEnabledLoopBackMode(FDCAN_TypeDef *FDCANx)
 {
-  MODIFY_REG(FDCANx->CCCR, FDCAN_CCCR_MON, (Mode & FDCAN_CCCR_MON));
-  MODIFY_REG(FDCANx->TEST, FDCAN_TEST_LBCK, (Mode & FDCAN_TEST_LBCK));
-}
-
-/**
-  * @brief  Get loop back  mode.
-  * @param  FDCANx FDCAN instance
-  * @retval Returned value can be one of the following values:
-  *         @arg @ref DDL_FDCAN_LOOPBACK_EXTERNAL
-  *         @arg @ref DDL_FDCAN_LOOPBACK_INTERNAL
-  */
-__STATIC_INLINE uint32_t DDL_FDCAN_GetLoopBackMode(FDCAN_TypeDef *FDCANx)
-{
-  return (READ_BIT(FDCANx->CCCR, FDCAN_CCCR_MON) | READ_BIT(FDCANx->TEST, FDCAN_TEST_LBCK));
+  return (uint32_t)(READ_BIT(FDCANx->TEST, FDCAN_TEST_LBCK) == FDCAN_TEST_LBCK);
 }
 
 /**
@@ -2205,7 +2293,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxBufferAddress(FDCAN_TypeDef *FDCANx)
 /**
   * @brief  Set Rx buffer start address.
   * @param  FDCANx FDCAN instance
-  * @param  Fifo This parameter can be one of the following values:
+  * @param  FiledSize This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_FILEDSIZE_8BYTE
   *         @arg @ref DDL_FDCAN_FILEDSIZE_12BYTE
   *         @arg @ref DDL_FDCAN_FILEDSIZE_16BYTE
@@ -2218,7 +2306,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxBufferAddress(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE void DDL_FDCAN_SetRxBufferFiledSize(FDCAN_TypeDef *FDCANx, uint32_t FiledSize)
 {
-  MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_RBDS, (FiledSize << FDCAN_RXESC_RBDS_Pos));
+  MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_RBDS, (DDL_FDCAN_ELTSIZE_TO_ESC(FiledSize) << FDCAN_RXESC_RBDS_Pos));
 }
 
 /**
@@ -2236,13 +2324,13 @@ __STATIC_INLINE void DDL_FDCAN_SetRxBufferFiledSize(FDCAN_TypeDef *FDCANx, uint3
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxBufferFiledSize(FDCAN_TypeDef *FDCANx)
 {
-  return (READ_BIT(FDCANx->RXESC, FDCAN_RXESC_RBDS) >> FDCAN_RXESC_RBDS_Pos);
+  return DDL_FDCAN_ESC_TO_ELTSIZE(READ_BIT(FDCANx->RXESC, FDCAN_RXESC_RBDS) >> FDCAN_RXESC_RBDS_Pos);
 }
 
 /**
   * @brief  Set Rx FIFO 0 filed size.
   * @param  FDCANx FDCAN instance
-  * @param  Fifo This parameter can be one of the following values:
+  * @param  FiledSize This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_FILEDSIZE_8BYTE
   *         @arg @ref DDL_FDCAN_FILEDSIZE_12BYTE
   *         @arg @ref DDL_FDCAN_FILEDSIZE_16BYTE
@@ -2255,7 +2343,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxBufferFiledSize(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE void DDL_FDCAN_SetRxFIFO0FiledSize(FDCAN_TypeDef *FDCANx, uint32_t FiledSize)
 {
-  MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_F0DS, FiledSize);
+  MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_F0DS, DDL_FDCAN_ELTSIZE_TO_ESC(FiledSize));
 }
 
 /**
@@ -2273,13 +2361,13 @@ __STATIC_INLINE void DDL_FDCAN_SetRxFIFO0FiledSize(FDCAN_TypeDef *FDCANx, uint32
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFO0FiledSize(FDCAN_TypeDef *FDCANx)
 {
-  return READ_BIT(FDCANx->RXESC, FDCAN_RXESC_F0DS);
+  return DDL_FDCAN_ESC_TO_ELTSIZE(READ_BIT(FDCANx->RXESC, FDCAN_RXESC_F0DS));
 }
 
 /**
   * @brief  Set Rx FIFO 1 filed size.
   * @param  FDCANx FDCAN instance
-  * @param  Fifo This parameter can be one of the following values:
+  * @param  FiledSize This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_FILEDSIZE_8BYTE
   *         @arg @ref DDL_FDCAN_FILEDSIZE_12BYTE
   *         @arg @ref DDL_FDCAN_FILEDSIZE_16BYTE
@@ -2292,7 +2380,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFO0FiledSize(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE void DDL_FDCAN_SetRxFIFO1FiledSize(FDCAN_TypeDef *FDCANx, uint32_t FiledSize)
 {
-  MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_F1DS, (FiledSize << FDCAN_RXESC_F1DS_Pos));
+  MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_F1DS, (DDL_FDCAN_ELTSIZE_TO_ESC(FiledSize) << FDCAN_RXESC_F1DS_Pos));
 }
 
 /**
@@ -2310,7 +2398,7 @@ __STATIC_INLINE void DDL_FDCAN_SetRxFIFO1FiledSize(FDCAN_TypeDef *FDCANx, uint32
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetRxFIFO1FiledSize(FDCAN_TypeDef *FDCANx)
 {
-  return (READ_BIT(FDCANx->RXESC, FDCAN_RXESC_F1DS) >> FDCAN_RXESC_F1DS_Pos);
+  return DDL_FDCAN_ESC_TO_ELTSIZE(READ_BIT(FDCANx->RXESC, FDCAN_RXESC_F1DS) >> FDCAN_RXESC_F1DS_Pos);
 }
 
 /**
@@ -2472,7 +2560,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_GetTxFIFOFreeLevel(FDCAN_TypeDef *FDCANx)
   */
 __STATIC_INLINE void DDL_FDCAN_SetTxBufferFiledSize(FDCAN_TypeDef *FDCANx, uint32_t FiledSize)
 {
-  MODIFY_REG(FDCANx->TXESC, FDCAN_TXESC_TBDS, FiledSize);
+  MODIFY_REG(FDCANx->TXESC, FDCAN_TXESC_TBDS, DDL_FDCAN_ELTSIZE_TO_ESC(FiledSize));
 }
 
 /**
@@ -2490,7 +2578,7 @@ __STATIC_INLINE void DDL_FDCAN_SetTxBufferFiledSize(FDCAN_TypeDef *FDCANx, uint3
   */
 __STATIC_INLINE uint32_t DDL_FDCAN_GetTxBufferFiledSize(FDCAN_TypeDef *FDCANx)
 {
-  return READ_BIT(FDCANx->TXESC, FDCAN_TXESC_TBDS);
+  return DDL_FDCAN_ESC_TO_ELTSIZE(READ_BIT(FDCANx->TXESC, FDCAN_TXESC_TBDS));
 }
 
 /**

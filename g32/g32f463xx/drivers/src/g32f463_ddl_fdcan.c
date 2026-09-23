@@ -72,6 +72,15 @@ static const uint8_t DLCtoBytes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 
   * @}
   */
 /* Private constants ---------------------------------------------------------*/
+/** @defgroup FDCAN_DDL_Private_Constants Private_Constants
+  * @{
+  */
+#define FDCAN_MESSAGE_RAM_SIZE 0x800U  /* 2K = 512 words */
+#define FDCAN_MESSAGE_RAM_END_ADDRESS (SRAMCAN_BASE + FDCAN_MESSAGE_RAM_SIZE - 0x4U) /* Message RAM width is 4 Bytes */
+/**
+  * @}
+  */
+
 /* Private macros ------------------------------------------------------------*/
 /** @addtogroup FDCAN_DDL_Private_Macros
   * @{
@@ -83,28 +92,29 @@ static const uint8_t DLCtoBytes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 
 #define IS_DDL_FDCAN_MODE(__VALUE__)               (((__VALUE__) == DDL_FDCAN_MODE_NORMAL)     ||\
                                                     ((__VALUE__) == DDL_FDCAN_MODE_BUS_MONITOR)    ||\
                                                     ((__VALUE__) == DDL_FDCAN_MODE_RESTRICTED) ||\
-                                                    ((__VALUE__) == DDL_FDCAN_MODE_TEST))
+                                                    ((__VALUE__) == DDL_FDCAN_MODE_LOOPBACK_INTERNAL) ||\
+                                                    ((__VALUE__) == DDL_FDCAN_MODE_LOOPBACK_EXTERNAL))
 
 #define IS_DDL_FDCAN_TX_MODE(__MODE__)               (((__MODE__) == DDL_FDCAN_TXMODE_FIFO)     ||\
                                                       ((__MODE__) == DDL_FDCAN_TXMODE_QUEUE))
 
-#define IS_DDL_FDCAN_NOMINAL_PSC(__VALUE__)       (((0U) < (__VALUE__)) && ((__VALUE__) <= (512U)))
+#define IS_DDL_FDCAN_NOMINAL_PSC(__VALUE__)       (((1U) <= (__VALUE__)) && ((__VALUE__) <= (512U)))
 
-#define IS_DDL_FDCAN_NOMINAL_SJW(__VALUE__)       (((0U) < (__VALUE__)) && ((__VALUE__) <= (128U)))
+#define IS_DDL_FDCAN_NOMINAL_SJW(__VALUE__)       (((1U) <= (__VALUE__)) && ((__VALUE__) <= (128U)))
 
-#define IS_DDL_FDCAN_NOMINAL_TIMESEG1(__VALUE__)  (((1U) < (__VALUE__)) && ((__VALUE__) <= (256U)))
+#define IS_DDL_FDCAN_NOMINAL_TIMESEG1(__VALUE__)  (((1U) <= (__VALUE__)) && ((__VALUE__) <= (256U)))
 
-#define IS_DDL_FDCAN_NOMINAL_TIMESEG2(__VALUE__)  (((1U) < (__VALUE__)) && ((__VALUE__) <= (128U)))
+#define IS_DDL_FDCAN_NOMINAL_TIMESEG2(__VALUE__)  (((1U) <= (__VALUE__)) && ((__VALUE__) <= (128U)))
 
-#define IS_DDL_FDCAN_DATA_PSC(__VALUE__)          (((0U) < (__VALUE__)) && ((__VALUE__) <= (32U)))
+#define IS_DDL_FDCAN_DATA_PSC(__VALUE__)          (((1U) <= (__VALUE__)) && ((__VALUE__) <= (32U)))
 
-#define IS_DDL_FDCAN_DATA_SJW(__VALUE__)          (((0U) < (__VALUE__)) && ((__VALUE__) <= (16U)))
+#define IS_DDL_FDCAN_DATA_SJW(__VALUE__)          (((1U) <= (__VALUE__)) && ((__VALUE__) <= (16U)))
 
-#define IS_DDL_FDCAN_DATA_TIMESEG1(__VALUE__)     (((0U) < (__VALUE__)) && ((__VALUE__) <= (32U)))
+#define IS_DDL_FDCAN_DATA_TIMESEG1(__VALUE__)     (((1U) <= (__VALUE__)) && ((__VALUE__) <= (32U)))
 
-#define IS_DDL_FDCAN_DATA_TIMESEG2(__VALUE__)     (((1U) < (__VALUE__)) && ((__VALUE__) <= (16U)))
+#define IS_DDL_FDCAN_DATA_TIMESEG2(__VALUE__)     (((1U) <= (__VALUE__)) && ((__VALUE__) <= (16U)))
 
-#define IS_DDL_FDCAN_MAX_NUM(__VALUE__, __MAX__)     (((__VALUE__) <= (__MAX__)))
+#define IS_FDCAN_MAX_VALUE(__VALUE__, __MAX__)     (((__VALUE__) <= (__MAX__)))
 
 #define IS_DDL_FDCAN_STD_FILTER_TYPE(__VALUE__)    (((__VALUE__) == DDL_FDCAN_FILTER_TYPE_RANGE)    ||\
                                                     ((__VALUE__) == DDL_FDCAN_FILTER_TYPE_DUAL)     ||\
@@ -163,11 +173,21 @@ static const uint8_t DLCtoBytes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 
 #define IS_DDL_FDCAN_RXFIFO_NUM(__FIFO__)          (((__FIFO__) == DDL_FDCAN_RXFIFO_0)    ||\
                                                     ((__FIFO__) == DDL_FDCAN_RXFIFO_1))
 
+#define IS_FDCAN_DATA_SIZE(SIZE) (((SIZE) == DDL_FDCAN_FILEDSIZE_8BYTE ) || \
+                                  ((SIZE) == DDL_FDCAN_FILEDSIZE_12BYTE) || \
+                                  ((SIZE) == DDL_FDCAN_FILEDSIZE_16BYTE) || \
+                                  ((SIZE) == DDL_FDCAN_FILEDSIZE_20BYTE) || \
+                                  ((SIZE) == DDL_FDCAN_FILEDSIZE_24BYTE) || \
+                                  ((SIZE) == DDL_FDCAN_FILEDSIZE_32BYTE) || \
+                                  ((SIZE) == DDL_FDCAN_FILEDSIZE_48BYTE) || \
+                                  ((SIZE) == DDL_FDCAN_FILEDSIZE_64BYTE))
+
 /**
   * @}
   */
 
 /* Private function prototypes -----------------------------------------------*/
+static ErrorStatus FDCAN_CalcultateRamBlockAddresses(FDCAN_TypeDef *FDCANx, DDL_FDCAN_InitTypeDef *FDCAN_InitStruct);
 
 /* Exported functions --------------------------------------------------------*/
 /** @addtogroup FDCAN_DDL_Exported_Functions
@@ -201,7 +221,7 @@ ErrorStatus DDL_FDCAN_DeInit(FDCAN_TypeDef *FDCANx)
 
 /**
   * @brief  Initialize FDCAN registers according to the specified parameters in FDCAN_InitStruct.
-  * @param  FDCANx FDCAN Port
+  * @param  FDCANx FDCAN instance
   * @param  FDCAN_InitStruct pointer to a @ref DDL_FDCAN_InitTypeDef structure
   *         that contains the configuration information for the specified FDCAN peripheral.
   * @retval An ErrorStatus enumeration value:
@@ -212,6 +232,7 @@ ErrorStatus DDL_FDCAN_DeInit(FDCAN_TypeDef *FDCANx)
 ErrorStatus DDL_FDCAN_Init(FDCAN_TypeDef *FDCANx, DDL_FDCAN_InitTypeDef *FDCAN_InitStruct)
 {
   uint32_t delaytime = 0xFFFFFF;
+  const uint32_t cvtEltSize[] = {0, 0, 0, 0, 0, 1, 2, 3, 4, 0, 5, 0, 0, 0, 6, 0, 0, 0, 7};
 
   /* Check the parameters */
   ASSERT_PARAM(IS_FDCAN_ALL_INSTANCE(FDCANx));
@@ -221,9 +242,7 @@ ErrorStatus DDL_FDCAN_Init(FDCAN_TypeDef *FDCANx, DDL_FDCAN_InitTypeDef *FDCAN_I
   ASSERT_PARAM(IS_DDL_FDCAN_NOMINAL_SJW(FDCAN_InitStruct->NominalSyncJumpWidth));
   ASSERT_PARAM(IS_DDL_FDCAN_NOMINAL_TIMESEG1(FDCAN_InitStruct->NominalTimeSeg1));
   ASSERT_PARAM(IS_DDL_FDCAN_NOMINAL_TIMESEG2(FDCAN_InitStruct->NominalTimeSeg2));
-  ASSERT_PARAM(IS_DDL_FDCAN_TX_MODE(FDCAN_InitStruct->TxFifoQueueMode));
-
-  if(FDCAN_InitStruct->FrameFormat == DDL_FDCAN_FRAME_FD_BRS)
+  if (FDCAN_InitStruct->FrameFormat == DDL_FDCAN_FRAME_FD_BRS)
   {
     /* Check the data bit time parameters in BRS mode */
     ASSERT_PARAM(IS_DDL_FDCAN_DATA_PSC(FDCAN_InitStruct->DataPrescaler));
@@ -231,19 +250,58 @@ ErrorStatus DDL_FDCAN_Init(FDCAN_TypeDef *FDCANx, DDL_FDCAN_InitTypeDef *FDCAN_I
     ASSERT_PARAM(IS_DDL_FDCAN_DATA_TIMESEG1(FDCAN_InitStruct->DataTimeSeg1));
     ASSERT_PARAM(IS_DDL_FDCAN_DATA_TIMESEG2(FDCAN_InitStruct->DataTimeSeg2));
   }
+  ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_InitStruct->StdFiltersNbr, 128U));
+  ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_InitStruct->ExtFiltersNbr, 64U));
+  ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_InitStruct->RxFifo0ElmtsNbr, 64U));
+  if (FDCAN_InitStruct->RxFifo0ElmtsNbr > 0U)
+  {
+    ASSERT_PARAM(IS_FDCAN_DATA_SIZE(FDCAN_InitStruct->RxFifo0ElmtSize));
+  }
+  ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_InitStruct->RxFifo1ElmtsNbr, 64U));
+  if (FDCAN_InitStruct->RxFifo1ElmtsNbr > 0U)
+  {
+    ASSERT_PARAM(IS_FDCAN_DATA_SIZE(FDCAN_InitStruct->RxFifo1ElmtSize));
+  }
+  ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_InitStruct->RxBuffersNbr, 64U));
+  if (FDCAN_InitStruct->RxBuffersNbr > 0U)
+  {
+    ASSERT_PARAM(IS_FDCAN_DATA_SIZE(FDCAN_InitStruct->RxBufferSize));
+  }
+  ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_InitStruct->TxEventsNbr, 32U));
+  ASSERT_PARAM(IS_FDCAN_MAX_VALUE((FDCAN_InitStruct->TxBuffersNbr + FDCAN_InitStruct->TxFifoQueueElmtsNbr), 32U));
+  if (FDCAN_InitStruct->TxFifoQueueElmtsNbr > 0U)
+  {
+    ASSERT_PARAM(IS_DDL_FDCAN_TX_MODE(FDCAN_InitStruct->TxFifoQueueMode));
+  }
+  if ((FDCAN_InitStruct->TxBuffersNbr + FDCAN_InitStruct->TxFifoQueueElmtsNbr) > 0U)
+  {
+    ASSERT_PARAM(IS_FDCAN_DATA_SIZE(FDCAN_InitStruct->TxElmtSize));
+  }
 
-  /* Start Initialization */
-  DDL_FDCAN_EnableInitMode(FDCANx);
-  while(DDL_FDCAN_IsEnabledInitMode(FDCANx) == 0U)
+  /* Exit from Sleep mode */
+  DDL_FDCAN_DisableClockStopRequest(FDCANx);
+  while (DDL_FDCAN_IsActiveFlag_CSA(FDCANx) != 0U)
   {
     delaytime--;
-    if(delaytime == 0)
+    if (delaytime == 0)
     {
         return ERROR;
     }
   }
-  /* Configuration Change Enable */
-  DDL_FDCAN_DisableWriteAccess(FDCANx);
+
+  /* Request initialisation */
+  DDL_FDCAN_EnableInitMode(FDCANx);
+  while (DDL_FDCAN_IsEnabledInitMode(FDCANx) == 0U)
+  {
+    delaytime--;
+    if (delaytime == 0)
+    {
+        return ERROR;
+    }
+  }
+
+  /* Enable configuration change */
+  DDL_FDCAN_EnableWriteAccess(FDCANx);
 
   /* Configuration FDCAN auto retransmission */
   if(FDCAN_InitStruct->AutoRetransmission == ENABLE)
@@ -275,6 +333,21 @@ ErrorStatus DDL_FDCAN_Init(FDCAN_TypeDef *FDCANx, DDL_FDCAN_InitTypeDef *FDCAN_I
     DDL_FDCAN_DisableProtocolException(FDCANx);
   }
 
+  /* Configuration FDCAN frame format */
+  DDL_FDCAN_SetFrameFormat(FDCANx, FDCAN_InitStruct->FrameFormat);
+
+  /* Set FDCAN Operating Mode:
+               | Normal | Restricted |    Bus     | Internal | External
+               |        | Operation  | Monitoring | LoopBack | LoopBack
+     CCCR.TEST |   0    |     0      |     0      |    1     |    1
+     CCCR.MON  |   0    |     0      |     1      |    1     |    0
+     TEST.LBCK |   0    |     0      |     0      |    1     |    1
+     CCCR.ASM  |   0    |     1      |     0      |    0     |    0
+  */
+
+  /* Configuration FDCAN operation mode */
+  DDL_FDCAN_SetOperationMode(FDCANx, FDCAN_InitStruct->Mode);
+  
   /* Configuration FDCAN Nominal Bit Timing & Prescaler  */
   DDL_FDCAN_NBTPConfig(FDCANx, FDCAN_InitStruct->NominalPrescaler,
                                FDCAN_InitStruct->NominalTimeSeg1,
@@ -290,13 +363,44 @@ ErrorStatus DDL_FDCAN_Init(FDCAN_TypeDef *FDCANx, DDL_FDCAN_InitTypeDef *FDCAN_I
                                  FDCAN_InitStruct->DataSyncJumpWidth);
   }
 
-  /* Configuration FDCAN frame format */
-  DDL_FDCAN_SetFrameFormat(FDCANx, FDCAN_InitStruct->FrameFormat);
+  if (FDCAN_InitStruct->TxFifoQueueElmtsNbr > 0U)
+  {
+    /* Select between Tx FIFO and Tx Queue operation modes */
+    DDL_FDCAN_SetTxOperationMode(FDCANx, FDCAN_InitStruct->TxFifoQueueMode);
+  }
 
-  /* Configuration FDCAN operation mode */
-  DDL_FDCAN_SetOperationMode(FDCANx, FDCAN_InitStruct->Mode);
+  /* Configure Tx element size */
+  if ((FDCAN_InitStruct->TxBuffersNbr + FDCAN_InitStruct->TxFifoQueueElmtsNbr) > 0U)
+  {
+    MODIFY_REG(FDCANx->TXESC, FDCAN_TXESC_TBDS, cvtEltSize[FDCAN_InitStruct->TxElmtSize]);
+  }
 
-  DDL_FDCAN_SetTxOperationMode(FDCANx, FDCAN_InitStruct->TxFifoQueueMode);
+  /* Configure Rx FIFO 0 element size */
+  if (FDCAN_InitStruct->RxFifo0ElmtsNbr > 0U)
+  {
+    MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_F0DS,
+               (cvtEltSize[FDCAN_InitStruct->RxFifo0ElmtSize] << FDCAN_RXESC_F0DS_Pos));
+  }
+  
+  /* Configure Rx FIFO 1 element size */
+  if (FDCAN_InitStruct->RxFifo1ElmtsNbr > 0U)
+  {
+    MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_F1DS,
+               (cvtEltSize[FDCAN_InitStruct->RxFifo1ElmtSize] << FDCAN_RXESC_F1DS_Pos));
+  }
+
+  /* Configure Rx buffer element size */
+  if (FDCAN_InitStruct->RxBuffersNbr > 0U)
+  {
+    MODIFY_REG(FDCANx->RXESC, FDCAN_RXESC_RBDS,
+               (cvtEltSize[FDCAN_InitStruct->RxBufferSize] << FDCAN_RXESC_RBDS_Pos));
+  }
+
+  /* Calculate each RAM block address */
+  if (FDCAN_CalcultateRamBlockAddresses(FDCANx, FDCAN_InitStruct) != SUCCESS)
+  {
+    return ERROR;
+  }
 
   return (SUCCESS);
 }
@@ -323,13 +427,26 @@ void DDL_FDCAN_StructInit(DDL_FDCAN_InitTypeDef *FDCAN_InitStruct)
   FDCAN_InitStruct->DataPrescaler          = 1U;
   FDCAN_InitStruct->DataSyncJumpWidth      = 1U;
   FDCAN_InitStruct->DataTimeSeg1           = 1U;
-  FDCAN_InitStruct->DataTimeSeg2           = 2U;
+  FDCAN_InitStruct->DataTimeSeg2           = 1U;
+  FDCAN_InitStruct->MessageRAMOffset       = 0U;
+  FDCAN_InitStruct->StdFiltersNbr          = 0U;
+  FDCAN_InitStruct->ExtFiltersNbr          = 0U;
+  FDCAN_InitStruct->RxFifo0ElmtsNbr        = 0U;
+  FDCAN_InitStruct->RxFifo0ElmtSize        = DDL_FDCAN_FILEDSIZE_8BYTE;
+  FDCAN_InitStruct->RxFifo1ElmtsNbr        = 0U;
+  FDCAN_InitStruct->RxFifo1ElmtSize        = DDL_FDCAN_FILEDSIZE_8BYTE;
+  FDCAN_InitStruct->RxBuffersNbr           = 0U;
+  FDCAN_InitStruct->RxBufferSize           = DDL_FDCAN_FILEDSIZE_8BYTE;
+  FDCAN_InitStruct->TxEventsNbr            = 0U;
+  FDCAN_InitStruct->TxBuffersNbr           = 0U;
+  FDCAN_InitStruct->TxFifoQueueElmtsNbr    = 0U;
   FDCAN_InitStruct->TxFifoQueueMode        = DDL_FDCAN_TXMODE_FIFO;
+  FDCAN_InitStruct->TxElmtSize             = DDL_FDCAN_FILEDSIZE_8BYTE;
 }
 
 /**
   * @brief  Initialize FDCAN filter sram according to the specified parameters in FDCAN_FilterStruct.
-  * @param  FDCANx FDCAN Port
+  * @param  FDCANx FDCAN instance
   * @param  FDCAN_FilterStruct pointer to a @ref DDL_FDCAN_FilterTypeDef structure
   *         that contains the configuration information for the specified FDCAN peripheral.
   * @retval An ErrorStatus enumeration value:
@@ -359,9 +476,9 @@ ErrorStatus DDL_FDCAN_FilterInit(FDCAN_TypeDef *FDCANx, DDL_FDCAN_FilterTypeDef 
 
     /* Check function parameters */
     ASSERT_PARAM(IS_DDL_FDCAN_STD_FILTER_TYPE(FDCAN_FilterStruct->FilterType));
-    ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_FilterStruct->FilterIndex, filtercnt));
-    ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_FilterStruct->FilterID1, 0x7FF));
-    ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_FilterStruct->FilterID2, 0x7FF));
+    ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_FilterStruct->FilterIndex, filtercnt));
+    ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_FilterStruct->FilterID1, 0x7FF));
+    ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_FilterStruct->FilterID2, 0x7FF));
 
     filtertmp1 = ((FDCAN_FilterStruct->FilterType << 30U) | (FDCAN_FilterStruct->FilterConfig << 27U) |
                  (FDCAN_FilterStruct->FilterID1 << 16) | FDCAN_FilterStruct->FilterID2);
@@ -377,9 +494,9 @@ ErrorStatus DDL_FDCAN_FilterInit(FDCAN_TypeDef *FDCANx, DDL_FDCAN_FilterTypeDef 
 
     /* Check function parameters */
     ASSERT_PARAM(IS_DDL_FDCAN_EXT_FILTER_TYPE(FDCAN_FilterStruct->FilterType));
-    ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_FilterStruct->FilterIndex, filtercnt));
-    ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_FilterStruct->FilterID1, 0x1FFFFFFF));
-    ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_FilterStruct->FilterID2, 0x1FFFFFFF));
+    ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_FilterStruct->FilterIndex, filtercnt));
+    ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_FilterStruct->FilterID1, 0x1FFFFFFF));
+    ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_FilterStruct->FilterID2, 0x1FFFFFFF));
 
     filtertmp1 = ((FDCAN_FilterStruct->FilterConfig << 29U) | FDCAN_FilterStruct->FilterID1);
 
@@ -416,7 +533,7 @@ void DDL_FDCAN_FilterStructInit(DDL_FDCAN_FilterTypeDef *FDCAN_FilterStruct)
 
 /**
   * @brief  Set Tx message to Tx buffer element according to the specified parameters in FDCAN_TxMessageStruct.
-  * @param  FDCANx FDCAN Port
+  * @param  FDCANx FDCAN instance
   * @param  FDCAN_TxMessageStruct pointer to a @ref DDL_FDCAN_TxMessageTypeDef structure
   *         that contains the configuration information for the specified FDCAN peripheral.
   * @retval An ErrorStatus enumeration value:
@@ -429,13 +546,14 @@ ErrorStatus DDL_FDCAN_TxMessage(FDCAN_TypeDef *FDCANx, DDL_FDCAN_TxMessageTypeDe
   uint32_t PutIndex = 0;
   uint32_t *TxAddress = (void *)0;
   uint32_t BytesCnt = 0;
+  uint32_t TxElmtBytes = 0;
 
   /* Check function parameters */
   ASSERT_PARAM(IS_FDCAN_ALL_INSTANCE(FDCANx));
   ASSERT_PARAM(IS_DDL_FDCAN_ID_TYPE(FDCAN_TxMessageStruct->IdType));
   ASSERT_PARAM(IS_DDL_FDCAN_ESI(FDCAN_TxMessageStruct->ErrorStateIndicator));
   ASSERT_PARAM(IS_DDL_FDCAN_FRAME_TYPE(FDCAN_TxMessageStruct->FrameType));
-  ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_TxMessageStruct->MessageMarker, 0xFF));
+  ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_TxMessageStruct->MessageMarker, 0xFF));
   ASSERT_PARAM(IS_DDL_FDCAN_EFC(FDCAN_TxMessageStruct->EventFifoControl));
   ASSERT_PARAM(IS_DDL_FDCAN_FDFRAME(FDCAN_TxMessageStruct->FDFrame));
   ASSERT_PARAM(IS_DDL_FDCAN_BRW(FDCAN_TxMessageStruct->BitRateSwitch));
@@ -452,20 +570,22 @@ ErrorStatus DDL_FDCAN_TxMessage(FDCAN_TypeDef *FDCANx, DDL_FDCAN_TxMessageTypeDe
 
   /* Calculte the Tx FIFO element index */
   PutIndex = DDL_FDCAN_GetTxFIFOPutIndex(FDCANx);
+  /* Element size in bytes = RAM words * 4 */
+  TxElmtBytes = DDL_FDCAN_GetTxBufferFiledSize(FDCANx) * 4U;
   /* Calculte the Tx FIFO element address */
-  TxAddress = (uint32_t *)(SramAddressBase + DDL_FDCAN_GetTxBufferAddress(FDCANx) + PutIndex * 72U);
+  TxAddress = (uint32_t *)(SramAddressBase + DDL_FDCAN_GetTxBufferAddress(FDCANx) + PutIndex * TxElmtBytes);
 
   /* Fill the data into the first word of the Tx FIFO.  */
   if (FDCAN_TxMessageStruct->IdType == DDL_FDCAN_STANDARD_ID)
   {
-    ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_TxMessageStruct->Identifier, 0x7FF));
+    ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_TxMessageStruct->Identifier, 0x7FF));
 
     *TxAddress = (FDCAN_TxMessageStruct->ErrorStateIndicator | DDL_FDCAN_STANDARD_ID |
                   FDCAN_TxMessageStruct->FrameType | (FDCAN_TxMessageStruct->Identifier << 18U));
   }
   else
   {
-    ASSERT_PARAM(IS_DDL_FDCAN_MAX_NUM(FDCAN_TxMessageStruct->Identifier, 0x1FFFFFFF));
+    ASSERT_PARAM(IS_FDCAN_MAX_VALUE(FDCAN_TxMessageStruct->Identifier, 0x1FFFFFFF));
 
     *TxAddress = (FDCAN_TxMessageStruct->ErrorStateIndicator | DDL_FDCAN_EXTENDED_ID |
                   FDCAN_TxMessageStruct->FrameType | FDCAN_TxMessageStruct->Identifier);
@@ -495,7 +615,7 @@ ErrorStatus DDL_FDCAN_TxMessage(FDCAN_TypeDef *FDCANx, DDL_FDCAN_TxMessageTypeDe
 
 /**
   * @brief  Get Rx message to Tx buffer element according to the specified parameters in FDCAN_TxMessageStruct.
-  * @param  FDCANx FDCAN Port
+  * @param  FDCANx FDCAN instance
   * @param  RxFifoNumber This parameter can be one of the following values:
   *         @arg @ref DDL_FDCAN_RXFIFO_0
   *         @arg @ref DDL_FDCAN_RXFIFO_1
@@ -512,6 +632,7 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
   uint8_t *pDATA = (void *)0;
   uint32_t BytesCnt = 0;
   uint32_t SramAddressBase = 0;
+  uint32_t RxElmtBytes = 0;
 
   /* Check function parameters */
   ASSERT_PARAM(IS_FDCAN_ALL_INSTANCE(FDCANx));
@@ -543,8 +664,18 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
   /* Calculate the Rx FIFO element index */
   GetIndex += DDL_FDCAN_GetRxFIFOxGetIndex(FDCANx, RxFifoNumber);
 
+  /* Element size in bytes = RAM words * 4 */
+  if (RxFifoNumber == DDL_FDCAN_RXFIFO_0)
+  {
+    RxElmtBytes = DDL_FDCAN_GetRxFIFO0FiledSize(FDCANx) * 4U;
+  }
+  else
+  {
+    RxElmtBytes = DDL_FDCAN_GetRxFIFO1FiledSize(FDCANx) * 4U;
+  }
+
   /* Calculate the Rx FIFO element address */
-  RxAddress = (uint32_t *)(SramAddressBase + DDL_FDCAN_GetRxFIFOxAddress(FDCANx, RxFifoNumber) + GetIndex * 72U);
+  RxAddress = (uint32_t *)(SramAddressBase + DDL_FDCAN_GetRxFIFOxAddress(FDCANx, RxFifoNumber) + GetIndex * RxElmtBytes);
 
   /* Retrieve IdType */
   FDCAN_RxMessageStruct->IdType = *RxAddress & DDL_FDCAN_EXTENDED_ID;
@@ -601,6 +732,111 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
 /**
   * @}
   */
+
+/**
+  * @}
+  */
+
+/** @addtogroup FDCAN_DDL_Private_Functions FDCAN Private Functions
+  * @{
+  */
+
+/**
+  * @brief  Calculate each RAM block start address and size
+  * @param  FDCANx FDCAN instance
+  * @param  FDCAN_InitStruct pointer to a @ref DDL_FDCAN_InitTypeDef structure
+  *         that contains the configuration information for the specified FDCAN peripheral.
+  * @retval An ErrorStatus enumeration value:
+  *          - SUCCESS: FDCAN registers are initialized according to FDCAN_InitStruct content
+  *          - ERROR:   Not applicable
+ */
+static ErrorStatus FDCAN_CalcultateRamBlockAddresses(FDCAN_TypeDef *FDCANx, DDL_FDCAN_InitTypeDef *FDCAN_InitStruct)
+{
+  uint32_t RAMcounter;
+  uint32_t startAddress;
+  DDL_FDCAN_MsgRamAddressTypeDef msgRamAddress;
+
+  startAddress = FDCAN_InitStruct->MessageRAMOffset;
+
+  /* Standard filter list start address */
+  MODIFY_REG(FDCANx->SIDFC, FDCAN_SIDFC_FLSSA, (startAddress << FDCAN_SIDFC_FLSSA_Pos));
+
+  /* Standard filter elements number */
+  MODIFY_REG(FDCANx->SIDFC, FDCAN_SIDFC_LSS, (FDCAN_InitStruct->StdFiltersNbr << FDCAN_SIDFC_LSS_Pos));
+
+  /* Extended filter list start address */
+  startAddress += FDCAN_InitStruct->StdFiltersNbr;
+  MODIFY_REG(FDCANx->XIDFC, FDCAN_XIDFC_FLESA, (startAddress << FDCAN_XIDFC_FLESA_Pos));
+
+  /* Extended filter elements number */
+  MODIFY_REG(FDCANx->XIDFC, FDCAN_XIDFC_LSE, (FDCAN_InitStruct->ExtFiltersNbr << FDCAN_XIDFC_LSE_Pos));
+
+  /* Rx FIFO 0 start address */
+  startAddress += (FDCAN_InitStruct->ExtFiltersNbr * 2U);
+  MODIFY_REG(FDCANx->RXF0C, FDCAN_RXF0C_F0SA, (startAddress << FDCAN_RXF0C_F0SA_Pos));
+
+  /* Rx FIFO 0 elements number */
+  MODIFY_REG(FDCANx->RXF0C, FDCAN_RXF0C_F0S, (FDCAN_InitStruct->RxFifo0ElmtsNbr << FDCAN_RXF0C_F0S_Pos));
+
+  /* Rx FIFO 1 start address */
+  startAddress += (FDCAN_InitStruct->RxFifo0ElmtsNbr * FDCAN_InitStruct->RxFifo0ElmtSize);
+  MODIFY_REG(FDCANx->RXF1C, FDCAN_RXF1C_F1SA, (startAddress << FDCAN_RXF1C_F1SA_Pos));
+
+  /* Rx FIFO 1 elements number */
+  MODIFY_REG(FDCANx->RXF1C, FDCAN_RXF1C_F1S, (FDCAN_InitStruct->RxFifo1ElmtsNbr << FDCAN_RXF1C_F1S_Pos));
+
+  /* Rx buffer list start address */
+  startAddress += (FDCAN_InitStruct->RxFifo1ElmtsNbr * FDCAN_InitStruct->RxFifo1ElmtSize);
+  MODIFY_REG(FDCANx->RXBC, FDCAN_RXBC_RBSA, (startAddress << FDCAN_RXBC_RBSA_Pos));
+
+  /* Tx event FIFO start address */
+  startAddress += (FDCAN_InitStruct->RxBuffersNbr * FDCAN_InitStruct->RxBufferSize);
+  MODIFY_REG(FDCANx->TXEFC, FDCAN_TXEFC_EFSA, (startAddress << FDCAN_TXEFC_EFSA_Pos));
+
+  /* Tx event FIFO elements number */
+  MODIFY_REG(FDCANx->TXEFC, FDCAN_TXEFC_EFS, (FDCAN_InitStruct->TxEventsNbr << FDCAN_TXEFC_EFS_Pos));
+
+  /* Tx buffer list start address */
+  startAddress += (FDCAN_InitStruct->TxEventsNbr * 2U);
+  MODIFY_REG(FDCANx->TXBC, FDCAN_TXBC_TBSA, (startAddress << FDCAN_TXBC_TBSA_Pos));
+
+  /* Dedicated Tx buffers number */
+  MODIFY_REG(FDCANx->TXBC, FDCAN_TXBC_NDTB, (FDCAN_InitStruct->TxBuffersNbr << FDCAN_TXBC_NDTB_Pos));
+
+  /* Tx FIFO/queue elements number */
+  MODIFY_REG(FDCANx->TXBC, FDCAN_TXBC_TFQS, (FDCAN_InitStruct->TxFifoQueueElmtsNbr << FDCAN_TXBC_TFQS_Pos));
+
+  msgRamAddress.StandardFilterSA = SRAMCAN_BASE + (FDCAN_InitStruct->MessageRAMOffset * 4U);
+  msgRamAddress.ExtendedFilterSA = msgRamAddress.StandardFilterSA + (FDCAN_InitStruct->StdFiltersNbr * 4U);
+  msgRamAddress.RxFIFO0SA = msgRamAddress.ExtendedFilterSA + (FDCAN_InitStruct->ExtFiltersNbr * 2U * 4U);
+  msgRamAddress.RxFIFO1SA = msgRamAddress.RxFIFO0SA +
+                             (FDCAN_InitStruct->RxFifo0ElmtsNbr * FDCAN_InitStruct->RxFifo0ElmtSize * 4U);
+  msgRamAddress.RxBufferSA = msgRamAddress.RxFIFO1SA +
+                              (FDCAN_InitStruct->RxFifo1ElmtsNbr * FDCAN_InitStruct->RxFifo1ElmtSize * 4U);
+  msgRamAddress.TxEventFIFOSA = msgRamAddress.RxBufferSA +
+                                 (FDCAN_InitStruct->RxBuffersNbr * FDCAN_InitStruct->RxBufferSize * 4U);
+  msgRamAddress.TxBufferSA = msgRamAddress.TxEventFIFOSA + (FDCAN_InitStruct->TxEventsNbr * 2U * 4U);
+  msgRamAddress.TxFIFOQSA = msgRamAddress.TxBufferSA + (FDCAN_InitStruct->TxBuffersNbr * FDCAN_InitStruct->TxElmtSize * 4U);
+
+  msgRamAddress.EndAddress = msgRamAddress.TxFIFOQSA +
+                              (FDCAN_InitStruct->TxFifoQueueElmtsNbr * FDCAN_InitStruct->TxElmtSize * 4U);
+
+  /* Last address of the Message RAM */
+  if (msgRamAddress.EndAddress > FDCAN_MESSAGE_RAM_END_ADDRESS) 
+  {
+    return ERROR;
+  }
+  else
+  {
+    /* Flush the allocated Message RAM area */
+    for (RAMcounter = msgRamAddress.StandardFilterSA; RAMcounter < msgRamAddress.EndAddress; RAMcounter += 4U)
+    {
+      *(uint32_t *)(RAMcounter) = 0x00000000U;
+    }
+  }
+
+  return SUCCESS;
+}
 
 /**
   * @}
