@@ -662,7 +662,7 @@ typedef struct
 /** @defgroup FDCAN_DDL_EC_FRAME_TYPE  FRAME_TYPE
   * @{
   */
-#define DDL_FDCAN_FRAME_NORMAL           (0x00000000U)
+#define DDL_FDCAN_FRAME_DATA           (0x00000000U)
 #define DDL_FDCAN_FRAME_REMOTE           (0x20000000U)
 /**
   * @}
@@ -721,8 +721,8 @@ typedef struct
 /** @defgroup FDCAN_DDL_EC_BITRATE_SWITCH  BITRATE_SWITCH
   * @{
   */
-#define DDL_FDCAN_BRW_DISABLE           (0x00000000U)      /* CAN FD frames transmitted without bit rate switching */
-#define DDL_FDCAN_BRW_ENABLE            (0x00100000U)      /* CAN FD frames transmitted with bit rate switching */
+#define DDL_FDCAN_BRS_DISABLE           (0x00000000U)      /* CAN FD frames transmitted without bit rate switching */
+#define DDL_FDCAN_BRS_ENABLE            (0x00100000U)      /* CAN FD frames transmitted with bit rate switching */
 /**
   * @}
   */
@@ -1830,7 +1830,7 @@ __STATIC_INLINE uint32_t DDL_FDCAN_IsActiveFlag_RP(FDCAN_TypeDef *FDCANx)
   *         @arg @ref DDL_FDCAN_REMOTE_EXT_REJECT
   * @retval None.
   */
-__STATIC_INLINE void DDL_FDCAN_FilterConfig(FDCAN_TypeDef *FDCANx, uint32_t NoMatchStd,
+__STATIC_INLINE void DDL_FDCAN_GlobalFilterConfig(FDCAN_TypeDef *FDCANx, uint32_t NoMatchStd,
                                             uint32_t NoMatchExt, uint32_t RemoteStd, uint32_t RemoteExt)
 {
   MODIFY_REG(FDCANx->GFC, (FDCAN_GFC_RRFE | FDCAN_GFC_RRFS | FDCAN_GFC_ANFE | FDCAN_GFC_ANFS),

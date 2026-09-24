@@ -141,7 +141,7 @@ static const uint8_t DLCtoBytes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 
 #define IS_DDL_FDCAN_ESI(__VALUE__)                (((__VALUE__) == DDL_FDCAN_ESI_ACTIVE)    ||\
                                                     ((__VALUE__) == DDL_FDCAN_ESI_PASSIVE))
 
-#define IS_DDL_FDCAN_FRAME_TYPE(__VALUE__)         (((__VALUE__) == DDL_FDCAN_FRAME_NORMAL)    ||\
+#define IS_DDL_FDCAN_FRAME_TYPE(__VALUE__)         (((__VALUE__) == DDL_FDCAN_FRAME_DATA)    ||\
                                                     ((__VALUE__) == DDL_FDCAN_FRAME_REMOTE))
 
 #define IS_DDL_FDCAN_EFC(__VALUE__)                (((__VALUE__) == DDL_FDCAN_EFC_DISABLE)    ||\
@@ -150,8 +150,8 @@ static const uint8_t DLCtoBytes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 12, 16, 20, 24, 
 #define IS_DDL_FDCAN_FDFRAME(__VALUE__)            (((__VALUE__) == DDL_FDCAN_FDFRAME_CLASSIC)    ||\
                                                     ((__VALUE__) == DDL_FDCAN_FDFRAME_FD))
 
-#define IS_DDL_FDCAN_BRW(__VALUE__)                (((__VALUE__) == DDL_FDCAN_BRW_DISABLE)    ||\
-                                                    ((__VALUE__) == DDL_FDCAN_BRW_ENABLE))
+#define IS_DDL_FDCAN_BRW(__VALUE__)                (((__VALUE__) == DDL_FDCAN_BRS_DISABLE)    ||\
+                                                    ((__VALUE__) == DDL_FDCAN_BRS_ENABLE))
 
 #define IS_DDL_FDCAN_DATA_LENGTH(__VALUE__)        (((__VALUE__) == DDL_FDCAN_DATALENGTH_BYTES_0)    ||\
                                                     ((__VALUE__) == DDL_FDCAN_DATALENGTH_BYTES_1)    ||\
@@ -708,7 +708,7 @@ ErrorStatus DDL_FDCAN_RxMessage(FDCAN_TypeDef *FDCANx, uint32_t RxFifoNumber, DD
   FDCAN_RxMessageStruct->FDFrame = *RxAddress & DDL_FDCAN_FDFRAME_FD;
 
   /* Retrieve BitRateSwitch */
-  FDCAN_RxMessageStruct->BitRateSwitch = *RxAddress & DDL_FDCAN_BRW_ENABLE;
+  FDCAN_RxMessageStruct->BitRateSwitch = *RxAddress & DDL_FDCAN_BRS_ENABLE;
 
   /* Retrieve DataLength */
   FDCAN_RxMessageStruct->DataLength = (*RxAddress >> 16U) & 0xFU;

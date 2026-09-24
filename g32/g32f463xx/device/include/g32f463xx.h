@@ -105,10 +105,8 @@ typedef enum
   DMA1_Stream5_IRQn           = 16,     /*!< DMA1 Stream 5 global Interrupt                                    */
   DMA1_Stream6_IRQn           = 17,     /*!< DMA1 Stream 6 global Interrupt                                    */
   ADC_IRQn                    = 18,     /*!< ADC1, ADC2 and ADC3 global Interrupts                             */
-  FDCAN_TX_IRQn               = 19,     /*!< FDCAN TX Interrupt                                                */
-  FDCAN_RX0_IRQn              = 20,     /*!< FDCAN RX0 Interrupt                                               */
-  FDCAN_RX1_IRQn              = 21,     /*!< FDCAN RX1 Interrupt                                               */
-  FDCAN_SCE_IRQn              = 22,     /*!< FDCAN SCE Interrupt                                               */
+  FDCAN_INT0_IRQn             = 19,     /*!< FDCAN INT0 global Interrupt                                       */
+  FDCAN_INT1_IRQn             = 20,     /*!< FDCAN INT1 global Interrupt                                       */
   EINT9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                                     */
   TMR1_BRK_IRQn               = 24,     /*!< TMR1 Break interrupt                                              */
   TMR1_UP_IRQn                = 25,     /*!< TMR1 Update Interrupt                                             */
@@ -154,7 +152,7 @@ typedef enum
   OTG_HS_IRQn                 = 86,     /*!< USB OTG HS global Interrupt                                       */
   QSPI1_IRQn                  = 87,     /*!< QSPI1 global Interrupt                                            */
   QSPI2_IRQn                  = 88,     /*!< QSPI2 global Interrupt                                            */
-  BZ_TIMER_IRQn               = 89,     /*!< BZ Timer global Interrupt                                         */
+  BZTIMER_IRQn                = 89,     /*!< BZ Timer global Interrupt                                         */
 } IRQn_Type;
 
 /**
