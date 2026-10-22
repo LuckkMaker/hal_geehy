@@ -45,6 +45,12 @@ layer:
           for-context: 
             - +g32f463r
             - +g32f463rc_ram
+        # GCC/CLANG 的启动文件是 GNU 汇编，放在模块里（device/src/gcc）
+        - file: ./device/src/gcc/startup_g32f463xx.s
+          for-compiler:
+            - GCC
+            - CLANG
+          for-context: +g32f463rc
     - group: device/driver
       files:
         - file: ../g32f463xx/drivers/src/g32f463_dal.c
