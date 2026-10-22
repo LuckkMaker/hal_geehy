@@ -1,0 +1,4 @@
+name: hal_geehy
+build:
+  cmake: .
+  kconfig: Kconfig
