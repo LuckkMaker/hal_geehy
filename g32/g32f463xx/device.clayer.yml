@@ -4,7 +4,7 @@ layer:
   description: G32F463xx device layer
   
   packs:
-    - pack: Keil::G32F463_DFP
+    - pack: Geehy::G32F463_DFP@1.0.0
 
   processor:
     fpu: sp
