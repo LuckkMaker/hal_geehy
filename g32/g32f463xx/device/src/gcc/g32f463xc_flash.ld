@@ -89,6 +89,22 @@ SECTIONS
     *(.rodata*)
     . = ALIGN(4);
   } >FLASH
+  /* omni 链接器段注册（omni_init / omni_device / omni_shell_cmd） */
+  .omni_sections :
+  {
+    . = ALIGN(4);
+    _omni_init_start = .;
+    KEEP(*(omni_init))
+    _omni_init_end = .;
+    _omni_device_start = .;
+    KEEP(*(omni_device))
+    _omni_device_end = .;
+    _omni_shell_cmd_start = .;
+    KEEP(*(omni_shell_cmd))
+    _omni_shell_cmd_end = .;
+    . = ALIGN(4);
+  } >FLASH
+
 
   .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
   .ARM : {
