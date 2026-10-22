@@ -1,4 +1,6 @@
 name: hal_geehy
 build:
   cmake: .
-  kconfig: Kconfig
+enable: SOC_FAMILY_G32
+settings:
+  layer: g32/g32f463xx/device.clayer.yml
