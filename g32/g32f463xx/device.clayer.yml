@@ -26,9 +26,6 @@ layer:
     - script: ./$ProjectDir()$/boards/$TargetType$/startup/g32f463xc_flash.sct
       for-compiler: AC6
       for-context: +g32f463rc
-    - script: ./$ProjectDir()$/boards/$TargetType$/startup/g32f463xc_ram.sct
-      for-compiler: AC6
-      for-context: +g32f463rc_ram
     - script: ./$ProjectDir()$/boards/$TargetType$/startup/g32f463xc_flash.ld
       for-compiler: 
         - GCC
@@ -43,9 +40,8 @@ layer:
         - file: ./$ProjectDir()$/boards/$TargetType$/startup/startup_g32f463xx.s
           for-compiler: AC6
           for-context: 
-            - +g32f463r
-            - +g32f463rc_ram
-        # GCC/CLANG 的启动文件是 GNU 汇编，放在模块里（device/src/gcc）
+            - +g32f463rc
+        # GCC / Clang sta
         - file: ./device/src/gcc/startup_g32f463xx.s
           for-compiler:
             - GCC
@@ -53,7 +49,6 @@ layer:
           for-context: +g32f463rc
     - group: device/driver
       files:
-        - file: ../g32f463xx/drivers/src/g32f463_dal.c
         - file: ../g32f463xx/drivers/src/g32f463_dal_cortex.c
         - file: ../g32f463xx/drivers/src/g32f463_dal_hcd.c
         - file: ../g32f463xx/drivers/src/g32f463_dal_pcd.c
@@ -78,4 +73,4 @@ layer:
         - file: ../g32f463xx/drivers/src/g32f463_ddl_tmr.c
         - file: ../g32f463xx/drivers/src/g32f463_ddl_usart.c
         - file: ../g32f463xx/drivers/src/g32f463_ddl_usb.c
-        - file: ../g32f463xx/drivers/src/g32f463_ll_utils.c
+        - file: ../g32f463xx/drivers/src/g32f463_ddl_utils.c
